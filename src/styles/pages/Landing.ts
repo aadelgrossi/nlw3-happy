@@ -17,12 +17,14 @@ export const Wrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   background: url('/images/landing-illustration.svg') no-repeat 80% center;
+  background-size: 50%;
 
   width: 100%;
   max-width: 1100px;
 
   height: 100%;
   max-height: 680px;
+  padding: 40px;
 `
 export const LeftSection = styled.main`
   h1 {
@@ -42,8 +44,8 @@ export const LeftSection = styled.main`
 
 export const Location = styled.div`
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 40px;
+  top: 40px;
 
   font-size: 24px;
   line-height: 34px;
@@ -57,8 +59,8 @@ export const Location = styled.div`
 `
 export const EnterAppButton = styled.a`
   position: absolute;
-  right: 0;
-  bottom: 0;
+  right: 40px;
+  bottom: 40px;
 
   width: 80px;
   height: 80px;

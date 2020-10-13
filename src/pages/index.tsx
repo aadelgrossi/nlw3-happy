@@ -1,5 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
+import Link from 'next/link'
 
 import { FiArrowRight } from 'react-icons/fi'
 import {
@@ -32,9 +33,11 @@ const Home: React.FC = () => {
           <span>Paraná</span>
         </Location>
 
-        <EnterAppButton href="">
-          <FiArrowRight size={26} color="rgba(0,0,0,0.6)" />
-        </EnterAppButton>
+        <Link href="/map">
+          <EnterAppButton>
+            <FiArrowRight size={26} color="rgba(0,0,0,0.6)" />
+          </EnterAppButton>
+        </Link>
       </Wrapper>
     </Container>
   )
