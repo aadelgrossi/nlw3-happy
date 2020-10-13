@@ -3,13 +3,16 @@ import styled from 'styled-components'
 export const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  position: relative;
   display: flex;
 `
 
 export const PageMap = styled.div`
+  width: 100%;
+  display: flex;
+  position: relative;
+
   aside {
-    width: 440px;
+    width: 480px;
     height: 100%;
     background: linear-gradient(329.54deg, #29b6d1 0%, #00c7c7 100%);
     padding: 80px;
@@ -19,7 +22,7 @@ export const PageMap = styled.div`
     justify-content: space-between;
 
     h2 {
-      font-size: 48px;
+      font-size: 42px;
       font-weight: 800;
       line-height: 42px;
       margin-top: 64px;
@@ -41,10 +44,15 @@ export const PageMap = styled.div`
       }
     }
   }
+
+  .leaflet-container {
+    z-index: 5;
+  }
 `
 
 export const CreateOrphanageButton = styled.a`
   position: absolute;
+  z-index: 10;
 
   right: 40px;
   bottom: 40px;
