@@ -3,13 +3,13 @@ import Head from 'next/head'
 
 import RocketseatLogo from '../assets/rocketseat.svg'
 
-import { Container } from '../styles/pages/Home'
+import { Container } from '@/styles/pages/Home'
 
 const Home: React.FC = () => {
   return (
     <Container>
       <Head>
-        <title>Homepage</title>
+        <title>Happy</title>
       </Head>
 
       <RocketseatLogo />
