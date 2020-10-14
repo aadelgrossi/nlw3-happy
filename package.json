@@ -4,8 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev:server": "ts-node-dev -r tsconfig-paths/register --transpileOnly --ignore-watch node_modules src/server.ts",
-    "start": "ts-node src/server.ts",
+    "dev:server": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules src/server.ts",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "devDependencies": {
@@ -25,6 +24,7 @@
     "supertest": "^4.0.2",
     "ts-jest": "^25.3.1",
     "ts-node-dev": "^1.0.0-pre.44",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^3.8.3"
   },
   "dependencies": {
