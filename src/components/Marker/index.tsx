@@ -1,9 +1,10 @@
 import React from 'react'
-import Leaflet, { LatLngExpression } from 'leaflet'
-import { Marker as LeafletMarker, Popup } from 'react-leaflet'
+import Leaflet from 'leaflet'
+import { Marker as LeafletMarker, Popup, MarkerProps } from 'react-leaflet'
 import Link from 'next/link'
 
 import { FiArrowRight } from 'react-icons/fi'
+
 const placeholder = Leaflet.icon({
   iconUrl: '/images/map-marker.svg',
   iconSize: [58, 58],
@@ -11,13 +12,9 @@ const placeholder = Leaflet.icon({
   popupAnchor: [160, 32]
 })
 
-interface MarkerProps {
-  position: LatLngExpression
-}
-
-const Marker: React.FC<MarkerProps> = ({ position }) => {
+const Marker: React.FC<MarkerProps> = ({ ...rest }) => {
   return (
-    <LeafletMarker position={position} icon={placeholder}>
+    <LeafletMarker {...rest} icon={placeholder}>
       <Popup
         closeButton={false}
         minWidth={240}
