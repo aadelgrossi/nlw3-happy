@@ -1,21 +1,17 @@
 import React from 'react'
 import { FaWhatsapp } from 'react-icons/fa'
-import { FiClock, FiInfo, FiArrowLeft } from 'react-icons/fi'
-import { useRouter } from 'next/router'
+import { FiClock, FiInfo } from 'react-icons/fi'
 import dynamic from 'next/dynamic'
-
-import MapMarker from '../../../assets/map-marker.svg'
 
 import {
   Container,
-  Sidebar,
   OrphanageDetails,
   OrphanageContent,
   Images,
-  Footer,
   MapContainer,
   OpenDetails
 } from './styles'
+import Sidebar from '@/components/Sidebar'
 
 const MapWithNoSSR = dynamic(() => import('../../../components/Map'), {
   ssr: false
@@ -25,19 +21,9 @@ const MarkerWithNoSSR = dynamic(() => import('../../../components/Marker'), {
 })
 
 const Orphanage: React.FC = () => {
-  const router = useRouter()
-
   return (
     <Container>
-      <Sidebar>
-        <MapMarker />
-
-        <Footer>
-          <button type="button" onClick={router.back}>
-            <FiArrowLeft size={24} color="#FFF" />
-          </button>
-        </Footer>
-      </Sidebar>
+      <Sidebar />
 
       <main>
         <OrphanageDetails>

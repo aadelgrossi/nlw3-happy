@@ -1,23 +1,21 @@
 import React from 'react'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 
 import { FiArrowLeft, FiPlus } from 'react-icons/fi'
-
 import MapMarker from '../../../assets/map-marker.svg'
 
 import {
   Container,
-  Sidebar,
   ButtonSelect,
   ConfirmButton,
-  Footer,
   Form,
   FormGroup,
   InputBlock,
   NewImage
 } from './styles'
-import dynamic from 'next/dynamic'
 
+import Sidebar from '@/components/Sidebar'
 const MapWithNoSSR = dynamic(() => import('../../../components/Map'), {
   ssr: false
 })
@@ -26,19 +24,9 @@ const MarkerWithNoSSR = dynamic(() => import('../../../components/Marker'), {
 })
 
 const CreateOrphanage: React.FC = () => {
-  const router = useRouter()
-
   return (
     <Container>
-      <Sidebar>
-        <MapMarker />
-
-        <Footer>
-          <button type="button" onClick={router.back}>
-            <FiArrowLeft size={24} color="#FFF" />
-          </button>
-        </Footer>
-      </Sidebar>
+      <Sidebar />
 
       <main>
         <Form className="create-orphanage-form">
