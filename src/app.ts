@@ -9,8 +9,8 @@ const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(
-  "/files",
-  express.static(path.resolve(__dirname, "..", "tmp", "uploads"))
+  "/uploads",
+  express.static(path.join(__dirname, "..", "tmp", "uploads"))
 );
 app.use(routes);
 
