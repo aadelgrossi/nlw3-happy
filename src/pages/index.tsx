@@ -9,7 +9,7 @@ import {
   LeftSection,
   Location,
   EnterAppButton
-} from '@/styles/pages/Landing'
+} from '@/styles/pages'
 import Logo from '../assets/logo.svg'
 
 const Home: React.FC = () => {

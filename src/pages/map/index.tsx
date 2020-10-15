@@ -3,15 +3,14 @@ import Head from 'next/head'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 
-import { Container, PageMap, CreateOrphanageButton } from '@/styles/pages/Map'
-import MapMarker from '../assets/map-marker.svg'
+import { Container, PageMap, CreateOrphanageButton } from './styles'
+import MapMarker from '../../assets/map-marker.svg'
 import { FiPlus } from 'react-icons/fi'
 
-const Map = dynamic(() => import('react-leaflet/lib/Map'), {
+const MapWithNoSSR = dynamic(() => import('../../components/Map'), {
   ssr: false
 })
-
-const TileLayer = dynamic(() => import('react-leaflet/lib/TileLayer'), {
+const MarkerWithNoSSR = dynamic(() => import('../../components/Marker'), {
   ssr: false
 })
 
@@ -36,15 +35,15 @@ const OrphanageMap: React.FC = () => {
           </footer>
         </aside>
 
-        <Map
-          center={[-23.0840144, -52.4582038]}
+        <MapWithNoSSR
+          center={[-23.0794493, -52.4684549]}
           zoom={15}
           style={{ width: '100%', height: '100%' }}
         >
-          <TileLayer
-            url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.NEXT_PUBLIC_MAP_BOX_TOKEN}`}
-          ></TileLayer>
-        </Map>
+          <MarkerWithNoSSR
+            position={[-23.0794617, -52.4674024]}
+          ></MarkerWithNoSSR>
+        </MapWithNoSSR>
 
         <Link href="">
           <CreateOrphanageButton>

@@ -48,6 +48,42 @@ export const PageMap = styled.div`
   .leaflet-container {
     z-index: 5;
   }
+
+  .map-popup {
+    .leaflet-popup-content-wrapper {
+      font-family: Nunito, sans-serif;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .leaflet-popup-tip-container {
+      display: none;
+    }
+
+    .leaflet-popup-content {
+      color: #0089a5;
+      font-size: 20px;
+      font-weight: bold;
+      margin: 8px 12px 8px 16px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      a {
+        width: 48px;
+        height: 48px;
+        background: #15c3d6;
+        box-shadow: 17.28px 27.65px 41.48px rgba(23, 142, 166, 0.16);
+        border-radius: 12px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
 `
 
 export const CreateOrphanageButton = styled.a`
