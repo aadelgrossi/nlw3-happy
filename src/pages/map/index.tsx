@@ -45,7 +45,7 @@ const OrphanageMap: React.FC = () => {
           ></MarkerWithNoSSR>
         </MapWithNoSSR>
 
-        <Link href="">
+        <Link href="/orphanages/create">
           <CreateOrphanageButton>
             <FiPlus size={32} color="#fff" />
           </CreateOrphanageButton>
