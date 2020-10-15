@@ -28,8 +28,24 @@ export default {
   },
 
   async create(request: Request, response: Response) {
-    try {
-      const {
+    const {
+      name,
+      latitude,
+      longitude,
+      about,
+      instructions,
+      opening_hours,
+      open_on_weekends,
+        } = request.body
+
+      const orphanagesRepository = getRepository(Orphanage)
+      const requestImages = request.files as Express.Multer.File[]
+
+      const images = requestImages.map(image => {
+        return { path: image.filename }
+      })
+
+      const orphanage = orphanagesRepository.create({
         name,
         latitude,
         longitude,
@@ -37,32 +53,11 @@ export default {
         instructions,
         opening_hours,
         open_on_weekends,
-         } = request.body
+        images
+      })
 
-        const orphanagesRepository = getRepository(Orphanage)
-        const requestImages = request.files as Express.Multer.File[]
+      await orphanagesRepository.save(orphanage)
 
-        const images = requestImages.map(image => {
-          return { path: image.filename }
-        })
-
-        const orphanage = orphanagesRepository.create({
-          name,
-          latitude,
-          longitude,
-          about,
-          instructions,
-          opening_hours,
-          open_on_weekends,
-          images
-        })
-
-        await orphanagesRepository.save(orphanage)
-
-        return response.json(orphanage)
-
-    } catch (err) {
-      return response.status(400).json({ error: err.message });
-    }
+      return response.json(orphanage)
   }
 }
