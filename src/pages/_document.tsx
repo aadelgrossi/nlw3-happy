@@ -47,6 +47,10 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Nunito:600,700,800"
             rel="stylesheet"
           />
+          <link
+            href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+            rel="stylesheet"
+          />
 
           <link rel="icon" href="https://rocketseat.com.br/favicon.ico" />
         </Head>
