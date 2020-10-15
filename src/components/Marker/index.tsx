@@ -1,20 +1,13 @@
 import React from 'react'
-import Leaflet from 'leaflet'
 import { Marker as LeafletMarker, Popup, MarkerProps } from 'react-leaflet'
 import Link from 'next/link'
 
 import { FiArrowRight } from 'react-icons/fi'
-
-const placeholder = Leaflet.icon({
-  iconUrl: '/images/map-marker.svg',
-  iconSize: [58, 58],
-  iconAnchor: [35, 40],
-  popupAnchor: [160, 32]
-})
+import mapIcon from '@/utils/mapIcon'
 
 const Marker: React.FC<MarkerProps> = ({ ...rest }) => {
   return (
-    <LeafletMarker {...rest} icon={placeholder}>
+    <LeafletMarker {...rest} icon={mapIcon}>
       <Popup
         closeButton={false}
         minWidth={240}

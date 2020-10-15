@@ -1,9 +1,7 @@
 import React from 'react'
-import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 
-import { FiArrowLeft, FiPlus } from 'react-icons/fi'
-import MapMarker from '../../../assets/map-marker.svg'
+import { FiPlus } from 'react-icons/fi'
 
 import {
   Container,
