@@ -3,7 +3,7 @@ import { Marker as LeafletMarker, Popup, MarkerProps } from 'react-leaflet'
 
 import mapIcon from '@/utils/mapIcon'
 
-const Marker: React.FC<MarkerProps & { name: string }> = ({
+const Marker: React.FC<MarkerProps & { name?: string }> = ({
   name,
   children,
   ...rest
