@@ -6,6 +6,7 @@ import { LeafletMouseEvent } from 'leaflet'
 
 import Input from '@/components/Input'
 import TextArea from '@/components/TextArea'
+import MultipleFileInput from '@/components/MultipleFileInput'
 
 import {
   Container,
@@ -27,6 +28,7 @@ interface OrphanageFormData {
   instructions: string
   opening_hours: string
   open_on_weekends: boolean
+  image: File[]
 }
 
 const MapWithNoSSR = dynamic(() => import('../../../components/Map'), {
@@ -89,11 +91,16 @@ const CreateOrphanage: React.FC = () => {
             <InputBlock>
               <label htmlFor="images">Fotos</label>
 
-              <div className="uploaded-image"></div>
+              <div className="images-container">
+                <NewImage htmlFor="image[]">
+                  <FiPlus size={24} color="#15b6d6" />
+                </NewImage>
 
-              <NewImage>
-                <FiPlus size={24} color="#15b6d6" />
-              </NewImage>
+                <MultipleFileInput
+                  name="image[]"
+                  id="image[]"
+                ></MultipleFileInput>
+              </div>
             </InputBlock>
           </FormGroup>
 
