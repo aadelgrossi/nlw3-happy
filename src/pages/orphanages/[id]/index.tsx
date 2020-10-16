@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FaWhatsapp } from 'react-icons/fa'
 import { FiClock, FiInfo } from 'react-icons/fi'
 import dynamic from 'next/dynamic'
@@ -42,17 +42,29 @@ const MarkerWithNoSSR = dynamic(() => import('../../../components/Marker'), {
 })
 
 const Orphanage: React.FC<OrphanageProps> = ({ orphanage }) => {
+  const [activeImageIndex, setActiveImageIndex] = useState(0)
+
   return (
     <Container>
       <Sidebar />
 
       <main>
         <OrphanageDetails>
-          <img src={orphanage.images[0].url} alt={orphanage.name} />
+          <img
+            src={orphanage.images[activeImageIndex].url}
+            alt={orphanage.name}
+          />
 
           <Images>
-            {orphanage.images.map(image => (
-              <button key={image.id} className="active" type="button">
+            {orphanage.images.map((image, index) => (
+              <button
+                key={image.id}
+                className={activeImageIndex === index ? 'active' : ''}
+                type="button"
+                onClick={() => {
+                  setActiveImageIndex(index)
+                }}
+              >
                 <img src={image.url} alt={orphanage.name} />
               </button>
             ))}
