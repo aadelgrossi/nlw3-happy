@@ -2,7 +2,7 @@ import React from 'react'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 import { Dimensions } from 'react-native'
 
-import { Container } from './styles'
+import { Container, Popup, PopupText, PopupView } from './styles'
 
 import mapMarker from '../../images/mapmarker.png'
 
@@ -28,7 +28,17 @@ const Map: React.FC = () => {
             latitude: -23.0784934,
             longitude: -52.4603822
           }}
-        ></Marker>
+          calloutAnchor={{
+            x: 2.7,
+            y: 0.8
+          }}
+        >
+          <Popup tooltip onPress={() => {}}>
+            <PopupView>
+              <PopupText>Lar das Meninas</PopupText>
+            </PopupView>
+          </Popup>
+        </Marker>
       </MapView>
     </Container>
   )

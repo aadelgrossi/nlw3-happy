@@ -31,7 +31,8 @@
       "react/prop-types": "off",
       "camelcase": "off",
       "no-unused-vars": "warn",
-      "no-use-before-define": "off"
+      "no-use-before-define": "off",
+      "@typescript-eslint/no-empty-function": "off"
     },
     "settings": {
       "import/resolver": {
