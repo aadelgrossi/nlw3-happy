@@ -15,6 +15,7 @@ export const PopupView = styled.View`
 export const PopupText = styled.Text`
   color: #0089a5;
   font-size: 14px;
+  font-family: 'nunitoBold';
 `
 export const Footer = styled.View`
   position: absolute;
@@ -33,6 +34,7 @@ export const Footer = styled.View`
   elevation: 2;
 `
 export const FooterText = styled.Text`
+  font-family: 'nunitoBold';
   color: #8fa7b3;
 `
 export const FooterAddButton = styled.TouchableOpacity`
