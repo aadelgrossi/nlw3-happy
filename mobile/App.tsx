@@ -1,21 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
+import { StatusBar, View } from 'react-native'
 
-export default function App() {
+import Map from './src/pages/Map'
+
+const App: React.FC = () => {
   return (
-    <View style={styles.container}>
-      <Text>Hello NLW</Text>
-      <StatusBar style="auto" />
+    <View>
+      <StatusBar />
+      <Map />
     </View>
-  );
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App
