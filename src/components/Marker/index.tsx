@@ -1,11 +1,13 @@
 import React from 'react'
 import { Marker as LeafletMarker, Popup, MarkerProps } from 'react-leaflet'
-import Link from 'next/link'
 
-import { FiArrowRight } from 'react-icons/fi'
 import mapIcon from '@/utils/mapIcon'
 
-const Marker: React.FC<MarkerProps> = ({ ...rest }) => {
+const Marker: React.FC<MarkerProps & { name: string }> = ({
+  name,
+  children,
+  ...rest
+}) => {
   return (
     <LeafletMarker {...rest} icon={mapIcon}>
       <Popup
@@ -14,12 +16,8 @@ const Marker: React.FC<MarkerProps> = ({ ...rest }) => {
         maxWidth={240}
         className="map-popup"
       >
-        Lar das meninas
-        <Link href="/orphanages/base">
-          <a>
-            <FiArrowRight size={32} color="#fff"></FiArrowRight>
-          </a>
-        </Link>
+        {name}
+        {children}
       </Popup>
     </LeafletMarker>
   )

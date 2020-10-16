@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 
 import { Container, PageMap, CreateOrphanageButton } from './styles'
 import MapMarker from '../../assets/map-marker.svg'
-import { FiPlus } from 'react-icons/fi'
+import { FiArrowRight, FiPlus } from 'react-icons/fi'
+import api from '@/services/api'
 
 const MapWithNoSSR = dynamic(() => import('../../components/Map'), {
   ssr: false
@@ -14,7 +15,22 @@ const MarkerWithNoSSR = dynamic(() => import('../../components/Marker'), {
   ssr: false
 })
 
+interface Orphanage {
+  id: string
+  latitude: number
+  longitude: number
+  name: string
+}
+
 const OrphanageMap: React.FC = () => {
+  const [orphanages, setOrphanages] = useState<Orphanage[]>([])
+
+  useEffect(() => {
+    api.get('/orphanages').then(response => {
+      setOrphanages(response.data)
+    })
+  }, [])
+
   return (
     <Container>
       <Head>
@@ -36,13 +52,23 @@ const OrphanageMap: React.FC = () => {
         </aside>
 
         <MapWithNoSSR
-          center={[-23.0794493, -52.4684549]}
+          center={[-23.0878701, -52.4666419]}
           zoom={15}
           style={{ width: '100%', height: '100%' }}
         >
-          <MarkerWithNoSSR
-            position={[-23.0794617, -52.4674024]}
-          ></MarkerWithNoSSR>
+          {orphanages.map(orphanage => (
+            <MarkerWithNoSSR
+              key={orphanage.id}
+              position={[orphanage.latitude, orphanage.longitude]}
+              name={orphanage.name}
+            >
+              <Link href={`orphanages/${orphanage.id}`}>
+                <a>
+                  <FiArrowRight size={32} color="#fff"></FiArrowRight>
+                </a>
+              </Link>
+            </MarkerWithNoSSR>
+          ))}
         </MapWithNoSSR>
 
         <Link href="/orphanages/create">
