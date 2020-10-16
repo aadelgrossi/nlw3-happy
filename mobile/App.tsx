@@ -1,5 +1,4 @@
 import React from 'react'
-import { StatusBar, View } from 'react-native'
 import { useFonts } from 'expo-font'
 import {
   Nunito_600SemiBold,
@@ -7,7 +6,7 @@ import {
   Nunito_800ExtraBold
 } from '@expo-google-fonts/nunito'
 
-import Map from './src/pages/Map'
+import Routes from './src/routes'
 
 const App: React.FC = () => {
   const [fontsLoaded] = useFonts({
@@ -20,12 +19,7 @@ const App: React.FC = () => {
     return null
   }
 
-  return (
-    <View>
-      <StatusBar />
-      <Map />
-    </View>
-  )
+  return <Routes />
 }
 
 export default App

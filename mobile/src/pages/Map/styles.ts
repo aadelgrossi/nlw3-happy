@@ -40,7 +40,7 @@ export const FooterText = styled.Text`
 export const FooterAddButton = styled.TouchableOpacity`
   width: 36px;
   height: 36px;
-  margin-right: 16px;
+  margin-right: 10px;
   background-color: #15c3d6;
   border-radius: 10px;
   justify-content: center;

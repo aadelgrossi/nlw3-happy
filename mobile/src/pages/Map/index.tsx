@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
-import { Dimensions } from 'react-native'
+import { useWindowDimensions } from 'react-native'
 import { Feather } from '@expo/vector-icons'
+import Constants from 'expo-constants'
 
 import {
   Container,
@@ -14,14 +15,21 @@ import {
 } from './styles'
 
 import mapMarker from '../../images/mapmarker.png'
+import { useNavigation } from '@react-navigation/core'
 
 const Map: React.FC = () => {
+  const navigation = useNavigation()
+  const window = useWindowDimensions()
+
+  const handleNavigateToOrphanageDetails = useCallback(() => {
+    navigation.navigate('OrphanageDetails')
+  }, [])
   return (
     <Container>
       <MapView
         style={{
-          width: Dimensions.get('window').width,
-          height: Dimensions.get('window').height
+          width: window.width,
+          height: window.height + Constants.statusBarHeight
         }}
         provider={PROVIDER_GOOGLE}
         initialRegion={{
@@ -42,7 +50,7 @@ const Map: React.FC = () => {
             y: 0.8
           }}
         >
-          <Popup tooltip onPress={() => {}}>
+          <Popup tooltip onPress={handleNavigateToOrphanageDetails}>
             <PopupView>
               <PopupText>Lar das Meninas</PopupText>
             </PopupView>
