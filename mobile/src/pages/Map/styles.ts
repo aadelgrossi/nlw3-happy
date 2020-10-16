@@ -16,3 +16,31 @@ export const PopupText = styled.Text`
   color: #0089a5;
   font-size: 14px;
 `
+export const Footer = styled.View`
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 32px;
+
+  background-color: #fff;
+  border-radius: 16px;
+  height: 56px;
+  padding-left: 24px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  elevation: 2;
+`
+export const FooterText = styled.Text`
+  color: #8fa7b3;
+`
+export const FooterAddButton = styled.TouchableOpacity`
+  width: 36px;
+  height: 36px;
+  margin-right: 16px;
+  background-color: #15c3d6;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+`

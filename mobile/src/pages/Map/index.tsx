@@ -1,8 +1,17 @@
 import React from 'react'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 import { Dimensions } from 'react-native'
+import { Feather } from '@expo/vector-icons'
 
-import { Container, Popup, PopupText, PopupView } from './styles'
+import {
+  Container,
+  Popup,
+  PopupText,
+  PopupView,
+  Footer,
+  FooterAddButton,
+  FooterText
+} from './styles'
 
 import mapMarker from '../../images/mapmarker.png'
 
@@ -40,6 +49,13 @@ const Map: React.FC = () => {
           </Popup>
         </Marker>
       </MapView>
+
+      <Footer>
+        <FooterText>2 orfanatos encontrados</FooterText>
+        <FooterAddButton onPress={() => {}}>
+          <Feather name="plus" size={20} color="#fff"></Feather>
+        </FooterAddButton>
+      </Footer>
     </Container>
   )
 }
