@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Form as Unform } from '@unform/web'
 
 export const Container = styled.div`
   display: flex;
@@ -8,7 +9,7 @@ export const Container = styled.div`
   }
 `
 
-export const Form = styled.form`
+export const Form = styled(Unform)`
   width: 700px;
   margin: 64px auto;
 
@@ -19,6 +20,12 @@ export const Form = styled.form`
   padding: 64px 80px;
 
   overflow: hidden;
+
+  .leaflet-container {
+    margin-bottom: 40px;
+    border: 1px solid #d3e2e5;
+    border-radius: 20px;
+  }
 `
 
 export const FormGroup = styled.fieldset`
