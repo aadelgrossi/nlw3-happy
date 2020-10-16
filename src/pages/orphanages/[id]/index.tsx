@@ -12,6 +12,23 @@ import {
   OpenDetails
 } from './styles'
 import Sidebar from '@/components/Sidebar'
+import api from '@/services/api'
+import { GetStaticPaths, GetStaticProps } from 'next'
+
+interface Orphanage {
+  id: string
+  latitude: number
+  longitude: number
+  about: string
+  name: string
+  instructions: string
+  opening_hours: string
+  open_on_weekends: boolean
+}
+
+interface OrphanageProps {
+  orphanage: Orphanage
+}
 
 const MapWithNoSSR = dynamic(() => import('../../../components/Map'), {
   ssr: false
@@ -20,7 +37,7 @@ const MarkerWithNoSSR = dynamic(() => import('../../../components/Marker'), {
   ssr: false
 })
 
-const Orphanage: React.FC = () => {
+const Orphanage: React.FC<OrphanageProps> = ({ orphanage }) => {
   return (
     <Container>
       <Sidebar />
@@ -72,26 +89,24 @@ const Orphanage: React.FC = () => {
           </Images>
 
           <OrphanageContent>
-            <h1>Lar das meninas</h1>
-            <p>
-              Presta assistência a crianças de 06 a 15 anos que se encontre em
-              situação de risco e/ou vulnerabilidade social.
-            </p>
+            <h1>{orphanage.name}</h1>
+            <p>{orphanage.about}</p>
 
             <MapContainer>
               <MapWithNoSSR
-                center={[-27.2092052, -49.6401092]}
-                zoom={16}
+                center={[-23.0878701, -52.4666419]}
+                zoom={13}
                 style={{ width: '100%', height: 280 }}
                 dragging={false}
                 touchZoom={false}
-                zoomControl={false}
+                zoomControl={true}
                 scrollWheelZoom={false}
                 doubleClickZoom={false}
               >
                 <MarkerWithNoSSR
+                  name={orphanage.name}
                   interactive={false}
-                  position={[-27.2092052, -49.6401092]}
+                  position={[orphanage.latitude, orphanage.longitude]}
                 />
               </MapWithNoSSR>
 
@@ -103,15 +118,13 @@ const Orphanage: React.FC = () => {
             <hr />
 
             <h2>Instruções para visita</h2>
-            <p>
-              Venha como se sentir mais à vontade e traga muito amor para dar.
-            </p>
+            <p>{orphanage.instructions}</p>
 
             <OpenDetails>
               <div className="hour">
                 <FiClock size={32} color="#15B6D6" />
                 Segunda à Sexta <br />
-                8h às 18h
+                {orphanage.opening_hours}
               </div>
               <div className="open-on-weekends">
                 <FiInfo size={32} color="#39CC83" />
@@ -132,3 +145,27 @@ const Orphanage: React.FC = () => {
 }
 
 export default Orphanage
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const response = await api.get('/orphanages')
+
+  const paths = response.data.map(orphanage => {
+    return { params: { id: orphanage.id } }
+  })
+  return {
+    paths,
+    fallback: false
+  }
+}
+
+export const getStaticProps: GetStaticProps = async context => {
+  const { id } = context.params
+
+  const response = await api.get(`/orphanages/${id}`)
+
+  return {
+    props: {
+      orphanage: response.data
+    }
+  }
+}

@@ -8,7 +8,6 @@ export const Container = styled.div`
     flex: 1;
   }
 `
-
 export const OrphanageDetails = styled.div`
   width: 700px;
   margin: 64px auto;
