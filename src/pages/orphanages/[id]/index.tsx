@@ -81,7 +81,13 @@ const Orphanage: React.FC<OrphanageProps> = ({ orphanage }) => {
               </MapWithNoSSR>
 
               <footer>
-                <a href="">Ver rotas no Google Maps</a>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`https://www.google.com/maps/dir/?api=1&destination=${orphanage.latitude},${orphanage.longitude}`}
+                >
+                  Ver rotas no Google Maps
+                </a>
               </footer>
             </MapContainer>
 
@@ -127,7 +133,7 @@ export default Orphanage
 export const getStaticPaths: GetStaticPaths = async () => {
   const response = await api.get('/orphanages')
 
-  const paths = response.data.map(orphanage => {
+  const paths = response.data.map((orphanage: Orphanage) => {
     return { params: { id: orphanage.id } }
   })
   return {
