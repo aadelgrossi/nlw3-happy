@@ -24,6 +24,10 @@ interface Orphanage {
   instructions: string
   opening_hours: string
   open_on_weekends: boolean
+  images: Array<{
+    id: string
+    url: string
+  }>
 }
 
 interface OrphanageProps {
@@ -44,48 +48,14 @@ const Orphanage: React.FC<OrphanageProps> = ({ orphanage }) => {
 
       <main>
         <OrphanageDetails>
-          <img
-            src="https://www.gcd.com.br/wp-content/uploads/2020/08/safe_image.jpg"
-            alt="Lar das meninas"
-          />
+          <img src={orphanage.images[0].url} alt={orphanage.name} />
 
           <Images>
-            <button className="active" type="button">
-              <img
-                src="https://www.gcd.com.br/wp-content/uploads/2020/08/safe_image.jpg"
-                alt="Lar das meninas"
-              />
-            </button>
-            <button type="button">
-              <img
-                src="https://www.gcd.com.br/wp-content/uploads/2020/08/safe_image.jpg"
-                alt="Lar das meninas"
-              />
-            </button>
-            <button type="button">
-              <img
-                src="https://www.gcd.com.br/wp-content/uploads/2020/08/safe_image.jpg"
-                alt="Lar das meninas"
-              />
-            </button>
-            <button type="button">
-              <img
-                src="https://www.gcd.com.br/wp-content/uploads/2020/08/safe_image.jpg"
-                alt="Lar das meninas"
-              />
-            </button>
-            <button type="button">
-              <img
-                src="https://www.gcd.com.br/wp-content/uploads/2020/08/safe_image.jpg"
-                alt="Lar das meninas"
-              />
-            </button>
-            <button type="button">
-              <img
-                src="https://www.gcd.com.br/wp-content/uploads/2020/08/safe_image.jpg"
-                alt="Lar das meninas"
-              />
-            </button>
+            {orphanage.images.map(image => (
+              <button key={image.id} className="active" type="button">
+                <img src={image.url} alt={orphanage.name} />
+              </button>
+            ))}
           </Images>
 
           <OrphanageContent>
@@ -94,12 +64,12 @@ const Orphanage: React.FC<OrphanageProps> = ({ orphanage }) => {
 
             <MapContainer>
               <MapWithNoSSR
-                center={[-23.0878701, -52.4666419]}
-                zoom={13}
+                center={[orphanage.latitude, orphanage.longitude]}
+                zoom={16}
                 style={{ width: '100%', height: 280 }}
                 dragging={false}
                 touchZoom={false}
-                zoomControl={true}
+                zoomControl={false}
                 scrollWheelZoom={false}
                 doubleClickZoom={false}
               >
@@ -126,11 +96,19 @@ const Orphanage: React.FC<OrphanageProps> = ({ orphanage }) => {
                 Segunda à Sexta <br />
                 {orphanage.opening_hours}
               </div>
-              <div className="open-on-weekends">
-                <FiInfo size={32} color="#39CC83" />
-                Atendemos <br />
-                fim de semana
-              </div>
+              {orphanage.open_on_weekends ? (
+                <div className="open-on-weekends">
+                  <FiInfo size={32} color="#39CC83" />
+                  Abrimos <br />
+                  fim de semana
+                </div>
+              ) : (
+                <div className="closed-on-weekends">
+                  <FiInfo size={32} color="#ff6690" />
+                  Não abrimos <br />
+                  fim de semana
+                </div>
+              )}
             </OpenDetails>
 
             <button type="button" className="contact-button">
