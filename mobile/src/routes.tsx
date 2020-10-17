@@ -10,6 +10,7 @@ import OrphanageDetails from './pages/OrphanageDetails'
 
 import SelectMapPosition from './pages/CreateOrphanage/SelectMapPosition'
 import OrphanageData from './pages/CreateOrphanage/OrphanageData'
+import Header from './components/Header'
 
 const { Navigator, Screen } = createStackNavigator()
 
@@ -19,13 +20,37 @@ const Routes: React.FC = () => {
       <Navigator
         screenOptions={{
           headerShown: false,
+          cardStyle: {
+            backgroundColor: '#f2f3f5'
+          },
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
         }}
       >
         <Screen name="OrphanagesMap" component={Map}></Screen>
-        <Screen name="OrphanageDetails" component={OrphanageDetails}></Screen>
-        <Screen name="SelectMapPosition" component={SelectMapPosition}></Screen>
-        <Screen name="OrphanageData" component={OrphanageData}></Screen>
+        <Screen
+          name="OrphanageDetails"
+          component={OrphanageDetails}
+          options={{
+            headerShown: true,
+            header: () => <Header showDismiss={false} title="Orfanato" />
+          }}
+        ></Screen>
+        <Screen
+          name="SelectMapPosition"
+          component={SelectMapPosition}
+          options={{
+            headerShown: true,
+            header: () => <Header title="Selecione no mapa" />
+          }}
+        ></Screen>
+        <Screen
+          name="OrphanageData"
+          component={OrphanageData}
+          options={{
+            headerShown: true,
+            header: () => <Header title="Preencha os dados" />
+          }}
+        ></Screen>
       </Navigator>
     </NavigationContainer>
   )
