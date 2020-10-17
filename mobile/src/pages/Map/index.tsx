@@ -37,13 +37,12 @@ const Map: React.FC = () => {
     })
   }, [])
 
-  const handleNavigateToOrphanageDetails = useCallback(() => {
-    navigation.navigate('OrphanageDetails')
+  const handleNavigateToOrphanageDetails = useCallback((id: string) => {
+    navigation.navigate('OrphanageDetails', { id })
   }, [])
 
   const handleNavigateToCreateOrphanage = useCallback(() => {
     navigation.navigate('SelectMapPosition')
-    // navigation.navigate('OrphanageData')
   }, [])
 
   return (
@@ -69,7 +68,12 @@ const Map: React.FC = () => {
               y: 0.8
             }}
           >
-            <Popup tooltip onPress={handleNavigateToOrphanageDetails}>
+            <Popup
+              tooltip
+              onPress={() => {
+                handleNavigateToOrphanageDetails(orphanage.id)
+              }}
+            >
               <PopupView>
                 <PopupText>{orphanage.name}</PopupText>
               </PopupView>
