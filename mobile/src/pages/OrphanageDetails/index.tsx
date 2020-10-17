@@ -77,11 +77,10 @@ const OrphanageDetails: React.FC = () => {
               }}
             ></Marker>
           </Map>
+          <RoutesContainer>
+            <RoutesText>Ver rotas no Google Maps</RoutesText>
+          </RoutesContainer>
         </MapContainer>
-
-        <RoutesContainer>
-          <RoutesText>Ver rotas no Google Maps</RoutesText>
-        </RoutesContainer>
 
         <Separator />
 
