@@ -1,3 +1,4 @@
+import { RectButton } from 'react-native-gesture-handler'
 import { Callout } from 'react-native-maps'
 import styled from 'styled-components/native'
 
@@ -37,7 +38,7 @@ export const FooterText = styled.Text`
   font-family: 'nunitoBold';
   color: #8fa7b3;
 `
-export const FooterAddButton = styled.TouchableOpacity`
+export const FooterAddButton = styled(RectButton)`
   width: 36px;
   height: 36px;
   margin-right: 10px;
