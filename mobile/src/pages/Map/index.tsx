@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
-import { useWindowDimensions } from 'react-native'
+import { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 import { Feather } from '@expo/vector-icons'
-import Constants from 'expo-constants'
 import initialRegion from '../../constants/initialRegion'
 
 import {
   Container,
   Popup,
   PopupText,
+  MapItem,
   PopupView,
   Footer,
   FooterAddButton,
@@ -28,7 +27,6 @@ interface Orphanage {
 
 const Map: React.FC = () => {
   const navigation = useNavigation()
-  const window = useWindowDimensions()
   const [orphanages, setOrphanages] = useState<Orphanage[]>([])
 
   useEffect(() => {
@@ -47,14 +45,7 @@ const Map: React.FC = () => {
 
   return (
     <Container>
-      <MapView
-        style={{
-          width: window.width,
-          height: window.height + Constants.statusBarHeight
-        }}
-        provider={PROVIDER_GOOGLE}
-        initialRegion={initialRegion}
-      >
+      <MapItem provider={PROVIDER_GOOGLE} initialRegion={initialRegion}>
         {orphanages.map(orphanage => (
           <Marker
             key={orphanage.id}
@@ -80,7 +71,7 @@ const Map: React.FC = () => {
             </Popup>
           </Marker>
         ))}
-      </MapView>
+      </MapItem>
 
       <Footer>
         <FooterText>{orphanages.length} orfanatos encontrados</FooterText>

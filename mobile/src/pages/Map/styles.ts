@@ -1,8 +1,15 @@
 import { RectButton } from 'react-native-gesture-handler'
-import { Callout } from 'react-native-maps'
+import MapView, { Callout } from 'react-native-maps'
 import styled from 'styled-components/native'
+import { Dimensions } from 'react-native'
+import Constants from 'expo-constants'
 
 export const Container = styled.View``
+
+export const MapItem = styled(MapView)`
+  width: ${Dimensions.get('window').width}px;
+  height: ${Dimensions.get('window').height + Constants.statusBarHeight}px;
+`
 
 export const Popup = styled(Callout)``
 export const PopupView = styled.View`
