@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Marker } from 'react-native-maps'
 import mapMarkerImg from '../../images/mapmarker.png'
@@ -22,45 +22,77 @@ import {
   BlueText,
   GreenItem,
   GreenText,
+  RedItem,
+  RedText,
   ContactButton,
   ContactButtonText
 } from './styles'
+import { useRoute } from '@react-navigation/core'
+import api from '../../services/api'
+
+interface OrphanageDetailsRouteParams {
+  id: string
+}
+
+interface Orphanage {
+  id: string
+  name: string
+  latitude: number
+  longitude: number
+  about: string
+  instructions: string
+  opening_hours: string
+  open_on_weekends: boolean
+  images: Array<{
+    id: string
+    url: string
+  }>
+}
 
 const OrphanageDetails: React.FC = () => {
+  const [orphanage, setOrphanage] = useState<Orphanage>({} as Orphanage)
+  const route = useRoute()
+
+  const params = route.params as OrphanageDetailsRouteParams
+
+  useEffect(() => {
+    api.get(`/orphanages/${params.id}`).then(response => {
+      setOrphanage(response.data)
+    })
+  }, [params.id])
+
+  if (!orphanage) {
+    return (
+      <Container>
+        <Description>Carregando...</Description>
+      </Container>
+    )
+  }
+
   return (
     <Container>
       <ImagesContainer>
         <ScrollView horizontal pagingEnabled>
-          <Image
-            source={{
-              uri: 'https://fmnova.com.br/images/noticias/safe_image.jpg'
-            }}
-          />
-          <Image
-            source={{
-              uri: 'https://fmnova.com.br/images/noticias/safe_image.jpg'
-            }}
-          />
-          <Image
-            source={{
-              uri: 'https://fmnova.com.br/images/noticias/safe_image.jpg'
-            }}
-          />
+          {orphanage.images.map(image => (
+            <Image
+              key={image.id}
+              source={{
+                uri: image.url
+              }}
+            />
+          ))}
         </ScrollView>
       </ImagesContainer>
 
       <DetailsContainer>
-        <Title>Orfanato Esperança</Title>
-        <Description>
-          Presta assistência a crianças de 06 a 15 anos que se encontre em
-          situação de risco e/ou vulnerabilidade social.
-        </Description>
+        <Title>{orphanage.name}</Title>
+        <Description>{orphanage.about}</Description>
 
         <MapContainer>
           <Map
             initialRegion={{
-              latitude: -27.2092052,
-              longitude: -49.6401092,
+              latitude: orphanage.latitude,
+              longitude: orphanage.longitude,
               latitudeDelta: 0.008,
               longitudeDelta: 0.008
             }}
@@ -72,8 +104,8 @@ const OrphanageDetails: React.FC = () => {
             <Marker
               icon={mapMarkerImg}
               coordinate={{
-                latitude: -27.2092052,
-                longitude: -49.6401092
+                latitude: orphanage.latitude,
+                longitude: orphanage.longitude
               }}
             ></Marker>
           </Map>
@@ -85,21 +117,25 @@ const OrphanageDetails: React.FC = () => {
         <Separator />
 
         <Title>Instruções para visita</Title>
-        <Description>
-          Venha como se sentir a vontade e traga muito amor e paciência para
-          dar.
-        </Description>
+        <Description>{orphanage.instructions}</Description>
 
         <ScheduleContainer>
           <BlueItem>
             <Feather name="clock" size={40} color="#2AB5D1" />
-            <BlueText>Segunda à Sexta 8h às 18h</BlueText>
+            <BlueText>{orphanage.opening_hours}</BlueText>
           </BlueItem>
 
-          <GreenItem>
-            <Feather name="info" size={40} color="#39CC83" />
-            <GreenText>Atendemos fim de semana</GreenText>
-          </GreenItem>
+          {orphanage.open_on_weekends ? (
+            <GreenItem>
+              <Feather name="info" size={40} color="#39CC83" />
+              <GreenText>Abrimos fim de semana</GreenText>
+            </GreenItem>
+          ) : (
+            <GreenItem>
+              <Feather name="info" size={40} color="#ff669d" />
+              <GreenText>Não abrimos fim de semana</GreenText>
+            </GreenItem>
+          )}
         </ScheduleContainer>
 
         <ContactButton>

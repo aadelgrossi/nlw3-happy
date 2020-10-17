@@ -89,6 +89,13 @@ export const GreenItem = styled(ScheduleItem)`
   border-radius: 20px;
 `
 
+export const RedItem = styled(ScheduleItem)`
+  background-color: #fef9f9;
+  border-width: 1px;
+  border-color: #ffbcd4;
+  border-radius: 20px;
+`
+
 export const ScheduleText = styled.Text`
   font-family: 'nunitoBold';
   font-size: 16px;
@@ -102,6 +109,10 @@ export const BlueText = styled(ScheduleText)`
 
 export const GreenText = styled(ScheduleText)`
   color: #37c77f;
+`
+
+export const RedText = styled(ScheduleText)`
+  color: #ff669d;
 `
 
 export const ContactButton = styled(RectButton)`
