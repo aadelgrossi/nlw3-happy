@@ -1,8 +1,9 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 import { useWindowDimensions } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import Constants from 'expo-constants'
+import initialRegion from '../../constants/initialRegion'
 
 import {
   Container,
@@ -16,10 +17,25 @@ import {
 
 import mapMarker from '../../images/mapmarker.png'
 import { useNavigation } from '@react-navigation/core'
+import api from '../../services/api'
+
+interface Orphanage {
+  id: string
+  name: string
+  latitude: number
+  longitude: number
+}
 
 const Map: React.FC = () => {
   const navigation = useNavigation()
   const window = useWindowDimensions()
+  const [orphanages, setOrphanages] = useState<Orphanage[]>([])
+
+  useEffect(() => {
+    api.get('/orphanages').then(response => {
+      setOrphanages(response.data)
+    })
+  }, [])
 
   const handleNavigateToOrphanageDetails = useCallback(() => {
     navigation.navigate('OrphanageDetails')
@@ -27,6 +43,7 @@ const Map: React.FC = () => {
 
   const handleNavigateToCreateOrphanage = useCallback(() => {
     navigation.navigate('SelectMapPosition')
+    // navigation.navigate('OrphanageData')
   }, [])
 
   return (
@@ -37,34 +54,32 @@ const Map: React.FC = () => {
           height: window.height + Constants.statusBarHeight
         }}
         provider={PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: -23.0784934,
-          longitude: -52.4603822,
-          latitudeDelta: 0.008,
-          longitudeDelta: 0.008
-        }}
+        initialRegion={initialRegion}
       >
-        <Marker
-          icon={mapMarker}
-          coordinate={{
-            latitude: -23.0784934,
-            longitude: -52.4603822
-          }}
-          calloutAnchor={{
-            x: 2.7,
-            y: 0.8
-          }}
-        >
-          <Popup tooltip onPress={handleNavigateToOrphanageDetails}>
-            <PopupView>
-              <PopupText>Lar das Meninas</PopupText>
-            </PopupView>
-          </Popup>
-        </Marker>
+        {orphanages.map(orphanage => (
+          <Marker
+            key={orphanage.id}
+            icon={mapMarker}
+            coordinate={{
+              latitude: Number(orphanage.latitude),
+              longitude: Number(orphanage.longitude)
+            }}
+            calloutAnchor={{
+              x: 2.7,
+              y: 0.8
+            }}
+          >
+            <Popup tooltip onPress={handleNavigateToOrphanageDetails}>
+              <PopupView>
+                <PopupText>{orphanage.name}</PopupText>
+              </PopupView>
+            </Popup>
+          </Marker>
+        ))}
       </MapView>
 
       <Footer>
-        <FooterText>2 orfanatos encontrados</FooterText>
+        <FooterText>{orphanages.length} orfanatos encontrados</FooterText>
         <FooterAddButton onPress={handleNavigateToCreateOrphanage}>
           <Feather name="plus" size={20} color="#fff"></Feather>
         </FooterAddButton>
