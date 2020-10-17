@@ -29,6 +29,7 @@ import {
 } from './styles'
 import { useRoute } from '@react-navigation/core'
 import api from '../../services/api'
+import { Linking } from 'react-native'
 
 interface OrphanageDetailsRouteParams {
   id: string
@@ -50,7 +51,7 @@ interface Orphanage {
 }
 
 const OrphanageDetails: React.FC = () => {
-  const [orphanage, setOrphanage] = useState<Orphanage>({} as Orphanage)
+  const [orphanage, setOrphanage] = useState<Orphanage>()
   const route = useRoute()
 
   const params = route.params as OrphanageDetailsRouteParams
@@ -66,6 +67,12 @@ const OrphanageDetails: React.FC = () => {
       <Container>
         <Description>Carregando...</Description>
       </Container>
+    )
+  }
+
+  const handleOpenGoogleMapsRoute = () => {
+    Linking.openURL(
+      `https://www.google.com/maps/dir/?api=1&destination=${orphanage?.latitude},${orphanage?.longitude}`
     )
   }
 
@@ -91,8 +98,8 @@ const OrphanageDetails: React.FC = () => {
         <MapContainer>
           <Map
             initialRegion={{
-              latitude: orphanage.latitude,
-              longitude: orphanage.longitude,
+              latitude: Number(orphanage.latitude),
+              longitude: Number(orphanage.longitude),
               latitudeDelta: 0.008,
               longitudeDelta: 0.008
             }}
@@ -104,12 +111,12 @@ const OrphanageDetails: React.FC = () => {
             <Marker
               icon={mapMarkerImg}
               coordinate={{
-                latitude: orphanage.latitude,
-                longitude: orphanage.longitude
+                latitude: Number(orphanage.latitude),
+                longitude: Number(orphanage.longitude)
               }}
             ></Marker>
           </Map>
-          <RoutesContainer>
+          <RoutesContainer onPress={handleOpenGoogleMapsRoute}>
             <RoutesText>Ver rotas no Google Maps</RoutesText>
           </RoutesContainer>
         </MapContainer>
@@ -131,10 +138,10 @@ const OrphanageDetails: React.FC = () => {
               <GreenText>Abrimos fim de semana</GreenText>
             </GreenItem>
           ) : (
-            <GreenItem>
+            <RedItem>
               <Feather name="info" size={40} color="#ff669d" />
-              <GreenText>Não abrimos fim de semana</GreenText>
-            </GreenItem>
+              <RedText>Não abrimos fim de semana</RedText>
+            </RedItem>
           )}
         </ScheduleContainer>
 
