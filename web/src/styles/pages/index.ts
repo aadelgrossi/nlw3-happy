@@ -42,16 +42,18 @@ export const LeftSection = styled.main`
   }
 `
 
-export const Location = styled.div`
-  position: absolute;
-  right: 40px;
-  top: 40px;
+export const LogoContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
 
+export const Location = styled.div`
   font-size: 24px;
   line-height: 34px;
   display: flex;
   flex-direction: column;
-  text-align: right;
+  text-align: left;
+  margin-left: 64px;
 
   strong {
     font-weight: 800;
@@ -74,5 +76,30 @@ export const EnterAppButton = styled.a`
 
   &:hover {
     background: #96feff;
+  }
+`
+
+export const SignInButton = styled.a`
+  position: absolute;
+  right: 40px;
+  top: 40px;
+
+  padding: 12px 40px;
+  border-radius: 20px;
+  background: #12d4e0;
+  color: #fff;
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 800;
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background: #96feff;
+    color: #15c3d6;
   }
 `

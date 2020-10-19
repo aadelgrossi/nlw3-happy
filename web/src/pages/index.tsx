@@ -7,8 +7,10 @@ import {
   Container,
   Wrapper,
   LeftSection,
+  LogoContainer,
   Location,
-  EnterAppButton
+  EnterAppButton,
+  SignInButton
 } from '@/styles/pages'
 import Logo from '../assets/logo.svg'
 
@@ -20,7 +22,14 @@ const Home: React.FC = () => {
       </Head>
 
       <Wrapper>
-        <Logo />
+        <LogoContainer>
+          <Logo />
+
+          <Location>
+            <strong>Paranavaí</strong>
+            <span>Paraná</span>
+          </Location>
+        </LogoContainer>
 
         <LeftSection>
           <h1>Leve felicidade para o mundo</h1>
@@ -28,10 +37,7 @@ const Home: React.FC = () => {
           <p>Visite orfanatos e mude o dia de muitas crianças.</p>
         </LeftSection>
 
-        <Location>
-          <strong>Paranavaí</strong>
-          <span>Paraná</span>
-        </Location>
+        <SignInButton>Acesso restrito</SignInButton>
 
         <Link href="/map">
           <EnterAppButton>
