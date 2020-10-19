@@ -1,8 +1,23 @@
-import Orphanage from "@models/Orphanage"
-import imagesView from "./images_view"
+import Orphanage from '@models/Orphanage'
+import imagesView from './images_view'
+
+interface OrphanageOutput {
+  id: string
+  name: string
+  latitude: number
+  longitude: number
+  about: string
+  instructions: string
+  opening_hours: string
+  open_on_weekends: boolean
+  images: Array<{
+    id: string
+    url: string
+  }>
+}
 
 export default {
-  render(orphanage: Orphanage) {
+  render(orphanage: Orphanage): OrphanageOutput {
     return {
       id: orphanage.id,
       name: orphanage.name,
@@ -16,7 +31,7 @@ export default {
     }
   },
 
-  renderMany(orphanages: Orphanage[]) {
+  renderMany(orphanages: Orphanage[]): OrphanageOutput[] {
     return orphanages.map(orphanage => this.render(orphanage))
   }
 }
