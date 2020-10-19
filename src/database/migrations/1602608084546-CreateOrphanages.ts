@@ -1,11 +1,11 @@
-import {MigrationInterface, QueryRunner, Table } from "typeorm";
+import { MigrationInterface, QueryRunner, Table } from 'typeorm'
 
 export class CreateOrphanages1602608084546 implements MigrationInterface {
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
 
-    public async up(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
-
-      await queryRunner.createTable(new Table({
+    await queryRunner.createTable(
+      new Table({
         name: 'orphanages',
         columns: [
           {
@@ -17,19 +17,19 @@ export class CreateOrphanages1602608084546 implements MigrationInterface {
           },
           {
             name: 'name',
-            type: 'varchar',
+            type: 'varchar'
           },
           {
             name: 'latitude',
             type: 'decimal',
             precision: 9,
-            scale: 6,
+            scale: 6
           },
           {
             name: 'longitude',
             type: 'decimal',
             precision: 9,
-            scale: 6,
+            scale: 6
           },
           {
             name: 'about',
@@ -41,20 +41,19 @@ export class CreateOrphanages1602608084546 implements MigrationInterface {
           },
           {
             name: 'opening_hours',
-            type: 'varchar',
+            type: 'varchar'
           },
           {
             name: 'open_on_weekends',
             type: 'boolean',
-            default: false,
+            default: false
           }
         ]
+      })
+    )
+  }
 
-      }))
-    }
-
-    public async down(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.dropTable('orphanages')
-    }
-
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable('orphanages')
+  }
 }
