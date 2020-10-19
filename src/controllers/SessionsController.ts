@@ -26,7 +26,7 @@ export default {
 
     const { secret, expiresIn } = authConfig.jwt
 
-    const token = jwt.sign({}, secret, { subject: findUser.id, expiresIn })
+    const token = jwt.sign({ id: findUser.id }, secret, { expiresIn })
 
     const user = userView.render(findUser)
     return response.json({ user, token })
