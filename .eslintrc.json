@@ -24,6 +24,8 @@
     "prettier/prettier": "error",
     "space-before-function-paren": "off",
     "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/class-name-casing": "off",
+    "indent": "warn",
     "import/extensions": [
       "error",
       "ignorePackages",

@@ -23,7 +23,8 @@
       "@models/*": ["./src/models/*"],
       "@routes/*": ["./src/routes/*"],
       "@config/*": ["./src/config/*"],
-      "@views/*": ["./src/views/*"]
+      "@views/*": ["./src/views/*"],
+      "@middlewares/*": ["./src/middlewares/*"]
     }
   },
   "include": [
