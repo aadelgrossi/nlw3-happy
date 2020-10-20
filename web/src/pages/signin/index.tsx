@@ -20,6 +20,7 @@ import {
 } from './styles'
 import { FiArrowLeft } from 'react-icons/fi'
 import { FormHandles } from '@unform/core'
+import { useAuth } from '@/hooks/auth'
 
 interface SignInFormData {
   email: string
@@ -28,13 +29,25 @@ interface SignInFormData {
 
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null)
-  const { back } = useRouter()
+  const { back, push } = useRouter()
   const [keepLoggedIn, setKeepLoggedIn] = useState(false)
   const [isFormValid, setIsFormValid] = useState(false)
 
+  const { signIn } = useAuth()
+
   const handleSubmit = useCallback(
-    (data: SignInFormData) => {
-      console.log(data)
+    async (data: SignInFormData) => {
+      try {
+        await signIn({
+          email: data.email,
+          password: data.password,
+          keep_logged_in: keepLoggedIn
+        })
+
+        push('/dashboard')
+      } catch (err) {
+        console.log(err)
+      }
     },
     [keepLoggedIn]
   )
@@ -44,7 +57,6 @@ const SignIn: React.FC = () => {
       setIsFormValid(true)
       formRef.current?.setErrors({})
       const data = formRef.current.getData()
-      console.log(data)
 
       const schema = Yup.object().shape({
         email: Yup.string().required().email(),
