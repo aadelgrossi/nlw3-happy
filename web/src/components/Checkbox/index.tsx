@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { CheckboxContainer, HiddenCheckbox, StyledCheckbox } from './styles'
-import { FiCheck } from 'react-icons/fi'
+import { HiCheck } from 'react-icons/hi'
 
 interface CheckboxProps {
   checked: boolean
@@ -13,7 +13,7 @@ const Checkbox: React.FC<CheckboxProps> = ({ checked, ...props }) => {
     <CheckboxContainer>
       <HiddenCheckbox checked={checked} {...props} />
       <StyledCheckbox checked={checked}>
-        {checked && <FiCheck size={24}></FiCheck>}
+        {checked && <HiCheck size={18}></HiCheck>}
       </StyledCheckbox>
     </CheckboxContainer>
   )

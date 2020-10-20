@@ -19,11 +19,18 @@ interface StyledCheckboxProps {
 
 export const StyledCheckbox = styled.div<StyledCheckboxProps>`
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 24px;
   height: 24px;
   border: 1px solid #d3e2e5;
   margin-right: 8px;
-  background: #f5f8fa;
-  border-radius: 10px;
+  background: ${props => (props.checked ? '#37C77F' : '#f5f8fa')};
+  border-radius: 8px;
   transition: all 150ms;
+  cursor: pointer;
+
+  svg {
+    color: ${props => (props.checked ? '#f5f8fa' : '#37C77F')};
+  }
 `
