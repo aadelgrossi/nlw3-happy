@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Form } from '@unform/web'
 
 export const Container = styled.div`
@@ -149,26 +149,47 @@ export const ForgotPasswordContainer = styled.div`
       border-radius: 10px;
     }
   }
+`
+interface ConfirmButtonProps {
+  disabled: boolean
+}
 
-  /* > label {
-    display: block;
-    position: relative;
-    cursor: pointer;
+export const ConfirmButton = styled.button<ConfirmButtonProps>`
+  width: 100%;
+  height: 64px;
+  border: 0;
+  cursor: pointer;
+  background: #37c77f;
+  border-radius: 20px;
+  color: #ffffff;
+  margin-top: 64px;
+  font-weight: 800;
 
-    span {
-      position: absolute;
-      margin-left: 8px;
-      width: 24px;
-      height: 24px;
-      border: 1px solid #d3e2e5;
-      border-radius: 20px;
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    input {
-      height: 0;
-      width: 0;
-    }
+  &.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.5;
   }
-  align-items: space-between;
-   */
+
+  ${props =>
+    props.disabled &&
+    css`
+      cursor: not-allowed;
+      pointer-events: none;
+      opacity: 0.5;
+    `}
+
+  transition: background-color, opacity 0.2s;
+
+  svg {
+    margin-right: 16px;
+  }
+
+  &:hover {
+    background: #36cf82;
+  }
 `
