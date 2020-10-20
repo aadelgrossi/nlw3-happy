@@ -33,5 +33,19 @@ export default {
     const users = await usersRepository.find()
 
     return response.json(userView.renderMany(users))
+  },
+
+  async show(request: Request, response: Response): Promise<Response> {
+    const { id } = request.user
+
+    const usersRepository = getRepository(User)
+
+    const user = await usersRepository.findOne(id)
+
+    if (!user) {
+      return response.sendStatus(422)
+    }
+
+    return response.json(userView.render(user))
   }
 }
