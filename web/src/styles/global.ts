@@ -18,5 +18,10 @@ export default createGlobalStyle`
 
   a {
     cursor: pointer;
+    text-decoration: none;
   }
+
+  a:visited, a:hover, a:active {
+  color: inherit;
+}
 `
