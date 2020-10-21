@@ -28,6 +28,9 @@ export const Wrapper = styled.div`
 `
 
 export const InputContainer = styled.div<InputProps>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 16px;
   background-color: #f5f8fa;
   border-radius: 20px;
@@ -55,8 +58,17 @@ export const InputContainer = styled.div<InputProps>`
     height: 64px;
     width: 100%;
     background: #f5f8fa;
-    border: 1px solid #d3e2e5;
     border-radius: 20px;
+    border: 0;
     padding: 0 16px;
+
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  svg {
+    margin: 0 24px 0 0;
+    cursor: pointer;
   }
 `

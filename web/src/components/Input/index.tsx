@@ -14,7 +14,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   containerStyle?: Record<string, unknown>
 }
 
-const Input: React.FC<InputProps> = ({ name, label, ...rest }) => {
+const Input: React.FC<InputProps> = ({ name, label, children, ...rest }) => {
   const inputRef = useRef(null)
   const [isFocused, setIsFocused] = useState(false)
   const [isFilled, setIsFilled] = useState(false)
@@ -53,6 +53,7 @@ const Input: React.FC<InputProps> = ({ name, label, ...rest }) => {
           onBlur={handleInputBlur}
           {...rest}
         />
+        {children}
       </InputContainer>
     </Wrapper>
   )
