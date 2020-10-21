@@ -15,7 +15,7 @@ export const SignInForm = styled(Form)`
   flex-direction: column;
   justify-content: center;
   height: 60%;
-  min-width: 360px;
+  width: 360px;
 
   h1 {
     font-size: 32px;

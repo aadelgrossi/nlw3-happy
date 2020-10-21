@@ -18,6 +18,7 @@ import {
 import { FiArrowLeft } from 'react-icons/fi'
 import { FormHandles } from '@unform/core'
 import { useAuth } from '@/hooks/auth'
+import Link from 'next/link'
 
 interface SignInFormData {
   email: string
@@ -93,7 +94,7 @@ const SignIn: React.FC = () => {
               ></Checkbox>
               Lembrar-me
             </label>
-            <a>Esqueci minha senha</a>
+            <Link href="/forgot-password">Esqueci minha senha</Link>
           </ForgotPasswordContainer>
           <ConfirmButton disabled={!isFormValid}>Entrar</ConfirmButton>
         </SignInForm>
