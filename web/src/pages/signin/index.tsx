@@ -1,20 +1,17 @@
 import React, { useCallback, useState, useRef } from 'react'
 import * as Yup from 'yup'
 
-import Input from '@/components/Input'
 import Checkbox from '@/components/Checkbox'
-import Logo from '../../assets/logo.svg'
+import Input from '@/components/Input'
+import FormContainer from '@/components/FormContainer'
+import LogoContainer from '@/components/LogoContainer'
 
 import { useRouter } from 'next/router'
 
 import {
   BackButton,
   Container,
-  FormContainer,
   SignInForm,
-  LogoContainer,
-  Location,
-  FormInput,
   ConfirmButton,
   ForgotPasswordContainer
 } from './styles'
@@ -75,35 +72,18 @@ const SignIn: React.FC = () => {
         <FiArrowLeft size={24} color="#15C3D6" />
       </BackButton>
 
-      <LogoContainer>
-        <Logo />
-
-        <Location>
-          <strong>Paranavaí</strong>
-          <span>Paraná</span>
-        </Location>
-      </LogoContainer>
+      <LogoContainer />
 
       <FormContainer>
         <SignInForm ref={formRef} onSubmit={handleSubmit}>
           <h1>Fazer login</h1>
-          <FormInput>
-            <label htmlFor="email">E-mail</label>
-            <Input
-              name="email"
-              type="email"
-              onKeyUp={performValidation}
-            ></Input>
-          </FormInput>
+          <Input label="Email" name="email" onKeyUp={performValidation}></Input>
 
-          <FormInput>
-            <label>Senha</label>
-            <Input
-              name="password"
-              type="password"
-              onKeyUp={performValidation}
-            ></Input>
-          </FormInput>
+          <Input
+            label="Senha"
+            name="password"
+            onKeyUp={performValidation}
+          ></Input>
 
           <ForgotPasswordContainer>
             <label>
