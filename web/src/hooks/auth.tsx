@@ -35,7 +35,7 @@ interface AuthState {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState(null)
+  const [data, setData] = useState({} as AuthState)
 
   useEffect(() => {
     async function loadUserFromCookies() {
@@ -43,7 +43,7 @@ export const AuthProvider: React.FC = ({ children }) => {
       if (token) {
         api.defaults.headers.Authorization = `Bearer ${token}`
         const response = await api.get<User>('/users/me')
-        setUser(response.data)
+        setData({ token, user: response.data })
       }
     }
     loadUserFromCookies()
@@ -57,6 +57,7 @@ export const AuthProvider: React.FC = ({ children }) => {
       })
 
       const { token } = response.data
+      setData(response.data)
 
       if (keep_logged_in) {
         Cookies.set('token', token, { expires: 7 })
@@ -64,16 +65,14 @@ export const AuthProvider: React.FC = ({ children }) => {
         Cookies.set('token', token)
       }
 
-      console.log(response.data)
       api.defaults.headers.authorization = `Bearer ${token}`
-      setUser(response.data.user)
     },
     []
   )
 
   const signOut = useCallback(() => {
     Cookies.remove('token')
-    setUser(null)
+    setData({} as AuthState)
     delete api.defaults.headers.authorization
     window.location.pathname = '/signin'
   }, [])
@@ -81,10 +80,10 @@ export const AuthProvider: React.FC = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        user,
+        user: data.user,
         signIn,
         signOut,
-        isAuthenticated: !!user
+        isAuthenticated: !!data.user
       }}
     >
       {children}
