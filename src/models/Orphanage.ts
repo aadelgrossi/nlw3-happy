@@ -36,6 +36,9 @@ class Orphanage {
   @Column()
   whatsapp: string
 
+  @Column()
+  approved: boolean
+
   @OneToMany(() => Image, image => image.orphanage, {
     cascade: ['insert', 'update']
   })
