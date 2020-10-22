@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm'
-import Orphanage from '@models/Orphanage'
-import orphanageView from '@views/orphanages_views'
+import Orphanage from '~/models/Orphanage'
+import orphanageView from '~/views/orphanages_views'
 import * as Yup from 'yup'
 
 import { Request, Response } from 'express'

@@ -1,8 +1,8 @@
-import User from '@models/User'
+import User from '~/models/User'
 import { Request, Response } from 'express'
 import { getRepository } from 'typeorm'
 
-import userView from '@views/users_view'
+import userView from '~/views/users_view'
 
 export default {
   async create(request: Request, response: Response): Promise<Response> {

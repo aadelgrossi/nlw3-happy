@@ -5,7 +5,7 @@ import {
   OneToMany,
   JoinColumn
 } from 'typeorm'
-import Image from '@models/Image'
+import Image from '~/models/Image'
 
 @Entity('orphanages')
 class Orphanage {
