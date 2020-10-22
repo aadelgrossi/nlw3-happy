@@ -60,7 +60,9 @@ export const InputContainer = styled.div<InputProps>`
     background: #f5f8fa;
     border-radius: 20px;
     border: 0;
-    padding: 0 16px;
+    padding: 0 21px;
+    color: #5c8599;
+    font-size: 16px;
 
     &:focus {
       outline: 0;

@@ -23,7 +23,7 @@ export const StyledCheckbox = styled.div<StyledCheckboxProps>`
   align-items: center;
   width: 24px;
   height: 24px;
-  border: 1px solid #d3e2e5;
+  border: ${props => (props.checked ? 'none' : '1px solid #d3e2e5')};
   margin-right: 8px;
   background: ${props => (props.checked ? '#37C77F' : '#f5f8fa')};
   border-radius: 8px;
