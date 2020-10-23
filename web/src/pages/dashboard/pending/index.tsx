@@ -1,8 +1,8 @@
 import Sidebar from '@/components/Sidebar'
-import React, { useState } from 'react'
+import { NextPage, NextPageContext } from 'next'
+import React from 'react'
 
 import SadFace from '../../../assets/logo-sad.svg'
-
 import {
   Container,
   Contents,
@@ -11,9 +11,18 @@ import {
   OrphanagesContainer,
   NoOrphanages
 } from './styles'
+import Router from 'next/router'
 
-const Pending: React.FC = () => {
-  const [orphanages, setOrphanages] = useState([])
+interface Orphanage {
+  id: string
+  name: string
+}
+
+interface PendingProps {
+  orphanages: Orphanage[]
+}
+
+const Pending: NextPage<PendingProps> = ({ orphanages }) => {
   return (
     <Container>
       <Sidebar />
@@ -40,6 +49,29 @@ const Pending: React.FC = () => {
       </Contents>
     </Container>
   )
+}
+Pending.getInitialProps = async (context: NextPageContext) => {
+  const cookie = context.req?.headers.cookie
+
+  const response = await fetch('http://localhost:3333/orphanages/pending', {
+    credentials: 'include',
+    headers: {
+      cookie: cookie
+    }
+  })
+  const json = await response.json()
+
+  if (response.status === 401 && !context.req) {
+    Router.replace('/signin')
+  }
+
+  if (response.status === 401 && context.req) {
+    context.res.writeHead(302, {
+      Location: `${process.env.NEXT_PUBLIC_APP_URL}/signin`
+    })
+    context.res.end()
+  }
+  return { orphanages: json }
 }
 
 export default Pending
