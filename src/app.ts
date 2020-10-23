@@ -7,11 +7,13 @@ import morgan from 'morgan'
 import path from 'path'
 import './database'
 import errorHandler from './errors/handler'
+import cookieParser from 'cookie-parser'
 
 const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
+app.use(cookieParser())
 app.use(
   '/uploads',
   express.static(path.join(__dirname, '..', 'tmp', 'uploads'))
