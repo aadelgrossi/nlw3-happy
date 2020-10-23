@@ -29,7 +29,7 @@ interface SignInFormData {
 
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null)
-  const { back, push } = useRouter()
+  const { push } = useRouter()
   const [keepLoggedIn, setKeepLoggedIn] = useState(false)
   const [isFormValid, setIsFormValid] = useState(false)
   const { addToast } = useToast()
@@ -76,7 +76,7 @@ const SignIn: React.FC = () => {
 
   return (
     <Container>
-      <BackButton onClick={back}>
+      <BackButton onClick={() => push('/')}>
         <FiArrowLeft size={24} color="#15C3D6" />
       </BackButton>
 
@@ -101,7 +101,9 @@ const SignIn: React.FC = () => {
               ></Checkbox>
               Lembrar-me
             </label>
-            <Link href="/forgot-password">Esqueci minha senha</Link>
+            <Link href="/forgot-password">
+              <a> Esqueci minha senha</a>
+            </Link>
           </ForgotPasswordContainer>
           <ConfirmButton disabled={!isFormValid}>Entrar</ConfirmButton>
         </SignInForm>

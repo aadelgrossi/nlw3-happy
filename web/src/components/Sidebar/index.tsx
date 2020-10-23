@@ -48,7 +48,7 @@ const Sidebar: React.FC = () => {
             <FiPower size={24} color="#FFF" />
           </button>
         ) : (
-          <button type="button" onClick={router.back}>
+          <button type="button" onClick={() => router.push('/dashboard')}>
             <FiArrowLeft size={24} color="#FFF" />
           </button>
         )}
