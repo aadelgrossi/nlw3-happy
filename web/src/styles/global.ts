@@ -22,6 +22,10 @@ export default createGlobalStyle`
   }
 
   a:visited, a:hover, a:active {
-  color: inherit;
-}
+    color: inherit;
+  }
+
+  a:focus, button:focus {
+    outline: none;
+  }
 `
