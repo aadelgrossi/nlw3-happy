@@ -12,10 +12,6 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const PasswordInput: React.FC<InputProps> = ({ ...rest }) => {
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
 
-  useEffect(() => {
-    console.log(isPasswordHidden)
-  }, [])
-
   return (
     <Input type={isPasswordHidden ? 'password' : 'text'} {...rest}>
       <div
