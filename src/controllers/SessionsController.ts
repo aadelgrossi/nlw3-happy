@@ -28,7 +28,12 @@ export default {
 
     const token = jwt.sign({ id: findUser.id }, secret, { expiresIn })
 
+    response.cookie('auth', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== 'development'
+    })
+
     const user = userView.render(findUser)
-    return response.json({ user, token })
+    return response.json({ user })
   }
 }

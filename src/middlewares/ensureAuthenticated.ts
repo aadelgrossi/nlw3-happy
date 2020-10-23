@@ -13,16 +13,14 @@ const ensureAuthenticated = (
   response: Response,
   next: NextFunction
 ): Response | void => {
-  const { authorization } = request.headers
+  const { cookies } = request
 
-  if (!authorization) {
-    return response.status(401).json('Token is missing')
+  if (!cookies.auth) {
+    return response.status(401).json('Authorization is missing')
   }
 
-  const token = authorization.replace('Bearer', '').trim()
-
   try {
-    const decoded = verify(token, authConfig.jwt.secret)
+    const decoded = verify(cookies.auth, authConfig.jwt.secret)
 
     const { id } = decoded as TokenPayload
 
