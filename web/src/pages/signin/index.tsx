@@ -19,6 +19,8 @@ import { FiArrowLeft } from 'react-icons/fi'
 import { FormHandles } from '@unform/core'
 import { useAuth } from '@/hooks/auth'
 import Link from 'next/link'
+import { useToast } from '@/hooks/toast'
+import PasswordInput from '@/components/PasswordInput'
 
 interface SignInFormData {
   email: string
@@ -30,7 +32,7 @@ const SignIn: React.FC = () => {
   const { back, push } = useRouter()
   const [keepLoggedIn, setKeepLoggedIn] = useState(false)
   const [isFormValid, setIsFormValid] = useState(false)
-
+  const { addToast } = useToast()
   const { signIn } = useAuth()
 
   const handleSubmit = useCallback(
@@ -42,9 +44,14 @@ const SignIn: React.FC = () => {
           keep_logged_in: keepLoggedIn
         })
 
+        addToast({ title: 'Seja-bem-vindo', type: 'success' })
         push('/dashboard')
       } catch (err) {
-        console.log(err)
+        addToast({
+          title: 'Ocorreu um erro',
+          type: 'error',
+          description: 'Dados incorretos. Verifique seu email ou senha.'
+        })
       }
     },
     [keepLoggedIn]
@@ -80,11 +87,11 @@ const SignIn: React.FC = () => {
           <h1>Fazer login</h1>
           <Input label="Email" name="email" onKeyUp={performValidation}></Input>
 
-          <Input
+          <PasswordInput
             label="Senha"
             name="password"
             onKeyUp={performValidation}
-          ></Input>
+          ></PasswordInput>
 
           <ForgotPasswordContainer>
             <label>
