@@ -18,6 +18,7 @@ orphanageRouter.put(
 
 orphanageRouter.get('/', OrphanagesController.index)
 orphanageRouter.get('/:id', OrphanagesController.show)
+orphanageRouter.put('/:id', OrphanagesController.update)
 orphanageRouter.post('/', upload.array('images'), OrphanagesController.create)
 
 export default orphanageRouter
