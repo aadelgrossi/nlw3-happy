@@ -7,5 +7,11 @@
   ],
   "main": "index.js",
   "author": "Andre Grossi <iamandregrossi@@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "cd ./packages/mobile && expo-yarn-workspaces postinstall"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.3"
+  }
 }
