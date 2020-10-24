@@ -1,5 +1,5 @@
 {
-  "name": "nlw3-happy-backend",
+  "name": "@nlw3-happy/api",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",

@@ -1,6 +1,6 @@
 {
-  "name": "nlw3-happy",
-  "version": "0.1.0",
+  "name": "@nlw3-happy/web",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
