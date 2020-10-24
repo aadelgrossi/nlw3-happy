@@ -31,8 +31,10 @@ module.exports = {
     '@typescript-eslint/no-empty-function': 'off',
     'react/display-name': 'off',
     '@typescript-eslint/camelcase': 'off',
+    'camelcase': 'off',
     '@typescript-eslint/class-name-casing': 'off',
-    '@typescript-eslint/interface-name-prefix': 'off'
+    '@typescript-eslint/interface-name-prefix': 'off',
+    'multiline-ternary': 'off'
   },
   settings: {
     'import/resolver': {
