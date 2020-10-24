@@ -10,6 +10,7 @@ interface OrphanageOutput {
   instructions: string
   opening_hours: string
   open_on_weekends: boolean
+  slug: string
   images: Array<{
     id: string
     url: string
@@ -27,6 +28,7 @@ export default {
       instructions: orphanage.instructions,
       opening_hours: orphanage.opening_hours,
       open_on_weekends: orphanage.open_on_weekends,
+      slug: orphanage.slug,
       images: imagesView.renderMany(orphanage.images)
     }
   },

@@ -1,9 +1,12 @@
+import slugify from 'slugify'
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   OneToMany,
-  JoinColumn
+  JoinColumn,
+  BeforeInsert,
+  BeforeUpdate
 } from 'typeorm'
 import Image from '~/models/Image'
 
@@ -38,6 +41,15 @@ class Orphanage {
 
   @Column()
   approved: boolean
+
+  @Column()
+  slug: string
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  slugifyName(): void {
+    this.slug = slugify(this.name, { lower: true })
+  }
 
   @OneToMany(() => Image, image => image.orphanage, {
     cascade: ['insert', 'update']

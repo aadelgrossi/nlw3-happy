@@ -31,7 +31,7 @@ class User {
 
   @BeforeInsert()
   @BeforeUpdate()
-  hashPassword() {
+  hashPassword(): void {
     this.password = hashSync(this.password, 8)
   }
 }
