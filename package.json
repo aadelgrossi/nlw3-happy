@@ -2,9 +2,15 @@
   "name": "nlw3-happy",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/typeorm",
+      "**/typeorm/**"
+    ]
+  },
   "main": "index.js",
   "author": "Andre Grossi <iamandregrossi@@gmail.com>",
   "license": "MIT",
