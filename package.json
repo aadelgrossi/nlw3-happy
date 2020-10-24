@@ -15,10 +15,17 @@
   "author": "Andre Grossi <iamandregrossi@@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "clean:all": "yarn clean:node-modules && yarn clean:expo-cache",
+    "clean:node-modules": "rimraf node_modules packages/*/node_modules",
+    "clean:expo-cache": "rimraf packages/*/.expo",
+    "db:migrate": "yarn workspace @nlw3-happy/api typeorm migration:run",
+    "run:api": "yarn workspace @nlw3-happy/api dev:server",
+    "run:web": "yarn workspace @nlw3-happy/web dev",
+    "run:mobile": "yarn workspace @nlw3-happy/mobile start -c",
     "postinstall": "cd ./packages/mobile && expo-yarn-workspaces postinstall"
   },
   "devDependencies": {
-    "typescript": "^4.0.3",
-    "@nlw3-happy/eslint-config": "*"
+    "@nlw3-happy/eslint-config": "*",
+    "typescript": "^4.0.3"
   }
 }
