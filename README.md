@@ -25,7 +25,7 @@
 
 ## :computer: Projeto
 
-O Happy é uma aplicação que conecta pessoas à casas de acolhimento institucional para fazer o dia de muitas crianças mais feliz. O projeto foi envisionado e realizado pelo time da [Rocketseat](https://rocketseat.com.br/) para o evento [Next Level Week](https://nextlevelweek.com/) #3. 
+O Happy é uma aplicação que conecta pessoas à casas de acolhimento institucional para fazer o dia de muitas crianças mais feliz. A proposta do projeto foi envisionada e criada pelo time [Rocketseat](https://rocketseat.com.br/); a aplicação teve suas funcionalidades e requisitos iniciais implementados durante o período de uma semana no evento online [Next Level Week](https://nextlevelweek.com/) #3 promovido pela empresa.
 
 ## :rocket: Tecnologias
 
