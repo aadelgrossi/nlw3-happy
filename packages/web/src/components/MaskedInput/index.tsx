@@ -15,14 +15,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   mask?: string
 }
 
-const MaskedInput: React.FC<InputProps> = ({
-  name,
-  label,
-  type,
-  children,
-  mask = '(99) 99999-9999',
-  ...rest
-}) => {
+const MaskedInput: React.FC<InputProps> = ({ name, children, ...rest }) => {
   const inputRef = useRef(null)
   const [isFocused, setIsFocused] = useState(false)
   const [isFilled, setIsFilled] = useState(false)
@@ -48,16 +41,14 @@ const MaskedInput: React.FC<InputProps> = ({
 
   return (
     <Wrapper>
-      {label && <label htmlFor={name}>{label}</label>}
       <InputContainer
-        type={type}
         isFilled={isFilled}
         isFocused={isFocused}
         hasError={!!error}
       >
         <ReactInputMask
           ref={inputRef}
-          mask={mask}
+          mask="(99) 99999-9999"
           defaultValue={defaultValue}
           onBlur={handleInputBlur}
           onFocus={handleInputFocus}
@@ -65,6 +56,7 @@ const MaskedInput: React.FC<InputProps> = ({
         ></ReactInputMask>
         {children}
       </InputContainer>
+      {error && <span>{error}</span>}
     </Wrapper>
   )
 }
