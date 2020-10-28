@@ -4,6 +4,7 @@ interface InputProps {
   isFocused: boolean
   isFilled: boolean
   hasError: boolean
+  type: string
 }
 
 export const Wrapper = styled.div`
@@ -37,6 +38,12 @@ export const InputContainer = styled.div<InputProps>`
   border: 1px solid #d3e2e5;
 
   color: #5c8599;
+
+  ${props =>
+    props.type === 'hidden' &&
+    css`
+      display: none;
+    `}
 
   ${props =>
     props.hasError &&

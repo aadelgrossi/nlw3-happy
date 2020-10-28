@@ -11,10 +11,18 @@ import { Wrapper, InputContainer } from './styles'
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string
   label?: string
+  additional_info?: string
   containerStyle?: Record<string, unknown>
 }
 
-const Input: React.FC<InputProps> = ({ name, label, children, ...rest }) => {
+const Input: React.FC<InputProps> = ({
+  name,
+  label,
+  type,
+  additional_info,
+  children,
+  ...rest
+}) => {
   const inputRef = useRef(null)
   const [isFocused, setIsFocused] = useState(false)
   const [isFilled, setIsFilled] = useState(false)
@@ -41,7 +49,9 @@ const Input: React.FC<InputProps> = ({ name, label, children, ...rest }) => {
   return (
     <Wrapper>
       {label && <label htmlFor={name}>{label}</label>}
+      {additional_info && <span>{additional_info}</span>}
       <InputContainer
+        type={type}
         isFilled={isFilled}
         isFocused={isFocused}
         hasError={!!error}
@@ -49,8 +59,8 @@ const Input: React.FC<InputProps> = ({ name, label, children, ...rest }) => {
         <input
           ref={inputRef}
           defaultValue={defaultValue}
-          onFocus={handleInputFocus}
           onBlur={handleInputBlur}
+          onFocus={handleInputFocus}
           {...rest}
         />
         {children}
