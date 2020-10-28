@@ -52,6 +52,7 @@ const MultipleFileInput: React.FC<InputProps> = ({ name, ...rest }) => {
         multiple
         type="file"
         ref={inputRef}
+        accept="image/*"
         onChange={handlePreview}
         {...rest}
       />
