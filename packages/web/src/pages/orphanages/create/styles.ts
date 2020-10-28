@@ -49,46 +49,27 @@ export const FormGroup = styled.fieldset`
   }
 `
 
+export const MapWrapper = styled.div`
+  background: #f5f8fa;
+  border-radius: 20px;
+  border: 1px solid #d3e2e5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+export const MapLegend = styled.div`
+  color: #0089a5;
+  height: 48px;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  font-size: 14px;
+`
+
 export const InputBlock = styled.div`
   & + & {
     margin-top: 24px;
-  }
-
-  label {
-    display: flex;
-    color: #8fa7b3;
-    margin-bottom: 8px;
-    line-height: 24px;
-
-    span {
-      font-size: 14px;
-      color: #8fa7b3;
-      margin-left: 24px;
-      line-height: 24px;
-    }
-  }
-
-  input,
-  textarea {
-    width: 100%;
-    background: #f5f8fa;
-    border: 1px solid #d3e2e5;
-    border-radius: 20px;
-    outline: none;
-    color: #5c8599;
-  }
-
-  input {
-    height: 64px;
-    padding: 0 16px;
-  }
-
-  textarea {
-    min-height: 120px;
-    max-height: 240px;
-    resize: vertical;
-    padding: 16px;
-    line-height: 28px;
   }
 
   .images-container {
@@ -107,6 +88,21 @@ export const InputBlock = styled.div`
 
   input[type='file'] {
     display: none;
+  }
+
+  label {
+    display: flex;
+    color: #8fa7b3;
+    font-size: 16px;
+    margin-bottom: 8px;
+    line-height: 24px;
+
+    span {
+      font-size: 14px;
+      color: #8fa7b3;
+      margin-left: 24px;
+      line-height: 24px;
+    }
   }
 `
 
@@ -139,11 +135,11 @@ export const ButtonSelect = styled.div`
     color: #37c77f;
   }
 
-  button:first-child {
+  button:first-of-type {
     border-radius: 20px 0px 0px 20px;
   }
 
-  button:last-child {
+  button:nth-of-type(2) {
     border-radius: 0 20px 20px 0;
     border-left: 0;
   }

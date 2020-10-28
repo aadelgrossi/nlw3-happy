@@ -15,10 +15,13 @@ import {
   Form,
   FormGroup,
   InputBlock,
+  MapWrapper,
+  MapLegend,
   NewImage
 } from './styles'
 
 import Sidebar from '@/components/Sidebar'
+import MaskedInput from '@/components/MaskedInput'
 
 interface OrphanageFormData {
   name: string
@@ -26,6 +29,7 @@ interface OrphanageFormData {
   latitude: number
   longitude: number
   instructions: string
+  whatsapp: string
   opening_hours: string
   open_on_weekends: boolean
   image: File[]
@@ -59,33 +63,47 @@ const CreateOrphanage: React.FC = () => {
           <FormGroup>
             <legend>Dados</legend>
 
-            <MapWithNoSSR
-              center={[-23.0794493, -52.4684549]}
-              zoom={15}
-              style={{ width: '100%', height: '280px' }}
-              onclick={handleMapClick}
-            >
-              {position.lat !== 0 && (
-                <MarkerWithNoSSR
-                  interactive={false}
-                  position={[position.lat, position.lng]}
-                ></MarkerWithNoSSR>
-              )}
-            </MapWithNoSSR>
+            <MapWrapper>
+              <MapWithNoSSR
+                center={[-23.0794493, -52.4684549]}
+                zoom={15}
+                style={{
+                  width: '100%',
+                  height: '280px',
+                  borderBottomLeftRadius: '0px',
+                  borderBottomRightRadius: '0px',
+                  border: 'unset',
+                  marginBottom: 0
+                }}
+                onclick={handleMapClick}
+              >
+                {position.lat !== 0 && (
+                  <MarkerWithNoSSR
+                    interactive={false}
+                    position={[position.lat, position.lng]}
+                  ></MarkerWithNoSSR>
+                )}
+              </MapWithNoSSR>
+              <MapLegend>Clique no mapa para adicionar a localização</MapLegend>
+            </MapWrapper>
 
             <Input name="latitude" type="hidden" value={position.lat}></Input>
             <Input name="longitude" type="hidden" value={position.lng}></Input>
 
             <InputBlock>
-              <label htmlFor="name">Nome</label>
-              <Input name="name" />
+              <Input name="name" label="Nome" />
             </InputBlock>
 
             <InputBlock>
-              <label htmlFor="about">
-                Sobre <span>Máximo de 300 caracteres</span>
-              </label>
-              <TextArea name="about" />
+              <TextArea
+                name="about"
+                label="Sobre"
+                additional_info="Máximo de 300 caracteres"
+              />
+            </InputBlock>
+
+            <InputBlock>
+              <MaskedInput name="whatsapp" label="Número de WhatsApp" />
             </InputBlock>
 
             <InputBlock>
@@ -108,13 +126,11 @@ const CreateOrphanage: React.FC = () => {
             <legend>Visitação</legend>
 
             <InputBlock>
-              <label htmlFor="instructions">Instruções</label>
-              <TextArea name="instructions" />
+              <TextArea name="instructions" label="Instruções para visita" />
             </InputBlock>
 
             <InputBlock>
-              <label htmlFor="opening_hours">Nome</label>
-              <Input name="opening_hours" />
+              <Input name="opening_hours" label="Horários" />
             </InputBlock>
 
             <InputBlock>
