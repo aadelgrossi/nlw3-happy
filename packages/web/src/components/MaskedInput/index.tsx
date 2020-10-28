@@ -7,20 +7,20 @@ import React, {
 } from 'react'
 import { useField } from '@unform/core'
 import { Wrapper, InputContainer } from './styles'
+import ReactInputMask from 'react-input-mask'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string
   label?: string
-  additional_info?: string
-  containerStyle?: Record<string, unknown>
+  mask?: string
 }
 
-const Input: React.FC<InputProps> = ({
+const MaskedInput: React.FC<InputProps> = ({
   name,
   label,
   type,
-  additional_info,
   children,
+  mask = '(99) 99999-9999',
   ...rest
 }) => {
   const inputRef = useRef(null)
@@ -49,24 +49,24 @@ const Input: React.FC<InputProps> = ({
   return (
     <Wrapper>
       {label && <label htmlFor={name}>{label}</label>}
-      {additional_info && <span>{additional_info}</span>}
       <InputContainer
         type={type}
         isFilled={isFilled}
         isFocused={isFocused}
         hasError={!!error}
       >
-        <input
+        <ReactInputMask
           ref={inputRef}
+          mask={mask}
           defaultValue={defaultValue}
           onBlur={handleInputBlur}
           onFocus={handleInputFocus}
           {...rest}
-        />
+        ></ReactInputMask>
         {children}
       </InputContainer>
     </Wrapper>
   )
 }
 
-export default Input
+export default MaskedInput

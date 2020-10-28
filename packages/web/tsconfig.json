@@ -6,7 +6,7 @@
       "dom"
     ],
     "allowJs": false,
-    "module": "esnext",
+    "module": "commonjs",
     "jsx": "preserve",
     "baseUrl": "./src",
     "paths": {

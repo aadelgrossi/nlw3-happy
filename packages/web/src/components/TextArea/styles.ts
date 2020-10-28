@@ -4,7 +4,6 @@ interface InputProps {
   isFocused: boolean
   isFilled: boolean
   hasError: boolean
-  type: string
 }
 
 export const Wrapper = styled.div`
@@ -40,12 +39,6 @@ export const InputContainer = styled.div<InputProps>`
   color: #5c8599;
 
   ${props =>
-    props.type === 'hidden' &&
-    css`
-      display: none;
-    `}
-
-  ${props =>
     props.hasError &&
     css`
       border-color: #c53030;
@@ -61,15 +54,20 @@ export const InputContainer = styled.div<InputProps>`
       border-color: #a1e9c5;
     `};
 
-  input {
-    height: 64px;
-    width: 100%;
-    background: #f5f8fa;
+  textarea {
     border-radius: 20px;
-    border: 0;
     padding: 0 21px;
-    color: #5c8599;
     font-size: 16px;
+    color: #5c8599;
+    background: #f5f8fa;
+    border: 0;
+    width: 100%;
+
+    min-height: 120px;
+    max-height: 240px;
+    resize: vertical;
+    padding: 16px;
+    line-height: 28px;
 
     &:focus {
       outline: 0;

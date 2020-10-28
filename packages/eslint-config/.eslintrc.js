@@ -39,11 +39,6 @@ module.exports = {
   settings: {
     'import/resolver': {
       typescript: {},
-      'root-import': {
-        rootPathPrefix: '@',
-        rootPathSuffix: 'src',
-        extensions: ['.ts', '.tsx']
-      }
     }
   }
 }
