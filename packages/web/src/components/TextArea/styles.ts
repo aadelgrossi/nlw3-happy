@@ -7,19 +7,10 @@ interface InputProps {
 }
 
 export const Wrapper = styled.div`
-  label {
-    display: flex;
-    color: #8fa7b3;
-    font-size: 16px;
-    margin-bottom: 8px;
-    line-height: 24px;
-
-    span {
-      font-size: 14px;
-      color: #8fa7b3;
-      margin-left: 24px;
-      line-height: 24px;
-    }
+  span {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #c53030;
   }
 
   & + & {
@@ -63,8 +54,8 @@ export const InputContainer = styled.div<InputProps>`
     border: 0;
     width: 100%;
 
-    min-height: 120px;
-    max-height: 240px;
+    min-height: 180px;
+    max-height: 210px;
     resize: vertical;
     padding: 16px;
     line-height: 28px;

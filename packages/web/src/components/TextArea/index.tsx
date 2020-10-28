@@ -7,21 +7,15 @@ import React, {
 } from 'react'
 import { useField } from '@unform/core'
 
-import { Wrapper, InputContainer } from './styles'
+import { InputContainer } from './styles'
+import { Wrapper } from '../Input/styles'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string
-  label: string
-  additional_info?: string
   containerStyle?: Record<string, unknown>
 }
 
-const TextArea: React.FC<InputProps> = ({
-  name,
-  label,
-  additional_info,
-  children
-}) => {
+const TextArea: React.FC<InputProps> = ({ name, children }) => {
   const inputRef = useRef(null)
   const [isFocused, setIsFocused] = useState(false)
   const [isFilled, setIsFilled] = useState(false)
@@ -47,11 +41,6 @@ const TextArea: React.FC<InputProps> = ({
 
   return (
     <Wrapper>
-      <label htmlFor={name}>
-        {label}
-        {additional_info && <span>{additional_info}</span>}
-      </label>
-
       <InputContainer
         isFilled={isFilled}
         isFocused={isFocused}
@@ -66,6 +55,7 @@ const TextArea: React.FC<InputProps> = ({
         />
         {children}
       </InputContainer>
+      {error && <span>{error}</span>}
     </Wrapper>
   )
 }

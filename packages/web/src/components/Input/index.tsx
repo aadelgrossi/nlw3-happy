@@ -15,18 +15,11 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   containerStyle?: Record<string, unknown>
 }
 
-const Input: React.FC<InputProps> = ({
-  name,
-  label,
-  type,
-  additional_info,
-  children,
-  ...rest
-}) => {
+const Input: React.FC<InputProps> = ({ name, type, children, ...rest }) => {
   const inputRef = useRef(null)
   const [isFocused, setIsFocused] = useState(false)
   const [isFilled, setIsFilled] = useState(false)
-  const { fieldName, defaultValue, registerField, error } = useField(name)
+  const { fieldName, registerField, defaultValue, error } = useField(name)
 
   useEffect(() => {
     registerField({
@@ -48,8 +41,6 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <Wrapper>
-      {label && <label htmlFor={name}>{label}</label>}
-      {additional_info && <span>{additional_info}</span>}
       <InputContainer
         type={type}
         isFilled={isFilled}
@@ -65,6 +56,7 @@ const Input: React.FC<InputProps> = ({
         />
         {children}
       </InputContainer>
+      {error && <span>{error}</span>}
     </Wrapper>
   )
 }
