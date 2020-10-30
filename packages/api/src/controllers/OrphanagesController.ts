@@ -18,11 +18,12 @@ export default {
   },
 
   async show(request: Request, response: Response): Promise<Response> {
-    const { id } = request.params
+    const { slug } = request.params
 
     const orphanagesRepository = getRepository(Orphanage)
 
-    const orphanages = await orphanagesRepository.findOneOrFail(id, {
+    const orphanages = await orphanagesRepository.findOneOrFail({
+      where: { slug },
       relations: ['images']
     })
 

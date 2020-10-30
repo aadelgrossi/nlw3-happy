@@ -19,6 +19,7 @@ interface Orphanage {
   id: string
   latitude: number
   longitude: number
+  slug: string
   name: string
 }
 
@@ -62,7 +63,7 @@ const OrphanageMap: React.FC = () => {
               position={[orphanage.latitude, orphanage.longitude]}
               name={orphanage.name}
             >
-              <Link href={`orphanages/${orphanage.id}`}>
+              <Link href={`orphanages/${orphanage.slug}`}>
                 <a>
                   <FiArrowRight size={32} color="#fff"></FiArrowRight>
                 </a>
