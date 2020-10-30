@@ -21,6 +21,7 @@ interface Orphanage {
   longitude: number
   about: string
   name: string
+  slug: string
   instructions: string
   opening_hours: string
   open_on_weekends: boolean
@@ -41,7 +42,7 @@ const MarkerWithNoSSR = dynamic(() => import('../../../components/Marker'), {
   ssr: false
 })
 
-const Orphanage: React.FC<OrphanageProps> = ({ orphanage }) => {
+const ShowOrphanage: React.FC<OrphanageProps> = ({ orphanage }) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0)
 
   return (
@@ -140,14 +141,17 @@ const Orphanage: React.FC<OrphanageProps> = ({ orphanage }) => {
   )
 }
 
-export default Orphanage
+export default ShowOrphanage
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const response = await api.get('/orphanages')
 
   const paths = response.data.map((orphanage: Orphanage) => {
-    return { params: { id: orphanage.id } }
+    return { params: { slug: orphanage.slug } }
   })
+
+  console.log(paths)
+
   return {
     paths,
     fallback: false
@@ -155,9 +159,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async context => {
-  const { id } = context.params
+  const { slug } = context.params
 
-  const response = await api.get(`/orphanages/${id}`)
+  const response = await api.get(`/orphanages/${slug}`)
 
   return {
     props: {
