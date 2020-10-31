@@ -37,7 +37,7 @@ const Home: React.FC = () => {
           <p>Visite orfanatos e mude o dia de muitas crianças.</p>
         </LeftSection>
 
-        <Link href="/signin">
+        <Link href="/dashboard">
           <SignInButton>Acesso restrito</SignInButton>
         </Link>
 
