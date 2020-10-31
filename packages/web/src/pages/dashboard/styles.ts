@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
-  color: #000;
-`
+export const Container = styled.div``
 
 export const Contents = styled.div`
   padding-top: 64px;
@@ -36,34 +34,6 @@ export const OrphanagesContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-left: -32px;
-`
-export const Item = styled.div`
-  width: max(500px, 25vw);
-  background-color: #fff;
-  height: 320px;
-  border-radius: 20px;
-  box-shadow: inset 0px 0px 0px 1px #d3e2e5;
-
-  margin-left: 32px;
-  margin-bottom: 32px;
-`
-
-export const OrphanageDetails = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 16px 32px;
-
-  h2 {
-    font-size: 24px;
-    color: #4d6f80;
-    font-weight: 700;
-  }
-`
-
-export const ButtonGroup = styled.div`
-  display: flex;
-  margin-left: auto;
 `
 
 export const Button = styled.a`
