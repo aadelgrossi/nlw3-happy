@@ -6,7 +6,7 @@ import { FiTrash, FiArrowLeft } from 'react-icons/fi'
 import Link from 'next/link'
 import api from '@/services/api'
 import { NextPage } from 'next'
-// import { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { useToast } from '@/hooks/toast'
 
 interface OrphanageProps {
@@ -15,7 +15,7 @@ interface OrphanageProps {
 }
 
 const DeleteOrphanage: NextPage<OrphanageProps> = ({ id, name }) => {
-  // const router = useRouter()
+  const router = useRouter()
   const { addToast } = useToast()
 
   const handleDelete = useCallback(async () => {
@@ -23,9 +23,9 @@ const DeleteOrphanage: NextPage<OrphanageProps> = ({ id, name }) => {
     addToast({
       title: 'Operação realizada',
       description: 'Orfanato removido com sucesso',
-      type: 'info'
+      type: 'success'
     })
-    // router.push('/dashboard')
+    router.push('/dashboard')
   }, [])
 
   return (
