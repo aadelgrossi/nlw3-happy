@@ -1,21 +1,30 @@
-import Sidebar from '@/components/Sidebar'
-import { NextPage, NextPageContext } from 'next'
 import React from 'react'
+import Link from 'next/link'
+import Router from 'next/router'
+import { NextPage, NextPageContext } from 'next'
 
+import { FiArrowRight } from 'react-icons/fi'
 import SadFace from '../../../assets/logo-sad.svg'
+
+import OrphanageCard from '@/components/OrphanageCard'
+import Sidebar from '@/components/Sidebar'
+
 import {
   Container,
   Contents,
   Header,
   Separator,
+  Button,
   OrphanagesContainer,
   NoOrphanages
 } from './styles'
-import Router from 'next/router'
 
 interface Orphanage {
   id: string
   name: string
+  slug: string
+  latitude: number
+  longitude: number
 }
 
 interface PendingProps {
@@ -39,11 +48,21 @@ const Pending: NextPage<PendingProps> = ({ orphanages }) => {
         <Separator />
 
         <OrphanagesContainer>
-          {!orphanages.length && (
+          {!orphanages ? (
             <NoOrphanages>
               <SadFace />
               Nenhum no momento
             </NoOrphanages>
+          ) : (
+            orphanages.map(orphanage => (
+              <OrphanageCard data={orphanage} key={orphanage.id}>
+                <Link href={`/orphanages/${orphanage.slug}/edit`}>
+                  <Button>
+                    <FiArrowRight size={24} color="#15C3D6"></FiArrowRight>
+                  </Button>
+                </Link>
+              </OrphanageCard>
+            ))
           )}
         </OrphanagesContainer>
       </Contents>
@@ -53,12 +72,15 @@ const Pending: NextPage<PendingProps> = ({ orphanages }) => {
 Pending.getInitialProps = async (context: NextPageContext) => {
   const cookie = context.req?.headers.cookie
 
-  const response = await fetch('http://localhost:3333/orphanages/pending', {
-    credentials: 'include',
-    headers: {
-      cookie: cookie
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/orphanages/pending`,
+    {
+      credentials: 'include',
+      headers: {
+        cookie: cookie
+      }
     }
-  })
+  )
   const json = await response.json()
 
   if (response.status === 401 && !context.req) {

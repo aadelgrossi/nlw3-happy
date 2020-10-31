@@ -33,8 +33,10 @@ export const Separator = styled.hr`
   margin: 24px 0 40px;
 `
 export const OrphanagesContainer = styled.div`
-  display: flex;
   height: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -32px;
 `
 
 export const NoOrphanages = styled.div`
@@ -46,5 +48,29 @@ export const NoOrphanages = styled.div`
 
   svg {
     margin-bottom: 16px;
+  }
+`
+
+export const Button = styled.a`
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ebf2f5;
+
+  transition: background-color 0.2s ease-in;
+
+  & + & {
+    margin-left: 8px;
+  }
+
+  &:hover {
+    background-color: #15c3d6;
+
+    svg {
+      stroke: #fff;
+    }
   }
 `
