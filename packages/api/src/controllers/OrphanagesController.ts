@@ -30,6 +30,15 @@ export default {
     return response.json(orphanageView.render(orphanages))
   },
 
+  async delete(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params
+
+    const orphanagesRepository = getRepository(Orphanage)
+    orphanagesRepository.delete(id)
+
+    return response.sendStatus(200)
+  },
+
   async create(request: Request, response: Response): Promise<Response> {
     const {
       name,
