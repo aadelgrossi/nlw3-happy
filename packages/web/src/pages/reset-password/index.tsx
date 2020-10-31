@@ -1,4 +1,5 @@
 import FormContainer from '@/components/FormContainer'
+import Label from '@/components/Label'
 import LogoContainer from '@/components/LogoContainer'
 import PasswordInput from '@/components/PasswordInput'
 import { FormHandles } from '@unform/core'
@@ -12,6 +13,7 @@ import {
   Container,
   BackButton,
   ResetPasswordForm,
+  InputField,
   ConfirmButton
 } from './styles'
 
@@ -58,17 +60,22 @@ const ResetPassword: React.FC = () => {
           <h1>Redefinição de senha</h1>
           <p>Escolha uma nova senha para você acessar o dashboard do Happy</p>
 
-          <PasswordInput
-            label="Nova senha"
-            name="password"
-            onKeyUp={performValidation}
-          ></PasswordInput>
+          <InputField>
+            <Label>Nova senha</Label>
+            <PasswordInput
+              name="password"
+              onKeyUp={performValidation}
+            ></PasswordInput>
+          </InputField>
 
-          <PasswordInput
-            label="Repetir senha"
-            name="password_confirmation"
-            onKeyUp={performValidation}
-          ></PasswordInput>
+          <InputField>
+            <Label>Repetir senha</Label>
+            <PasswordInput
+              label="Repetir senha"
+              name="password_confirmation"
+              onKeyUp={performValidation}
+            ></PasswordInput>
+          </InputField>
 
           <ConfirmButton disabled={!isFormValid}>Enviar</ConfirmButton>
         </ResetPasswordForm>

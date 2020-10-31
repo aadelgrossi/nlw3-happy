@@ -47,6 +47,11 @@ export const ResetPasswordForm = styled(Form)`
     margin-bottom: 40px;
   }
 `
+export const InputField = styled.div`
+  & + & {
+    margin-top: 20px;
+  }
+`
 
 interface ConfirmButtonProps {
   disabled: boolean

@@ -1,5 +1,6 @@
 import FormContainer from '@/components/FormContainer'
 import Input from '@/components/Input'
+import Label from '@/components/Label'
 import LogoContainer from '@/components/LogoContainer'
 import { FormHandles } from '@unform/core'
 import { useRouter } from 'next/router'
@@ -53,7 +54,8 @@ const ForgotPassword: React.FC = () => {
             Informe seu email para receber as instruções e redefinir sua senha
           </p>
 
-          <Input label="Email" name="email" onKeyUp={performValidation}></Input>
+          <Label>Email</Label>
+          <Input name="email" onKeyUp={performValidation}></Input>
           <ConfirmButton disabled={!isFormValid}>Enviar</ConfirmButton>
         </ForgotPasswordForm>
       </FormContainer>

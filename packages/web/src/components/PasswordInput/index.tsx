@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, useEffect, useState } from 'react'
+import React, { InputHTMLAttributes, useState } from 'react'
 
 import Input from '@/components/Input'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
