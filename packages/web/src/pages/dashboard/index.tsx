@@ -1,9 +1,11 @@
 import Sidebar from '@/components/Sidebar'
 import api from '@/services/api'
-import { NextPage } from 'next'
+import { NextPage, NextPageContext } from 'next'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
+import Router from 'next/router'
 import React from 'react'
+import Cookies from 'js-cookie'
 import { FiEdit3, FiTrash } from 'react-icons/fi'
 
 import {
@@ -96,7 +98,22 @@ const Dashboard: NextPage<DashboardProps> = ({ orphanages }) => {
   )
 }
 
-Dashboard.getInitialProps = async () => {
+Dashboard.getInitialProps = async (context: NextPageContext) => {
+  const cookie = process.browser
+    ? Cookies.get('auth')
+    : context.req?.headers.cookie
+
+  if (!cookie && !context.req) {
+    Router.replace('/signin')
+  }
+
+  if (!cookie && context.req) {
+    context.res.writeHead(302, {
+      Location: `${process.env.NEXT_PUBLIC_APP_URL}/signin`
+    })
+    context.res.end()
+  }
+
   const response = await api.get('/orphanages')
   const orphanages = response.data
 
