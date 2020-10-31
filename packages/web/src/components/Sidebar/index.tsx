@@ -12,7 +12,7 @@ import Link from 'next/link'
 const Sidebar: React.FC = () => {
   const [hasUnseenNotifications, setHasUnseenNotifications] = useState(true)
   const router = useRouter()
-  const { signOut } = useAuth()
+  const { signOut, isAuthenticated } = useAuth()
   const { addToast } = useToast()
 
   const handleSignOut = useCallback(() => {
@@ -25,22 +25,28 @@ const Sidebar: React.FC = () => {
     <Container>
       <MapMarker />
 
-      <Menu>
-        <Link href="/dashboard">
-          <Button className={router.pathname === '/dashboard' ? 'active' : ''}>
-            <FiMapPin size={24} color="#FFF" />
-          </Button>
-        </Link>
+      {isAuthenticated && (
+        <Menu>
+          <Link href="/dashboard">
+            <Button
+              className={router.pathname === '/dashboard' ? 'active' : ''}
+            >
+              <FiMapPin size={24} color="#FFF" />
+            </Button>
+          </Link>
 
-        <Link href="/dashboard/pending">
-          <Button
-            className={router.pathname === '/dashboard/pending' ? 'active' : ''}
-          >
-            <span className={hasUnseenNotifications ? 'unseen' : 'seen'} />
-            <FiAlertCircle size={24} color="#FFF" />
-          </Button>
-        </Link>
-      </Menu>
+          <Link href="/dashboard/pending">
+            <Button
+              className={
+                router.pathname === '/dashboard/pending' ? 'active' : ''
+              }
+            >
+              <span className={hasUnseenNotifications ? 'unseen' : 'seen'} />
+              <FiAlertCircle size={24} color="#FFF" />
+            </Button>
+          </Link>
+        </Menu>
+      )}
 
       <Footer>
         {router.pathname === '/dashboard' ? (
@@ -48,7 +54,7 @@ const Sidebar: React.FC = () => {
             <FiPower size={24} color="#FFF" />
           </button>
         ) : (
-          <button type="button" onClick={() => router.push('/dashboard')}>
+          <button type="button" onClick={() => router.back}>
             <FiArrowLeft size={24} color="#FFF" />
           </button>
         )}
