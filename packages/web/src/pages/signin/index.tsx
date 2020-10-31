@@ -21,6 +21,7 @@ import { useAuth } from '@/hooks/auth'
 import Link from 'next/link'
 import { useToast } from '@/hooks/toast'
 import PasswordInput from '@/components/PasswordInput'
+import Label from '@/components/Label'
 
 interface SignInFormData {
   email: string
@@ -85,13 +86,11 @@ const SignIn: React.FC = () => {
       <FormContainer>
         <SignInForm ref={formRef} onSubmit={handleSubmit}>
           <h1>Fazer login</h1>
-          <Input label="Email" name="email" onKeyUp={performValidation}></Input>
+          <Label>E-mail</Label>
+          <Input name="email" onKeyUp={performValidation} />
 
-          <PasswordInput
-            label="Senha"
-            name="password"
-            onKeyUp={performValidation}
-          ></PasswordInput>
+          <Label>Senha</Label>
+          <PasswordInput name="password" onKeyUp={performValidation} />
 
           <ForgotPasswordContainer>
             <label>
