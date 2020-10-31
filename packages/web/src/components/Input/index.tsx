@@ -11,8 +11,6 @@ import { Wrapper, InputContainer } from './styles'
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string
   label?: string
-  additional_info?: string
-  containerStyle?: Record<string, unknown>
 }
 
 const Input: React.FC<InputProps> = ({ name, type, children, ...rest }) => {
@@ -52,6 +50,7 @@ const Input: React.FC<InputProps> = ({ name, type, children, ...rest }) => {
           defaultValue={defaultValue}
           onBlur={handleInputBlur}
           onFocus={handleInputFocus}
+          onChange={() => {}}
           {...rest}
         />
         {children}
