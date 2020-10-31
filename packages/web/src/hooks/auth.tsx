@@ -31,31 +31,30 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState({} as User)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   useEffect(() => {
     async function loadUserFromCookies() {
       const token = Cookies.get('auth')
       if (token) {
-        const response = await api.get<User>('/users/me')
-        setUser(response.data)
+        // const response = await api.get<User>('/users/me')
+        // setUser(response.data)
+        setIsAuthenticated(true)
       }
     }
     loadUserFromCookies()
   }, [])
 
-  const signIn = useCallback(
-    async ({ email, password, keep_logged_in }: SignInCredentials) => {
-      await api.post('/sessions', {
-        email,
-        password
-      })
-    },
-    []
-  )
+  const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
+    await api.post('/sessions', {
+      email,
+      password
+    })
+  }, [])
 
   const signOut = useCallback(() => {
     Cookies.remove('auth')
-    setUser({} as User)
+    setIsAuthenticated(false)
   }, [])
 
   return (
@@ -64,7 +63,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         user,
         signIn,
         signOut,
-        isAuthenticated: !!user
+        isAuthenticated
       }}
     >
       {children}
