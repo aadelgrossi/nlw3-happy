@@ -42,7 +42,7 @@ export const Item = styled.div`
   background-color: #fff;
   height: 320px;
   border-radius: 20px;
-  border: 1px solid #d3e2e5;
+  box-shadow: inset 0px 0px 0px 1px #d3e2e5;
 
   margin-left: 32px;
   margin-bottom: 32px;
