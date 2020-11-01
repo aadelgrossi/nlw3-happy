@@ -1,14 +1,19 @@
-import React, { useCallback, useRef, useState } from 'react'
-import dynamic from 'next/dynamic'
-
-import { FiPlus } from 'react-icons/fi'
-import { LeafletMouseEvent } from 'leaflet'
-import * as Yup from 'yup'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import Input from '@/components/Input'
-import TextArea from '@/components/TextArea'
-import MultipleFileInput from '@/components/MultipleFileInput'
 import Label from '@/components/Label'
+import MaskedInput from '@/components/MaskedInput'
+import MultipleFileInput from '@/components/MultipleFileInput'
+import Sidebar from '@/components/Sidebar'
+import TextArea from '@/components/TextArea'
+import { useToast } from '@/hooks/toast'
+import api from '@/services/api'
+import getValidationErrors from '@/utils/getValidationErrors'
+import { FormHandles } from '@unform/core'
+import { LatLngExpression, LeafletMouseEvent } from 'leaflet'
+import dynamic from 'next/dynamic'
+import { FiPlus } from 'react-icons/fi'
+import * as Yup from 'yup'
 
 import {
   Container,
@@ -21,13 +26,6 @@ import {
   MapLegend,
   NewImage
 } from './styles'
-
-import Sidebar from '@/components/Sidebar'
-import MaskedInput from '@/components/MaskedInput'
-import { useToast } from '@/hooks/toast'
-import { FormHandles } from '@unform/core'
-import getValidationErrors from '@/utils/getValidationErrors'
-import api from '@/services/api'
 // import { useRouter } from 'next/router'
 
 interface OrphanageFormData {
@@ -53,11 +51,17 @@ const CreateOrphanage: React.FC = () => {
   // const { addToast } = useToast()
   // const router = useRouter()
   const formRef = useRef<FormHandles>(null)
-  const [position, setPosition] = useState({
-    lat: -23.0794493,
-    lng: -52.4684549
-  })
+  const [position, setPosition] = useState<LatLngExpression>([
+    -23.0794493,
+    -52.4684549
+  ])
   const [openOnWeekends, setOpenOnWeekends] = useState(true)
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(({ coords }) => {
+      setPosition([coords.latitude, coords.longitude])
+    })
+  }, [])
 
   const handleMapClick = useCallback((event: LeafletMouseEvent) => {
     setPosition(event.latlng)
@@ -65,8 +69,6 @@ const CreateOrphanage: React.FC = () => {
 
   const handleSubmit = useCallback(async (data: OrphanageFormData) => {
     try {
-      console.log(data)
-
       formRef.current?.setErrors({})
 
       const schema = Yup.object().shape({
@@ -124,7 +126,7 @@ const CreateOrphanage: React.FC = () => {
               <Label>Localização</Label>
               <MapWrapper>
                 <MapWithNoSSR
-                  center={[position.lat, position.lng]}
+                  center={position}
                   zoom={15}
                   style={{
                     width: '100%',
@@ -138,7 +140,7 @@ const CreateOrphanage: React.FC = () => {
                 >
                   <MarkerWithNoSSR
                     interactive={false}
-                    position={[position.lat, position.lng]}
+                    position={position}
                   ></MarkerWithNoSSR>
                 </MapWithNoSSR>
                 <MapLegend>
@@ -146,8 +148,8 @@ const CreateOrphanage: React.FC = () => {
                 </MapLegend>
               </MapWrapper>
 
-              <Input name="latitude" type="hidden" value={position.lat} />
-              <Input name="longitude" type="hidden" value={position.lng} />
+              <Input name="latitude" type="hidden" value={position[0]} />
+              <Input name="longitude" type="hidden" value={position[1]} />
             </InputBlock>
 
             <InputBlock>
