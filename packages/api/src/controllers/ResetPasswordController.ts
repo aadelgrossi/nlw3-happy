@@ -1,10 +1,11 @@
-import User from '~/models/User'
-import UserToken from '~/models/UserToken'
-import users_view from '~/views/users_view'
 import { Request, Response } from 'express'
 import { getRepository } from 'typeorm'
-
 import { v4 } from 'uuid'
+
+import User from '~/models/User'
+import UserToken from '~/models/UserToken'
+import mailer from '~/services/mail'
+import users_view from '~/views/users_view'
 
 export default {
   async create(request: Request, response: Response): Promise<Response> {
@@ -24,9 +25,20 @@ export default {
       user_id: user.id
     })
 
+    await mailer.sendMail({
+      to: { name: user.name, email: user.email },
+      subject: '[Happy] Solicitação de recuperação de senha',
+      templateData: {
+        template: 'Olá, {{name}}',
+        variables: {
+          name: user.name
+        }
+      }
+    })
+
     userTokensRepository.save(userToken)
 
-    return response.status(201).json(userToken)
+    return response.status(204).json(userToken)
   },
 
   async reset(request: Request, response: Response): Promise<Response> {
