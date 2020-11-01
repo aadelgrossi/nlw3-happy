@@ -1,7 +1,8 @@
 import React from 'react'
+
+import AppProvider from '@/hooks'
 import { AppProps } from 'next/app'
 import { ThemeProvider } from 'styled-components'
-import AppProvider from '@/hooks'
 
 import GlobalStyle from '../styles/global'
 import 'leaflet/dist/leaflet.css'

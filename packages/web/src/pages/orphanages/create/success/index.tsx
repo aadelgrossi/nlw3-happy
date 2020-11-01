@@ -1,9 +1,10 @@
 import React from 'react'
 
-import { Container, Content, BackButton } from './styles'
-import HappyMarker from '../../../../assets/success-marker.svg'
-import { FiMapPin } from 'react-icons/fi'
 import Link from 'next/link'
+import { FiMapPin } from 'react-icons/fi'
+
+import HappyMarker from '../../../../assets/success-marker.svg'
+import { Container, Content, BackButton } from './styles'
 
 const Success: React.FC = () => {
   return (

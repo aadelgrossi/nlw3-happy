@@ -1,7 +1,7 @@
 import React from 'react'
-import { Marker as LeafletMarker, Popup, MarkerProps } from 'react-leaflet'
 
 import mapIcon from '@/utils/mapIcon'
+import { Marker as LeafletMarker, Popup, MarkerProps } from 'react-leaflet'
 
 const Marker: React.FC<MarkerProps & { name?: string }> = ({
   name,

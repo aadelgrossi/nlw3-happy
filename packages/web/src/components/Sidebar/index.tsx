@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from 'react'
 
-import { Container, Footer, Menu, Button } from './styles'
-
-import MapMarker from '../../assets/map-marker.svg'
-import { FiAlertCircle, FiArrowLeft, FiMapPin, FiPower } from 'react-icons/fi'
-import { useRouter } from 'next/router'
 import { useAuth } from '@/hooks/auth'
 import { useToast } from '@/hooks/toast'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { FiAlertCircle, FiArrowLeft, FiMapPin, FiPower } from 'react-icons/fi'
+
+import MapMarker from '../../assets/map-marker.svg'
+import { Container, Footer, Menu, Button } from './styles'
 
 const Sidebar: React.FC = () => {
   const [hasUnseenNotifications, setHasUnseenNotifications] = useState(true)

@@ -5,7 +5,9 @@ import React, {
   useRef,
   useState
 } from 'react'
+
 import { useField } from '@unform/core'
+
 import { Wrapper, InputContainer } from './styles'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {

@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import { Form as Unform } from '@unform/web'
+import styled from 'styled-components'
 
 export const Container = styled.div`
   display: flex;

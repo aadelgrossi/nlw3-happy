@@ -16,7 +16,7 @@ type InputProps = JSX.IntrinsicElements['input'] & Props
 
 const MultipleFileInput: React.FC<InputProps> = ({ name, ...rest }) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const { fieldName, registerField, defaultValue, error } = useField(name)
+  const { fieldName, registerField } = useField(name)
   const [previews, setPreviews] = useState<string[]>([])
 
   const handlePreview = useCallback((e: ChangeEvent<HTMLInputElement>) => {

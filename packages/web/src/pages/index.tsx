@@ -1,17 +1,18 @@
 import React from 'react'
-import Head from 'next/head'
-import Link from 'next/link'
 
-import { FiArrowRight } from 'react-icons/fi'
 import {
   Container,
-  Wrapper,
-  LeftSection,
-  LogoContainer,
-  Location,
   EnterAppButton,
-  SignInButton
+  LeftSection,
+  Location,
+  LogoContainer,
+  SignInButton,
+  Wrapper
 } from '@/styles/pages'
+import Head from 'next/head'
+import Link from 'next/link'
+import { FiArrowRight } from 'react-icons/fi'
+
 import Logo from '../assets/logo.svg'
 
 const Home: React.FC = () => {

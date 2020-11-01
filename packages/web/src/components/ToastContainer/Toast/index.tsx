@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
-import { FiCheckCircle, FiInfo, FiXCircle } from 'react-icons/fi'
+
 import { AiOutlineStop } from 'react-icons/ai'
+import { FiCheckCircle, FiInfo, FiXCircle } from 'react-icons/fi'
 
 import { ToastMessage, useToast } from '../../../hooks/toast'
 import { Container } from './styles'

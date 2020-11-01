@@ -1,10 +1,11 @@
+import React, { useCallback, useRef, useState } from 'react'
+
 import FormContainer from '@/components/FormContainer'
 import Input from '@/components/Input'
 import Label from '@/components/Label'
 import LogoContainer from '@/components/LogoContainer'
 import { FormHandles } from '@unform/core'
 import { useRouter } from 'next/router'
-import React, { useCallback, useRef, useState } from 'react'
 import { FiArrowLeft } from 'react-icons/fi'
 import * as Yup from 'yup'
 
