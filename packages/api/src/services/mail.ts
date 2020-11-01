@@ -1,4 +1,4 @@
-import { MailTemplateDTO } from './mail_template'
+import mailTemplate, { MailTemplateDTO } from './mail_template'
 import client from '~/config/mail'
 
 interface MailContact {
@@ -14,18 +14,23 @@ interface SendMailDTO {
 }
 
 export default {
-  async sendMail({ from, to, subject }: SendMailDTO): Promise<void> {
+  async sendMail({
+    from,
+    to,
+    subject,
+    templateData
+  }: SendMailDTO): Promise<void> {
     await client.sendMail({
       from: {
-        name: from.name || 'Equipe Happy',
-        address: from.email || 'equipe@happy.com.br'
+        name: from?.name || 'Equipe Happy',
+        address: from?.email || 'equipe@happy.com.br'
       },
       to: {
         name: to.name,
         address: to.email
       },
       subject,
-      text: 'teste'
+      html: mailTemplate.parse(templateData)
     })
   }
 }

@@ -29,7 +29,7 @@ export default {
       to: { name: user.name, email: user.email },
       subject: '[Happy] Solicitação de recuperação de senha',
       templateData: {
-        template: 'Olá, {{name}}',
+        template: 'Olá, {{name}}. Você solicitou uma nova senha.',
         variables: {
           name: user.name
         }
