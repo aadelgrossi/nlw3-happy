@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
+
+import api from '@/services/api'
+import { LatLngExpression } from 'leaflet'
+import { NextPage } from 'next'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
-
-import { Container, PageMap, CreateOrphanageButton } from './styles'
-import MapMarker from '../../assets/map-marker.svg'
 import { FiArrowRight, FiPlus } from 'react-icons/fi'
-import api from '@/services/api'
+
+import MapMarker from '../../assets/map-marker.svg'
+import { Container, CreateOrphanageButton, PageMap } from './styles'
 
 const MapWithNoSSR = dynamic(() => import('../../components/Map'), {
   ssr: false
@@ -23,12 +26,19 @@ interface Orphanage {
   name: string
 }
 
-const OrphanageMap: React.FC = () => {
-  const [orphanages, setOrphanages] = useState<Orphanage[]>([])
+interface OrphanageMapProps {
+  orphanages: Orphanage[]
+}
+
+const OrphanageMap: NextPage<OrphanageMapProps> = ({ orphanages }) => {
+  const [location, setLocation] = useState<LatLngExpression>([
+    -23.0878701,
+    -52.4666419
+  ])
 
   useEffect(() => {
-    api.get('/orphanages').then(response => {
-      setOrphanages(response.data)
+    navigator.geolocation.getCurrentPosition(({ coords }) => {
+      setLocation([coords.latitude, coords.longitude])
     })
   }, [])
 
@@ -53,7 +63,7 @@ const OrphanageMap: React.FC = () => {
         </aside>
 
         <MapWithNoSSR
-          center={[-23.0878701, -52.4666419]}
+          center={location}
           zoom={15}
           style={{ width: '100%', height: '100%' }}
         >
@@ -80,6 +90,13 @@ const OrphanageMap: React.FC = () => {
       </PageMap>
     </Container>
   )
+}
+
+OrphanageMap.getInitialProps = async () => {
+  const response = await api.get<Orphanage[]>('/orphanages')
+  const orphanages = response.data
+
+  return { orphanages }
 }
 
 export default OrphanageMap
