@@ -9,7 +9,7 @@ export default {
   render(image: Image): ImageOutput {
     return {
       id: image.id,
-      url: `${process.env.APP_URL}/uploads/${image.path}`
+      url: `${process.env.API_URL}/uploads/${image.path}`
     }
   },
 
