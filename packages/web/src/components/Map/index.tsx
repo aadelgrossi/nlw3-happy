@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Map as LeafletMap, TileLayer, MapProps } from 'react-leaflet'
 
 const Map: React.FC<MapProps> = ({ children, ...rest }) => {

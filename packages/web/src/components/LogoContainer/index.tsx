@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { Container, Location } from './styles'
 import Logo from '../../assets/logo.svg'
+import { Container, Location } from './styles'
 
 const LogoContainer: React.FC = () => {
   return (

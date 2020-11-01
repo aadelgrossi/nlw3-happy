@@ -5,10 +5,11 @@ import React, {
   useRef,
   useState
 } from 'react'
+
 import { useField } from '@unform/core'
 
-import { InputContainer } from './styles'
 import { Wrapper } from '../Input/styles'
+import { InputContainer } from './styles'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string

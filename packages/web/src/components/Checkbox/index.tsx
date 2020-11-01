@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { CheckboxContainer, HiddenCheckbox, StyledCheckbox } from './styles'
 import { HiCheck } from 'react-icons/hi'
+
+import { CheckboxContainer, HiddenCheckbox, StyledCheckbox } from './styles'
 
 interface CheckboxProps {
   checked: boolean
