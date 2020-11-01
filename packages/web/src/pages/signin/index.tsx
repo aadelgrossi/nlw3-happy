@@ -1,12 +1,18 @@
 import React, { useCallback, useState, useRef } from 'react'
-import * as Yup from 'yup'
 
 import Checkbox from '@/components/Checkbox'
-import Input from '@/components/Input'
 import FormContainer from '@/components/FormContainer'
+import Input from '@/components/Input'
+import Label from '@/components/Label'
 import LogoContainer from '@/components/LogoContainer'
-
+import PasswordInput from '@/components/PasswordInput'
+import { useAuth } from '@/hooks/auth'
+import { useToast } from '@/hooks/toast'
+import { FormHandles } from '@unform/core'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { FiArrowLeft } from 'react-icons/fi'
+import * as Yup from 'yup'
 
 import {
   BackButton,
@@ -15,13 +21,6 @@ import {
   ConfirmButton,
   ForgotPasswordContainer
 } from './styles'
-import { FiArrowLeft } from 'react-icons/fi'
-import { FormHandles } from '@unform/core'
-import { useAuth } from '@/hooks/auth'
-import Link from 'next/link'
-import { useToast } from '@/hooks/toast'
-import PasswordInput from '@/components/PasswordInput'
-import Label from '@/components/Label'
 
 interface SignInFormData {
   email: string
