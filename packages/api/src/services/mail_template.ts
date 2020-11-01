@@ -1,3 +1,4 @@
+import fs from 'fs'
 import handlebars from 'handlebars'
 
 interface TemplateVariables {
@@ -5,13 +6,16 @@ interface TemplateVariables {
 }
 
 export interface MailTemplateDTO {
-  template: string
+  file: string
   variables: TemplateVariables
 }
 
 export default {
-  parse({ template, variables }: MailTemplateDTO): string {
-    const parsedTemplate = handlebars.compile(template)
+  async parse({ file, variables }: MailTemplateDTO): Promise<string> {
+    const templateFileContent = await fs.promises.readFile(file, {
+      encoding: 'utf-8'
+    })
+    const parsedTemplate = handlebars.compile(templateFileContent)
 
     return parsedTemplate(variables)
   }

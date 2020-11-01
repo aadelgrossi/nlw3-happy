@@ -1,3 +1,4 @@
+import path from 'path'
 import { Request, Response } from 'express'
 import { getRepository } from 'typeorm'
 import { v4 } from 'uuid'
@@ -25,13 +26,22 @@ export default {
       user_id: user.id
     })
 
+    const forgotPasswordTemplate = path.resolve(
+      __dirname,
+      '..',
+      'views',
+      'templates',
+      'forgot_password.hbs'
+    )
+
     await mailer.sendMail({
       to: { name: user.name, email: user.email },
       subject: '[Happy] Solicitação de recuperação de senha',
       templateData: {
-        template: 'Olá, {{name}}. Você solicitou uma nova senha.',
+        file: forgotPasswordTemplate,
         variables: {
-          name: user.name
+          name: user.name,
+          link: `${process.env.APP_URL}/reset-password?token=${userToken.token}`
         }
       }
     })

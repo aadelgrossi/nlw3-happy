@@ -30,7 +30,7 @@ export default {
         address: to.email
       },
       subject,
-      html: mailTemplate.parse(templateData)
+      html: await mailTemplate.parse(templateData)
     })
   }
 }
