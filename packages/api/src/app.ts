@@ -1,6 +1,7 @@
 import 'reflect-metadata'
-import path from 'path'
 import 'dotenv/config'
+import path from 'path'
+
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
@@ -9,6 +10,8 @@ import morgan from 'morgan'
 
 import errorHandler from './errors/handler'
 import routes from './routes'
+
+import './providers'
 import './database'
 
 const app = express()
