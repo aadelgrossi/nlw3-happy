@@ -1,32 +1,23 @@
-import User from '~/models/User'
-import UserToken from '~/models/UserToken'
-import users_view from '~/views/users_view'
 import { Request, Response } from 'express'
+import { container } from 'tsyringe'
 import { getRepository } from 'typeorm'
 
-import { v4 } from 'uuid'
+import User from '~/models/User'
+import UserToken from '~/models/UserToken'
+import SendForgotPasswordEmailService from '~/services/MailService'
+import users_view from '~/views/users_view'
 
 export default {
   async create(request: Request, response: Response): Promise<Response> {
     const { email } = request.body
 
-    const usersRepository = getRepository(User)
-    const userTokensRepository = getRepository(UserToken)
+    const sendForgotPasswordEmail = container.resolve(
+      SendForgotPasswordEmailService
+    )
 
-    const user = await usersRepository.findOne({ where: { email } })
+    await sendForgotPasswordEmail.execute({ email })
 
-    if (!user) {
-      return response.sendStatus(422)
-    }
-
-    const userToken = userTokensRepository.create({
-      token: v4(),
-      user_id: user.id
-    })
-
-    userTokensRepository.save(userToken)
-
-    return response.status(201).json(userToken)
+    return response.sendStatus(204)
   },
 
   async reset(request: Request, response: Response): Promise<Response> {

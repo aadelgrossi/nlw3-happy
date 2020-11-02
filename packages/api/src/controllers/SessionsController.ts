@@ -1,11 +1,11 @@
-import User from '~/models/User'
-import userView from '~/views/users_view'
+import { compare } from 'bcryptjs'
 import { Request, Response } from 'express'
+import jwt from 'jsonwebtoken'
 import { getRepository } from 'typeorm'
 
 import authConfig from '~/config/auth'
-import { compare } from 'bcryptjs'
-import jwt from 'jsonwebtoken'
+import User from '~/models/User'
+import userView from '~/views/users_view'
 
 export default {
   async create(request: Request, response: Response): Promise<Response> {

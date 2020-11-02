@@ -1,13 +1,18 @@
 import 'reflect-metadata'
+import 'dotenv/config'
+import path from 'path'
+
+import cookieParser from 'cookie-parser'
+import cors from 'cors'
 import express from 'express'
 import 'express-async-errors'
-import routes from './routes'
-import cors from 'cors'
 import morgan from 'morgan'
-import path from 'path'
-import './database'
+
 import errorHandler from './errors/handler'
-import cookieParser from 'cookie-parser'
+import routes from './routes'
+
+import './providers'
+import './database'
 
 const app = express()
 app.use(

@@ -1,7 +1,7 @@
-import User from '~/models/User'
 import { Request, Response } from 'express'
 import { getRepository } from 'typeorm'
 
+import User from '~/models/User'
 import userView from '~/views/users_view'
 
 export default {
