@@ -1,54 +1,23 @@
-import path from 'path'
 import { Request, Response } from 'express'
+import { container } from 'tsyringe'
 import { getRepository } from 'typeorm'
-import { v4 } from 'uuid'
 
 import User from '~/models/User'
 import UserToken from '~/models/UserToken'
-import mailer from '~/services/mail'
+import SendForgotPasswordEmailService from '~/services/MailService'
 import users_view from '~/views/users_view'
 
 export default {
   async create(request: Request, response: Response): Promise<Response> {
     const { email } = request.body
 
-    const usersRepository = getRepository(User)
-    const userTokensRepository = getRepository(UserToken)
-
-    const user = await usersRepository.findOne({ where: { email } })
-
-    if (!user) {
-      return response.sendStatus(422)
-    }
-
-    const userToken = userTokensRepository.create({
-      token: v4(),
-      user_id: user.id
-    })
-
-    const forgotPasswordTemplate = path.resolve(
-      __dirname,
-      '..',
-      'views',
-      'templates',
-      'forgot_password.hbs'
+    const sendForgotPasswordEmail = container.resolve(
+      SendForgotPasswordEmailService
     )
 
-    await mailer.sendMail({
-      to: { name: user.name, email: user.email },
-      subject: '[Happy] Solicitação de recuperação de senha',
-      templateData: {
-        file: forgotPasswordTemplate,
-        variables: {
-          name: user.name,
-          link: `${process.env.APP_URL}/reset-password?token=${userToken.token}`
-        }
-      }
-    })
+    await sendForgotPasswordEmail.execute({ email })
 
-    userTokensRepository.save(userToken)
-
-    return response.status(204).json(userToken)
+    return response.sendStatus(204)
   },
 
   async reset(request: Request, response: Response): Promise<Response> {
