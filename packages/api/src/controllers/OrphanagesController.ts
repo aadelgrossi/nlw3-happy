@@ -1,9 +1,9 @@
+import { Request, Response } from 'express'
 import { getRepository } from 'typeorm'
-import Orphanage from '~/models/Orphanage'
-import orphanageView from '~/views/orphanages_views'
 import * as Yup from 'yup'
 
-import { Request, Response } from 'express'
+import Orphanage from '~/models/Orphanage'
+import orphanageView from '~/views/orphanages_views'
 
 export default {
   async index(_: Request, response: Response): Promise<Response> {

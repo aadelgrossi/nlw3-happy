@@ -1,7 +1,7 @@
-import { getRepository } from 'typeorm'
-import Orphanage from '~/models/Orphanage'
-
 import { Request, Response } from 'express'
+import { getRepository } from 'typeorm'
+
+import Orphanage from '~/models/Orphanage'
 import orphanagesView from '~/views/orphanages_views'
 
 export default {
