@@ -11,8 +11,8 @@ import morgan from 'morgan'
 import errorHandler from './errors/handler'
 import routes from './routes'
 
-import './providers'
 import './database'
+import './providers'
 
 const app = express()
 app.use(
