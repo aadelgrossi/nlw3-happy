@@ -95,7 +95,7 @@ const SignIn: React.FC = () => {
             <label>
               <Checkbox
                 checked={keepLoggedIn}
-                onChange={() => setKeepLoggedIn(value => !value)}
+                onChange={() => setKeepLoggedIn(!keepLoggedIn)}
               ></Checkbox>
               Lembrar-me
             </label>

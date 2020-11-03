@@ -1,3 +1,5 @@
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+
 import FormContainer from '@/components/FormContainer'
 import Label from '@/components/Label'
 import LogoContainer from '@/components/LogoContainer'
@@ -7,7 +9,6 @@ import api from '@/services/api'
 import { FormHandles } from '@unform/core'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { FiArrowLeft } from 'react-icons/fi'
 import * as Yup from 'yup'
 
@@ -34,7 +35,7 @@ const ResetPassword: NextPage<ResetPasswordProps> = ({ token }) => {
   const formRef = useRef<FormHandles>(null)
 
   useEffect(() => {
-    function redirectIfNoOrInvalidToken() {
+    function redirectIfMissingOrInvalidToken() {
       if (!token) {
         push('/forgot-password')
         addToast({
@@ -45,13 +46,14 @@ const ResetPassword: NextPage<ResetPasswordProps> = ({ token }) => {
         })
       }
     }
-    redirectIfNoOrInvalidToken()
+    redirectIfMissingOrInvalidToken()
   }, [])
 
   const handleSubmit = useCallback(async (data: ResetPasswordFormData) => {
     try {
-      await api.put(`/password/reset?token=${token}`, {
-        password: data.password
+      await api.post(`/password/reset`, {
+        password: data.password,
+        token
       })
 
       push('/signin')

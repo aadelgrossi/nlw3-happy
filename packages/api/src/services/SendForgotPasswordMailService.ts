@@ -4,6 +4,7 @@ import { injectable, inject } from 'tsyringe'
 import { getRepository } from 'typeorm'
 import { v4 } from 'uuid'
 
+import AppError from '~/errors/AppError'
 import User from '~/models/User'
 import UserToken from '~/models/UserToken'
 import IMailProvider from '~/providers/MailProvider/models/IMailProvider'
@@ -26,7 +27,7 @@ class SendForgotPasswordEmailService {
     const user = await usersRepository.findOne({ where: { email } })
 
     if (!user) {
-      throw new Error('Unknown email.')
+      throw new AppError('Unknown email.', 422)
     }
 
     const userToken = userTokensRepository.create({
