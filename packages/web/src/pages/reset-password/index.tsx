@@ -1,11 +1,13 @@
-import React, { useCallback, useRef, useState } from 'react'
-
 import FormContainer from '@/components/FormContainer'
 import Label from '@/components/Label'
 import LogoContainer from '@/components/LogoContainer'
 import PasswordInput from '@/components/PasswordInput'
+import { useToast } from '@/hooks/toast'
+import api from '@/services/api'
 import { FormHandles } from '@unform/core'
+import { NextPage } from 'next'
 import { useRouter } from 'next/router'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { FiArrowLeft } from 'react-icons/fi'
 import * as Yup from 'yup'
 
@@ -17,13 +19,55 @@ import {
   ConfirmButton
 } from './styles'
 
-const ResetPassword: React.FC = () => {
+interface ResetPasswordProps {
+  token: string | string[]
+}
+
+interface ResetPasswordFormData {
+  password: string
+}
+
+const ResetPassword: NextPage<ResetPasswordProps> = ({ token }) => {
   const [isFormValid, setIsFormValid] = useState(false)
-  const { back } = useRouter()
+  const { addToast } = useToast()
+  const { back, push } = useRouter()
   const formRef = useRef<FormHandles>(null)
 
-  const handleSubmit = useCallback(() => {
-    console.log('submitted')
+  useEffect(() => {
+    function redirectIfNoOrInvalidToken() {
+      if (!token) {
+        push('/forgot-password')
+        addToast({
+          title: 'Ops, ocorreu um erro!',
+          description:
+            'Não foi possível encontrar uma requisição para troca de senha válida',
+          type: 'error'
+        })
+      }
+    }
+    redirectIfNoOrInvalidToken()
+  }, [])
+
+  const handleSubmit = useCallback(async (data: ResetPasswordFormData) => {
+    try {
+      await api.put(`/password/reset?token=${token}`, {
+        password: data.password
+      })
+
+      push('/signin')
+      addToast({
+        title: 'Senha resetada com sucesso',
+        description: 'Realize o login.',
+        type: 'success'
+      })
+    } catch (err) {
+      addToast({
+        title: 'Ops, ocorreu um erro!',
+        description: 'Não foi possível realizar a troca de senha.',
+        type: 'error'
+      })
+      formRef.current?.reset()
+    }
   }, [])
 
   const performValidation = useCallback(async () => {
@@ -33,13 +77,10 @@ const ResetPassword: React.FC = () => {
       const data = formRef.current.getData()
 
       const schema = Yup.object().shape({
-        password: Yup.string().required('Digite sua senha'),
+        password: Yup.string().required(),
         password_confirmation: Yup.string()
           .nullable()
-          .oneOf(
-            [Yup.ref('password'), null],
-            'Confirmação de senha deve ser igual a senha'
-          )
+          .oneOf([Yup.ref('password'), null])
       })
 
       await schema.validate(data, { abortEarly: false })
@@ -82,6 +123,12 @@ const ResetPassword: React.FC = () => {
       </FormContainer>
     </Container>
   )
+}
+
+ResetPassword.getInitialProps = async ({ query }) => {
+  const { token } = query
+
+  return { token }
 }
 
 export default ResetPassword
