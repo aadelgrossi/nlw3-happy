@@ -1,9 +1,9 @@
 import { Router } from 'express'
 import multer from 'multer'
-import uploadConfig from '~/config/upload'
-import OrphanagesController from '~/controllers/OrphanagesController'
-import ApprovalController from '~/controllers/ApprovalController'
 
+import uploadConfig from '~/config/upload'
+import ApprovalController from '~/controllers/ApprovalController'
+import OrphanagesController from '~/controllers/OrphanagesController'
 import ensureAuthenticated from '~/middlewares/ensureAuthenticated'
 
 const orphanageRouter = Router()
