@@ -1,6 +1,5 @@
-import React, { InputHTMLAttributes, useState } from 'react'
-
 import Input from '@/components/Input'
+import React, { InputHTMLAttributes, useState } from 'react'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {

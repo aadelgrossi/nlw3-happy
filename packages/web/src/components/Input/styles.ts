@@ -4,7 +4,7 @@ interface InputProps {
   isFocused: boolean
   isFilled: boolean
   hasError: boolean
-  type: string
+  hidden: boolean
 }
 
 export const Wrapper = styled.div`
@@ -31,7 +31,7 @@ export const InputContainer = styled.div<InputProps>`
   color: #5c8599;
 
   ${props =>
-    props.type === 'hidden' &&
+    props.hidden &&
     css`
       display: none;
     `}

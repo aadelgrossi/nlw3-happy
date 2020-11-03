@@ -1,3 +1,4 @@
+import { useField } from '@unform/core'
 import React, {
   InputHTMLAttributes,
   useCallback,
@@ -5,8 +6,6 @@ import React, {
   useRef,
   useState
 } from 'react'
-
-import { useField } from '@unform/core'
 
 import { Wrapper, InputContainer } from './styles'
 
@@ -42,12 +41,13 @@ const Input: React.FC<InputProps> = ({ name, type, children, ...rest }) => {
   return (
     <Wrapper>
       <InputContainer
-        type={type}
+        hidden={type === 'hidden'}
         isFilled={isFilled}
         isFocused={isFocused}
         hasError={!!error}
       >
         <input
+          type={type}
           ref={inputRef}
           defaultValue={defaultValue}
           onBlur={handleInputBlur}
