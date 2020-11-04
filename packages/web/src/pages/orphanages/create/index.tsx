@@ -6,12 +6,13 @@ import MaskedInput from '@/components/MaskedInput'
 import MultipleFileInput from '@/components/MultipleFileInput'
 import Sidebar from '@/components/Sidebar'
 import TextArea from '@/components/TextArea'
-import { useToast } from '@/hooks/toast'
+// import { useToast } from '@/hooks/toast'
 import api from '@/services/api'
 import getValidationErrors from '@/utils/getValidationErrors'
 import { FormHandles } from '@unform/core'
 import { LatLngExpression, LeafletMouseEvent } from 'leaflet'
 import dynamic from 'next/dynamic'
+import Head from 'next/head'
 import { FiPlus } from 'react-icons/fi'
 import * as Yup from 'yup'
 
@@ -115,6 +116,10 @@ const CreateOrphanage: React.FC = () => {
 
   return (
     <Container>
+      <Head>
+        <title>Happy | Cadastrar orfanato</title>
+      </Head>
+
       <Sidebar />
 
       <main>

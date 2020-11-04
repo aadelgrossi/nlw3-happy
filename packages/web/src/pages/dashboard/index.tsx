@@ -5,6 +5,7 @@ import Sidebar from '@/components/Sidebar'
 import api from '@/services/api'
 import Cookies from 'js-cookie'
 import { NextPage, NextPageContext } from 'next'
+import Head from 'next/head'
 import Link from 'next/link'
 import Router from 'next/router'
 import { FiEdit3, FiTrash } from 'react-icons/fi'
@@ -33,6 +34,10 @@ interface DashboardProps {
 const Dashboard: NextPage<DashboardProps> = ({ orphanages }) => {
   return (
     <Container>
+      <Head>
+        <title>Happy | Dashboard</title>
+      </Head>
+
       <Sidebar />
       <Contents>
         <Header>
