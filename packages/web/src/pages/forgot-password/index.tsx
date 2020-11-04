@@ -7,6 +7,7 @@ import LogoContainer from '@/components/LogoContainer'
 import { useToast } from '@/hooks/toast'
 import api from '@/services/api'
 import { FormHandles } from '@unform/core'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { FiArrowLeft } from 'react-icons/fi'
 import * as Yup from 'yup'
@@ -65,6 +66,10 @@ const ForgotPassword: React.FC = () => {
 
   return (
     <Container>
+      <Head>
+        <title>Happy | Esqueci minha senha</title>
+      </Head>
+
       <LogoContainer></LogoContainer>
       <FormContainer>
         <BackButton onClick={back}>

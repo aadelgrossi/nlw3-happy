@@ -19,7 +19,7 @@ const Home: React.FC = () => {
   return (
     <Container>
       <Head>
-        <title>Happy</title>
+        <title>Happy | Leve felicidade para o mundo</title>
       </Head>
 
       <Wrapper>

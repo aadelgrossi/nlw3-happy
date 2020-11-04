@@ -9,6 +9,7 @@ import PasswordInput from '@/components/PasswordInput'
 import { useAuth } from '@/hooks/auth'
 import { useToast } from '@/hooks/toast'
 import { FormHandles } from '@unform/core'
+import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FiArrowLeft } from 'react-icons/fi'
@@ -76,6 +77,10 @@ const SignIn: React.FC = () => {
 
   return (
     <Container>
+      <Head>
+        <title>Happy | Faça seu login</title>
+      </Head>
+
       <BackButton onClick={() => push('/')}>
         <FiArrowLeft size={24} color="#15C3D6" />
       </BackButton>
