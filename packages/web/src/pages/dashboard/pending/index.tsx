@@ -3,6 +3,7 @@ import React from 'react'
 import OrphanageCard from '@/components/OrphanageCard'
 import Sidebar from '@/components/Sidebar'
 import { NextPage, NextPageContext } from 'next'
+import Head from 'next/head'
 import Link from 'next/link'
 import Router from 'next/router'
 import { FiArrowRight } from 'react-icons/fi'
@@ -33,6 +34,9 @@ interface PendingProps {
 const Pending: NextPage<PendingProps> = ({ orphanages }) => {
   return (
     <Container>
+      <Head>
+        <title>Happy | Orfanatos pendentes</title>
+      </Head>
       <Sidebar />
 
       <Contents>

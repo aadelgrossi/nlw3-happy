@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
+
+import Sidebar from '@/components/Sidebar'
+import api from '@/services/api'
+import { GetStaticPaths, GetStaticProps } from 'next'
+import dynamic from 'next/dynamic'
+import Head from 'next/head'
 import { FaWhatsapp } from 'react-icons/fa'
 import { FiClock, FiInfo } from 'react-icons/fi'
-import dynamic from 'next/dynamic'
 
 import {
   Container,
@@ -11,9 +16,6 @@ import {
   MapContainer,
   OpenDetails
 } from './styles'
-import Sidebar from '@/components/Sidebar'
-import api from '@/services/api'
-import { GetStaticPaths, GetStaticProps } from 'next'
 
 interface Orphanage {
   id: string
@@ -47,6 +49,9 @@ const ShowOrphanage: React.FC<OrphanageProps> = ({ orphanage }) => {
 
   return (
     <Container>
+      <Head>
+        <title>Happy | {orphanage.name}</title>
+      </Head>
       <Sidebar />
 
       <main>
