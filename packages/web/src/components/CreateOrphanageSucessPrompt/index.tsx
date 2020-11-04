@@ -6,7 +6,7 @@ import { FiMapPin } from 'react-icons/fi'
 import HappyMarker from '../../../../assets/success-marker.svg'
 import { Container, Content, BackButton } from './styles'
 
-const Success: React.FC = () => {
+const CreateOrphanageSucessPrompt: React.FC = () => {
   return (
     <Container>
       <Content>
@@ -27,4 +27,4 @@ const Success: React.FC = () => {
   )
 }
 
-export default Success
+export default CreateOrphanageSucessPrompt

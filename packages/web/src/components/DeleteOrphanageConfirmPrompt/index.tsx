@@ -1,20 +1,24 @@
 import React, { useCallback } from 'react'
 
-import { Container, Content, DeleteButton, BackButton } from './styles'
-import DeleteMarker from '../../../../assets/delete-marker.svg'
-import { FiTrash, FiArrowLeft } from 'react-icons/fi'
-import Link from 'next/link'
+import { useToast } from '@/hooks/toast'
 import api from '@/services/api'
 import { NextPage } from 'next'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useToast } from '@/hooks/toast'
+import { FiTrash, FiArrowLeft } from 'react-icons/fi'
+
+import DeleteMarker from '../../../../assets/delete-marker.svg'
+import { Container, Content, DeleteButton, BackButton } from './styles'
 
 interface OrphanageProps {
   id: string
   name: string
 }
 
-const DeleteOrphanage: NextPage<OrphanageProps> = ({ id, name }) => {
+const DeleteOrphanageConfirmPrompt: NextPage<OrphanageProps> = ({
+  id,
+  name
+}) => {
   const router = useRouter()
   const { addToast } = useToast()
 
@@ -52,11 +56,11 @@ const DeleteOrphanage: NextPage<OrphanageProps> = ({ id, name }) => {
   )
 }
 
-DeleteOrphanage.getInitialProps = async ({ query }) => {
+DeleteOrphanageConfirmPrompt.getInitialProps = async ({ query }) => {
   const response = await api.get(`/orphanages/${query.slug}`)
 
   const orphanage = response.data
   return orphanage
 }
 
-export default DeleteOrphanage
+export default DeleteOrphanageConfirmPrompt
