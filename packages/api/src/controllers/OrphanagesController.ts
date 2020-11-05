@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import slugify from 'slugify'
 import { getRepository } from 'typeorm'
 import * as Yup from 'yup'
 
@@ -158,5 +159,23 @@ export default {
     await orphanagesRepository.save(orphanage)
 
     return response.json(orphanageView.render(orphanage))
+  },
+
+  async valid(request: Request, response: Response): Promise<Response> {
+    const { name } = request.query
+
+    const nameSlugged = slugify(name.toString(), { lower: true })
+
+    const orphanagesRepository = getRepository(Orphanage)
+
+    const findOrphanage = await orphanagesRepository.findOne({
+      where: { slug: nameSlugged }
+    })
+
+    if (findOrphanage) {
+      return response.sendStatus(409)
+    }
+
+    return response.sendStatus(200)
   }
 }
