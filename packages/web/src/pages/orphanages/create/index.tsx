@@ -68,26 +68,54 @@ const CreateOrphanage: React.FC = () => {
     setPosition(event.latlng)
   }, [])
 
-  const handleSubmit = useCallback(async (data: OrphanageFormData) => {
+  const validateUniquenessOfName = useCallback(async () => {
+    const formData = formRef.current.getData()
+    const schema = Yup.object().shape({
+      name: Yup.string().test(
+        'checkDuplOrphanage',
+        'Nome do orfanato já está cadastrado na plataforma. Escolha outro',
+        async value => {
+          try {
+            await api.get(`/orphanages/valid?name=${value}`)
+            return true
+          } catch (err) {
+            return false
+          }
+        }
+      )
+    })
+
     try {
-      formRef.current?.setErrors({})
+      formRef.current?.setFieldError('name', '')
 
-      const schema = Yup.object().shape({
-        name: Yup.string().required('Campo obrigatório'),
-        about: Yup.string().required('Campo obrigatório'),
-        latitude: Yup.number().required(),
-        longitude: Yup.number().required(),
-        whatsapp: Yup.string()
-          .matches(
-            /\(([0-9]){2}\) ([0-9]){5}-([0-9]){4}/,
-            'Digite um número valido (xx) xxxxx-xxxx'
-          )
-          .required('Campo obrigatório'),
-        instructions: Yup.string().required('Campo obrigatório'),
-        opening_hours: Yup.string().required('Campo obrigatório'),
-        open_on_weekends: Yup.boolean().required()
-      })
+      await schema.validate(formData, { abortEarly: false })
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(err)
+        formRef.current?.setErrors(errors)
+      }
+    }
+  }, [])
 
+  const handleSubmit = useCallback(async (data: OrphanageFormData) => {
+    formRef.current?.setErrors({})
+
+    const schema = Yup.object().shape({
+      name: Yup.string().required('Campo obrigatório'),
+      about: Yup.string().required('Campo obrigatório'),
+      latitude: Yup.number().required(),
+      longitude: Yup.number().required(),
+      whatsapp: Yup.string()
+        .matches(
+          /\(([0-9]){2}\) ([0-9]){5}-([0-9]){4}/,
+          'Digite um número valido (xx) xxxxx-xxxx'
+        )
+        .required('Campo obrigatório'),
+      instructions: Yup.string().required('Campo obrigatório'),
+      opening_hours: Yup.string().required('Campo obrigatório'),
+      open_on_weekends: Yup.boolean().required()
+    })
+    try {
       await schema.validate(data, { abortEarly: false })
 
       // addToast({
@@ -159,7 +187,7 @@ const CreateOrphanage: React.FC = () => {
 
             <InputBlock>
               <Label>Nome</Label>
-              <Input name="name" />
+              <Input name="name" onKeyUp={validateUniquenessOfName} />
             </InputBlock>
 
             <InputBlock>
