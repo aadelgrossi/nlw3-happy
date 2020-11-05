@@ -19,7 +19,6 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const TextArea: React.FC<InputProps> = ({ name, children }) => {
   const inputRef = useRef(null)
   const [isFocused, setIsFocused] = useState(false)
-  const [isFilled, setIsFilled] = useState(false)
   const { fieldName, defaultValue, registerField, error } = useField(name)
 
   useEffect(() => {
@@ -36,17 +35,11 @@ const TextArea: React.FC<InputProps> = ({ name, children }) => {
 
   const handleInputBlur = useCallback(() => {
     setIsFocused(false)
-
-    setIsFilled(!!inputRef.current?.value)
   }, [])
 
   return (
     <Wrapper>
-      <InputContainer
-        isFilled={isFilled}
-        isFocused={isFocused}
-        hasError={!!error}
-      >
+      <InputContainer isFocused={isFocused} hasError={!!error}>
         <textarea
           ref={inputRef}
           maxLength={300}

@@ -5,9 +5,11 @@ import React, {
   useRef,
   useState
 } from 'react'
+
 import { useField } from '@unform/core'
-import { Wrapper, InputContainer } from './styles'
 import ReactInputMask from 'react-input-mask'
+
+import { Wrapper, InputContainer } from './styles'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string
@@ -18,7 +20,6 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const MaskedInput: React.FC<InputProps> = ({ name, children, ...rest }) => {
   const inputRef = useRef(null)
   const [isFocused, setIsFocused] = useState(false)
-  const [isFilled, setIsFilled] = useState(false)
   const { fieldName, defaultValue, registerField, error } = useField(name)
 
   useEffect(() => {
@@ -35,17 +36,11 @@ const MaskedInput: React.FC<InputProps> = ({ name, children, ...rest }) => {
 
   const handleInputBlur = useCallback(() => {
     setIsFocused(false)
-
-    setIsFilled(!!inputRef.current?.value)
   }, [])
 
   return (
     <Wrapper>
-      <InputContainer
-        isFilled={isFilled}
-        isFocused={isFocused}
-        hasError={!!error}
-      >
+      <InputContainer isFocused={isFocused} hasError={!!error}>
         <ReactInputMask
           ref={inputRef}
           mask="(99) 99999-9999"
