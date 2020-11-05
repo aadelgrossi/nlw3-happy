@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
+import CreateOrphanageSuccessPrompt from '@/components/CreateOrphanageSucessPrompt'
 import Input from '@/components/Input'
 import Label from '@/components/Label'
 import MaskedInput from '@/components/MaskedInput'
 import MultipleFileInput from '@/components/MultipleFileInput'
 import Sidebar from '@/components/Sidebar'
 import TextArea from '@/components/TextArea'
-// import { useToast } from '@/hooks/toast'
+import { useToast } from '@/hooks/toast'
 import api from '@/services/api'
 import getValidationErrors from '@/utils/getValidationErrors'
 import { FormHandles } from '@unform/core'
@@ -27,7 +28,6 @@ import {
   MapLegend,
   NewImage
 } from './styles'
-// import { useRouter } from 'next/router'
 
 interface OrphanageFormData {
   name: string
@@ -49,13 +49,13 @@ const MarkerWithNoSSR = dynamic(() => import('../../../components/Marker'), {
 })
 
 const CreateOrphanage: React.FC = () => {
-  // const { addToast } = useToast()
-  // const router = useRouter()
+  const { addToast } = useToast()
   const formRef = useRef<FormHandles>(null)
   const [position, setPosition] = useState<LatLngExpression>([
     -23.0794493,
     -52.4684549
   ])
+  const [submitted, setSubmitted] = useState(false)
   const [openOnWeekends, setOpenOnWeekends] = useState(true)
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const CreateOrphanage: React.FC = () => {
     const schema = Yup.object().shape({
       name: Yup.string().test(
         'checkDuplOrphanage',
-        'Nome do orfanato já está cadastrado na plataforma. Escolha outro',
+        'Nome já cadastrado. Digite outro nome.',
         async value => {
           try {
             await api.get(`/orphanages/valid?name=${value}`)
@@ -92,6 +92,7 @@ const CreateOrphanage: React.FC = () => {
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err)
+
         formRef.current?.setErrors(errors)
       }
     }
@@ -115,153 +116,152 @@ const CreateOrphanage: React.FC = () => {
       opening_hours: Yup.string().required('Campo obrigatório'),
       open_on_weekends: Yup.boolean().required()
     })
+
     try {
       await schema.validate(data, { abortEarly: false })
-
-      // addToast({
-      //   title: 'Sucesso!',
-      //   type: 'success',
-      //   description: 'Orfanato cadastrado com sucesso'
-      // })
-      // router.push('/map')
       await api.post('/orphanages', data)
+      setSubmitted(true)
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
-        console.log(data)
         const errors = getValidationErrors(err)
 
-        console.log(errors)
         formRef.current?.setErrors(errors)
       }
 
-      // addToast({
-      //   title: 'Ocorreu um erro',
-      //   type: 'error',
-      //   description: 'A validação falhou. Favor revise os dados'
-      // })
+      addToast({
+        title: 'Ocorreu um erro',
+        type: 'error',
+        description: 'A validação falhou. Favor revise os dados'
+      })
     }
   }, [])
 
   return (
-    <Container>
+    <>
       <Head>
         <title>Happy | Cadastrar orfanato</title>
       </Head>
 
-      <Sidebar />
+      {submitted ? (
+        <CreateOrphanageSuccessPrompt />
+      ) : (
+        <Container>
+          <Sidebar />
 
-      <main>
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <FormGroup>
-            <legend>Dados</legend>
+          <main>
+            <Form ref={formRef} onSubmit={handleSubmit}>
+              <FormGroup>
+                <legend>Dados</legend>
 
-            <InputBlock>
-              <Label>Localização</Label>
-              <MapWrapper>
-                <MapWithNoSSR
-                  center={position}
-                  zoom={15}
-                  style={{
-                    width: '100%',
-                    height: '280px',
-                    borderBottomLeftRadius: '0px',
-                    borderBottomRightRadius: '0px',
-                    border: 'unset',
-                    marginBottom: 0
-                  }}
-                  onclick={handleMapClick}
-                >
-                  <MarkerWithNoSSR
-                    interactive={false}
-                    position={position}
-                  ></MarkerWithNoSSR>
-                </MapWithNoSSR>
-                <MapLegend>
-                  Clique no mapa para adicionar a localização
-                </MapLegend>
-              </MapWrapper>
+                <InputBlock>
+                  <Label>Localização</Label>
+                  <MapWrapper>
+                    <MapWithNoSSR
+                      center={position}
+                      zoom={15}
+                      style={{
+                        width: '100%',
+                        height: '280px',
+                        borderBottomLeftRadius: '0px',
+                        borderBottomRightRadius: '0px',
+                        border: 'unset',
+                        marginBottom: 0
+                      }}
+                      onclick={handleMapClick}
+                    >
+                      <MarkerWithNoSSR
+                        interactive={false}
+                        position={position}
+                      ></MarkerWithNoSSR>
+                    </MapWithNoSSR>
+                    <MapLegend>
+                      Clique no mapa para adicionar a localização
+                    </MapLegend>
+                  </MapWrapper>
 
-              <Input name="latitude" type="hidden" value={position[0]} />
-              <Input name="longitude" type="hidden" value={position[1]} />
-            </InputBlock>
+                  <Input name="latitude" type="hidden" value={position[0]} />
+                  <Input name="longitude" type="hidden" value={position[1]} />
+                </InputBlock>
 
-            <InputBlock>
-              <Label>Nome</Label>
-              <Input name="name" onKeyUp={validateUniquenessOfName} />
-            </InputBlock>
+                <InputBlock>
+                  <Label>Nome</Label>
+                  <Input name="name" onKeyUp={validateUniquenessOfName} />
+                </InputBlock>
 
-            <InputBlock>
-              <Label>
-                Sobre <span>Máximo de 300 caracteres</span>
-              </Label>
-              <TextArea name="about" />
-            </InputBlock>
+                <InputBlock>
+                  <Label>
+                    Sobre <span>Máximo de 300 caracteres</span>
+                  </Label>
+                  <TextArea name="about" />
+                </InputBlock>
 
-            <InputBlock>
-              <Label> Whatsapp</Label>
-              <MaskedInput name="whatsapp" />
-            </InputBlock>
+                <InputBlock>
+                  <Label> Whatsapp</Label>
+                  <MaskedInput name="whatsapp" />
+                </InputBlock>
 
-            <InputBlock>
-              <Label>Fotos</Label>
+                <InputBlock>
+                  <Label>Fotos</Label>
 
-              <div className="images-container">
-                <NewImage htmlFor="image[]">
-                  <FiPlus size={24} color="#15b6d6" />
-                </NewImage>
+                  <div className="images-container">
+                    <NewImage htmlFor="image[]">
+                      <FiPlus size={24} color="#15b6d6" />
+                    </NewImage>
 
-                <MultipleFileInput
-                  name="image[]"
-                  id="image[]"
-                ></MultipleFileInput>
-              </div>
-            </InputBlock>
-          </FormGroup>
+                    <MultipleFileInput
+                      name="image[]"
+                      id="image[]"
+                    ></MultipleFileInput>
+                  </div>
+                </InputBlock>
+              </FormGroup>
 
-          <FormGroup>
-            <legend>Visitação</legend>
+              <FormGroup>
+                <legend>Visitação</legend>
 
-            <InputBlock>
-              <Label>Instruções para visita</Label>
-              <TextArea name="instructions" />
-            </InputBlock>
+                <InputBlock>
+                  <Label>Instruções para visita</Label>
+                  <TextArea name="instructions" />
+                </InputBlock>
 
-            <InputBlock>
-              <Label>Horários</Label>
-              <Input name="opening_hours" />
-            </InputBlock>
+                <InputBlock>
+                  <Label>Horários</Label>
+                  <Input name="opening_hours" />
+                </InputBlock>
 
-            <InputBlock>
-              <Label>Atende fim de semana</Label>
+                <InputBlock>
+                  <Label>Atende fim de semana</Label>
 
-              <ButtonSelect>
-                <button
-                  type="button"
-                  className={openOnWeekends ? 'active' : ''}
-                  onClick={() => setOpenOnWeekends(true)}
-                >
-                  Sim
-                </button>
-                <button
-                  type="button"
-                  className={!openOnWeekends ? 'active' : ''}
-                  onClick={() => setOpenOnWeekends(false)}
-                >
-                  Não
-                </button>
-                <Input
-                  name="open_on_weekends"
-                  type="hidden"
-                  defaultValue={String(openOnWeekends)}
-                ></Input>
-              </ButtonSelect>
-            </InputBlock>
-          </FormGroup>
+                  <ButtonSelect>
+                    <button
+                      type="button"
+                      className={openOnWeekends ? 'active' : ''}
+                      onClick={() => setOpenOnWeekends(true)}
+                    >
+                      Sim
+                    </button>
+                    <button
+                      type="button"
+                      className={!openOnWeekends ? 'active' : ''}
+                      onClick={() => setOpenOnWeekends(false)}
+                    >
+                      Não
+                    </button>
+                    <Input
+                      name="open_on_weekends"
+                      type="hidden"
+                      defaultValue={String(openOnWeekends)}
+                    ></Input>
+                  </ButtonSelect>
+                </InputBlock>
+              </FormGroup>
 
-          <ConfirmButton type="submit">Confirmar</ConfirmButton>
-        </Form>
-      </main>
-    </Container>
+              <ConfirmButton type="submit">Confirmar</ConfirmButton>
+            </Form>
+          </main>
+        </Container>
+      )}
+    </>
   )
 }
 

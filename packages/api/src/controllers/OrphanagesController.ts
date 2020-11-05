@@ -52,12 +52,16 @@ export default {
       whatsapp
     } = request.body
 
+    const sanitizedWhatsapp = whatsapp.replace(/[^\w]/gi, '')
+
     const orphanagesRepository = getRepository(Orphanage)
     const requestImages = request.files as Express.Multer.File[]
 
-    const images = requestImages.map(image => {
-      return { path: image.filename }
-    })
+    const images = requestImages
+      ? requestImages.map(image => {
+          return { path: image.filename }
+        })
+      : []
 
     const data = {
       name,
@@ -67,7 +71,7 @@ export default {
       instructions,
       opening_hours,
       open_on_weekends,
-      whatsapp,
+      whatsapp: sanitizedWhatsapp,
       images
     }
 
