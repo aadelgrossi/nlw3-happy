@@ -3,7 +3,7 @@ import React from 'react'
 import Link from 'next/link'
 import { FiMapPin } from 'react-icons/fi'
 
-import HappyMarker from '../../../../assets/success-marker.svg'
+import HappyMarker from '../../assets/success-marker.svg'
 import { Container, Content, BackButton } from './styles'
 
 const CreateOrphanageSucessPrompt: React.FC = () => {
