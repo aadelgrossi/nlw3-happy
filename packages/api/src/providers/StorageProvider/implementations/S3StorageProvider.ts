@@ -4,6 +4,7 @@ import path from 'path'
 import aws, { S3 } from 'aws-sdk'
 import mime from 'mime'
 
+import IStorageProviderDTO from '../dtos/IStorageProviderDTO'
 import IStorageProvider from '../models/IStorageProvider'
 import uploadConfig from '~/config/upload'
 
@@ -16,8 +17,8 @@ export default class S3StorageProvider implements IStorageProvider {
     })
   }
 
-  public async saveFile(file: string): Promise<string> {
-    const originalPath = path.resolve(uploadConfig.tmpFolder, file)
+  public async saveFile({ filename }: IStorageProviderDTO): Promise<string> {
+    const originalPath = path.resolve(uploadConfig.tmpFolder, filename)
     const ContentType = mime.getType(originalPath)
 
     if (!ContentType) {
@@ -28,24 +29,24 @@ export default class S3StorageProvider implements IStorageProvider {
     await this.client
       .putObject({
         Bucket: uploadConfig.config.aws.bucket,
-        Key: file,
+        Key: filename,
         ACL: 'public-read',
         Body: fileContent,
         ContentType,
-        ContentDisposition: `inline; filename=${file}`
+        ContentDisposition: `inline; filename=${filename}`
       })
       .promise()
 
     await fs.promises.unlink(originalPath)
 
-    return file
+    return filename
   }
 
-  public async deleteFile(file: string): Promise<void> {
+  public async deleteFile({ filename }: IStorageProviderDTO): Promise<void> {
     await this.client
       .deleteObject({
         Bucket: uploadConfig.config.aws.bucket,
-        Key: file
+        Key: filename
       })
       .promise()
   }

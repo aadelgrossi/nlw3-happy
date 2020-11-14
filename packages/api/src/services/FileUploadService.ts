@@ -14,7 +14,9 @@ class FileUploadService {
   ) {}
 
   public async execute({ filename }: IFileRequest): Promise<string> {
-    return await this.storageProvider.saveFile(filename)
+    return await this.storageProvider.saveFile({
+      filename
+    })
   }
 }
 
