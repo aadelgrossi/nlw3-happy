@@ -12,7 +12,8 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'prettier/@typescript-eslint',
     'prettier/standard',
-    'prettier/react'
+    'prettier/react',
+    'plugin:prettier/recommended'
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -22,7 +23,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module'
   },
-  plugins: ['react', '@typescript-eslint', 'prettier', 'react-hooks'],
+  plugins: ['react', '@typescript-eslint', 'react-hooks'],
   rules: {
     'prettier/prettier': 'error',
     'space-before-function-paren': 'off',
@@ -38,6 +39,7 @@ module.exports = {
     'multiline-ternary': 'off',
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
+    'no-useless-constructor': 'off',
     "import/order": [
       "error",
       {

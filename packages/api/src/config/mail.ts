@@ -12,8 +12,8 @@ export default {
   driver: process.env.MAIL_DRIVER || 'ethereal',
   defaults: {
     from: {
-      name: 'Andre Grossi',
-      email: 'info@andregrossi.com'
+      name: process.env.MAIL_DEFAULT_FROM_NAME || 'Andre Grossi',
+      email: process.env.MAIL_DEFAULT_FROM_ADDRESS || 'info@andregrossi.com'
     }
   }
 } as MailConfig

@@ -1,9 +1,11 @@
 import { Request, Response } from 'express'
 import slugify from 'slugify'
+import { container } from 'tsyringe'
 import { getRepository } from 'typeorm'
 import * as Yup from 'yup'
 
 import Orphanage from '~/models/Orphanage'
+import FileUploadService from '~/services/FileUploadService'
 import orphanageView from '~/views/orphanages_views'
 
 export default {
@@ -57,11 +59,16 @@ export default {
     const orphanagesRepository = getRepository(Orphanage)
     const requestImages = request.files as Express.Multer.File[]
 
-    const images = requestImages
-      ? requestImages.map(image => {
-          return { path: image.filename }
-        })
-      : []
+    const uploadImages = container.resolve(FileUploadService)
+
+    const mapImages = requestImages.map(async img => {
+      const path = await uploadImages.execute({
+        filename: img.filename
+      })
+      return { path }
+    })
+
+    const images = await Promise.all(mapImages)
 
     const data = {
       name,
