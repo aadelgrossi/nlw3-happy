@@ -10,16 +10,11 @@ const orphanageRouter = Router()
 const upload = multer(uploadConfig.multer)
 
 orphanageRouter.get('/pending', ensureAuthenticated, ApprovalController.pending)
-orphanageRouter.put(
-  '/:id/approve',
-  ensureAuthenticated,
-  ApprovalController.approve
-)
 
 orphanageRouter.get('/', OrphanagesController.index)
 orphanageRouter.get('/valid', OrphanagesController.valid)
 orphanageRouter.get('/:slug', OrphanagesController.show)
-orphanageRouter.put('/:id', OrphanagesController.update)
+orphanageRouter.put('/:slug', ensureAuthenticated, OrphanagesController.update)
 orphanageRouter.delete('/:id', OrphanagesController.delete)
 orphanageRouter.post('/', upload.array('images'), OrphanagesController.create)
 
