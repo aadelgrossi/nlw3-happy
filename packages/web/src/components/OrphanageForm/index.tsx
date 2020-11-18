@@ -20,7 +20,8 @@ import {
   ButtonSelect,
   MapLegend,
   MapWrapper,
-  NewImage
+  NewImage,
+  ImagesContainer
 } from './styles'
 
 const MapWithNoSSR = dynamic(() => import('../Map'), {
@@ -164,13 +165,17 @@ const OrphanageForm: React.FC<FormProps> = ({
         <InputBlock>
           <Label>Fotos</Label>
 
-          <div className="images-container">
-            <NewImage htmlFor="image[]">
+          <ImagesContainer>
+            <MultipleFileInput
+              name="images[]"
+              id="images[]"
+              images={orphanage?.images.map(image => image.url)}
+            ></MultipleFileInput>
+
+            <NewImage htmlFor="images[]">
               <FiPlus size={24} color="#15b6d6" />
             </NewImage>
-
-            <MultipleFileInput name="image[]" id="image[]"></MultipleFileInput>
-          </div>
+          </ImagesContainer>
         </InputBlock>
       </FormGroup>
 

@@ -64,20 +64,6 @@ export const InputBlock = styled.div`
     margin-top: 24px;
   }
 
-  .images-container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 16px;
-
-    img {
-      width: 100%;
-      height: 96px;
-      object-fit: contain;
-      border-radius: 20px;
-      border: 1px solid #d3e2e5;
-    }
-  }
-
   input[type='file'] {
     display: none;
   }
@@ -95,6 +81,19 @@ export const InputBlock = styled.div`
       margin-left: 24px;
       line-height: 24px;
     }
+  }
+`
+
+export const ImagesContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 16px;
+
+  img {
+    height: 96px;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 1px solid #d3e2e5;
   }
 `
 

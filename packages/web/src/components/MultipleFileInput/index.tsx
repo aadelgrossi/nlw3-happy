@@ -8,13 +8,12 @@ import React, {
 
 import { useField } from '@unform/core'
 
-interface Props {
+type InputProps = JSX.IntrinsicElements['input'] & {
   name: string
+  images?: string[]
 }
 
-type InputProps = JSX.IntrinsicElements['input'] & Props
-
-const MultipleFileInput: React.FC<InputProps> = ({ name, ...rest }) => {
+const MultipleFileInput: React.FC<InputProps> = ({ name, images, ...rest }) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const { fieldName, registerField } = useField(name)
   const [previews, setPreviews] = useState<string[]>([])
@@ -38,9 +37,12 @@ const MultipleFileInput: React.FC<InputProps> = ({ name, ...rest }) => {
       path: 'files',
       clearValue(ref: HTMLInputElement) {
         ref.value = ''
+      },
+      setValue() {
+        setPreviews(images)
       }
     })
-  }, [fieldName, registerField])
+  }, [fieldName, registerField, images])
 
   return (
     <>
