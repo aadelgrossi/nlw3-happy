@@ -1,33 +1,16 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 
 import CreateOrphanageSuccessPrompt from '@/components/CreateOrphanageSucessPrompt'
-import Input from '@/components/Input'
-import Label from '@/components/Label'
-import MaskedInput from '@/components/MaskedInput'
-import MultipleFileInput from '@/components/MultipleFileInput'
+import OrphanageForm from '@/components/OrphanageForm'
 import Sidebar from '@/components/Sidebar'
-import TextArea from '@/components/TextArea'
 import { useToast } from '@/hooks/toast'
 import api from '@/services/api'
 import getValidationErrors from '@/utils/getValidationErrors'
 import { FormHandles } from '@unform/core'
-import { LatLngExpression, LeafletMouseEvent } from 'leaflet'
-import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import { FiPlus } from 'react-icons/fi'
 import * as Yup from 'yup'
 
-import {
-  Container,
-  ButtonSelect,
-  ConfirmButton,
-  Form,
-  FormGroup,
-  InputBlock,
-  MapWrapper,
-  MapLegend,
-  NewImage
-} from './styles'
+import { Container, ConfirmButton } from './styles'
 
 interface OrphanageFormData {
   name: string
@@ -41,62 +24,10 @@ interface OrphanageFormData {
   image: File[]
 }
 
-const MapWithNoSSR = dynamic(() => import('../../../components/Map'), {
-  ssr: false
-})
-const MarkerWithNoSSR = dynamic(() => import('../../../components/Marker'), {
-  ssr: false
-})
-
 const CreateOrphanage: React.FC = () => {
   const { addToast } = useToast()
   const formRef = useRef<FormHandles>(null)
-  const [position, setPosition] = useState<LatLngExpression>([
-    -23.0794493,
-    -52.4684549
-  ])
   const [submitted, setSubmitted] = useState(false)
-  const [openOnWeekends, setOpenOnWeekends] = useState(true)
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(({ coords }) => {
-      setPosition([coords.latitude, coords.longitude])
-    })
-  }, [])
-
-  const handleMapClick = useCallback((event: LeafletMouseEvent) => {
-    setPosition(event.latlng)
-  }, [])
-
-  const validateUniquenessOfName = useCallback(async () => {
-    const formData = formRef.current.getData()
-    const schema = Yup.object().shape({
-      name: Yup.string().test(
-        'checkDuplOrphanage',
-        'Nome já cadastrado. Digite outro nome.',
-        async value => {
-          try {
-            await api.get(`/orphanages/valid?name=${value}`)
-            return true
-          } catch (err) {
-            return false
-          }
-        }
-      )
-    })
-
-    try {
-      formRef.current?.setFieldError('name', '')
-
-      await schema.validate(formData, { abortEarly: false })
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err)
-
-        formRef.current?.setErrors(errors)
-      }
-    }
-  }, [])
 
   const handleSubmit = useCallback(async (data: OrphanageFormData) => {
     formRef.current?.setErrors({})
@@ -149,115 +80,9 @@ const CreateOrphanage: React.FC = () => {
           <Sidebar />
 
           <main>
-            <Form ref={formRef} onSubmit={handleSubmit}>
-              <FormGroup>
-                <legend>Dados</legend>
-
-                <InputBlock>
-                  <Label>Localização</Label>
-                  <MapWrapper>
-                    <MapWithNoSSR
-                      center={position}
-                      zoom={15}
-                      style={{
-                        width: '100%',
-                        height: '280px',
-                        borderBottomLeftRadius: '0px',
-                        borderBottomRightRadius: '0px',
-                        border: 'unset',
-                        marginBottom: 0
-                      }}
-                      onclick={handleMapClick}
-                    >
-                      <MarkerWithNoSSR
-                        interactive={false}
-                        position={position}
-                      ></MarkerWithNoSSR>
-                    </MapWithNoSSR>
-                    <MapLegend>
-                      Clique no mapa para adicionar a localização
-                    </MapLegend>
-                  </MapWrapper>
-
-                  <Input name="latitude" type="hidden" value={position[0]} />
-                  <Input name="longitude" type="hidden" value={position[1]} />
-                </InputBlock>
-
-                <InputBlock>
-                  <Label>Nome</Label>
-                  <Input name="name" onKeyUp={validateUniquenessOfName} />
-                </InputBlock>
-
-                <InputBlock>
-                  <Label>
-                    Sobre <span>Máximo de 300 caracteres</span>
-                  </Label>
-                  <TextArea name="about" />
-                </InputBlock>
-
-                <InputBlock>
-                  <Label> Whatsapp</Label>
-                  <MaskedInput name="whatsapp" />
-                </InputBlock>
-
-                <InputBlock>
-                  <Label>Fotos</Label>
-
-                  <div className="images-container">
-                    <NewImage htmlFor="image[]">
-                      <FiPlus size={24} color="#15b6d6" />
-                    </NewImage>
-
-                    <MultipleFileInput
-                      name="image[]"
-                      id="image[]"
-                    ></MultipleFileInput>
-                  </div>
-                </InputBlock>
-              </FormGroup>
-
-              <FormGroup>
-                <legend>Visitação</legend>
-
-                <InputBlock>
-                  <Label>Instruções para visita</Label>
-                  <TextArea name="instructions" />
-                </InputBlock>
-
-                <InputBlock>
-                  <Label>Horários</Label>
-                  <Input name="opening_hours" />
-                </InputBlock>
-
-                <InputBlock>
-                  <Label>Atende fim de semana</Label>
-
-                  <ButtonSelect>
-                    <button
-                      type="button"
-                      className={openOnWeekends ? 'active' : ''}
-                      onClick={() => setOpenOnWeekends(true)}
-                    >
-                      Sim
-                    </button>
-                    <button
-                      type="button"
-                      className={!openOnWeekends ? 'active' : ''}
-                      onClick={() => setOpenOnWeekends(false)}
-                    >
-                      Não
-                    </button>
-                    <Input
-                      name="open_on_weekends"
-                      type="hidden"
-                      defaultValue={String(openOnWeekends)}
-                    ></Input>
-                  </ButtonSelect>
-                </InputBlock>
-              </FormGroup>
-
+            <OrphanageForm formRef={formRef} onSubmit={handleSubmit}>
               <ConfirmButton type="submit">Confirmar</ConfirmButton>
-            </Form>
+            </OrphanageForm>
           </main>
         </Container>
       )}
