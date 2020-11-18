@@ -21,15 +21,11 @@ import {
   FormContainer
 } from './styles'
 
-interface ResetPasswordProps {
-  token: string | string[]
-}
-
 interface ResetPasswordFormData {
   password: string
 }
 
-const ResetPassword: NextPage<ResetPasswordProps> = ({ token }) => {
+const ResetPassword: NextPage<{ token: string | string[] }> = ({ token }) => {
   const [isFormValid, setIsFormValid] = useState(false)
   const { addToast } = useToast()
   const { back, push } = useRouter()

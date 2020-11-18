@@ -25,19 +25,7 @@ import {
   DeleteOrphanageContent
 } from './styles'
 
-interface Orphanage {
-  id: string
-  name: string
-  slug: string
-  latitude: number
-  longitude: number
-}
-
-interface DashboardProps {
-  data: Orphanage[]
-}
-
-const Dashboard: NextPage<DashboardProps> = ({ data }) => {
+const Dashboard: NextPage<{ data: Orphanage[] }> = ({ data }) => {
   const [orphanages, setOrphanages] = useState<Orphanage[]>(data)
   const [deleteOrphanage, setDeleteOrphanage] = useState<Orphanage>()
 

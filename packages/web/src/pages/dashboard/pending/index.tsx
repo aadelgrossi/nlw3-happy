@@ -2,6 +2,7 @@ import React from 'react'
 
 import OrphanageCard from '@/components/OrphanageCard'
 import Sidebar from '@/components/Sidebar'
+import Cookies from 'js-cookie'
 import { NextPage, NextPageContext } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -19,19 +20,7 @@ import {
   NoOrphanages
 } from './styles'
 
-interface Orphanage {
-  id: string
-  name: string
-  slug: string
-  latitude: number
-  longitude: number
-}
-
-interface PendingProps {
-  orphanages: Orphanage[]
-}
-
-const Pending: NextPage<PendingProps> = ({ orphanages }) => {
+const Pending: NextPage<{ orphanages: Orphanage[] }> = ({ orphanages }) => {
   return (
     <Container>
       <Head>
@@ -73,7 +62,13 @@ const Pending: NextPage<PendingProps> = ({ orphanages }) => {
   )
 }
 Pending.getInitialProps = async (context: NextPageContext) => {
-  const cookie = context.req?.headers.cookie
+  const cookie = process.browser
+    ? Cookies.get('auth')
+    : context.req?.headers.cookie
+
+  if (!cookie && !context.req) {
+    Router.replace('/signin')
+  }
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/orphanages/pending`,
@@ -85,10 +80,6 @@ Pending.getInitialProps = async (context: NextPageContext) => {
     }
   )
   const json = await response.json()
-
-  if (response.status === 401 && !context.req) {
-    Router.replace('/signin')
-  }
 
   if (response.status === 401 && context.req) {
     context.res.writeHead(302, {
