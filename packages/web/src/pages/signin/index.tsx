@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useRef } from 'react'
 
 import Checkbox from '@/components/Checkbox'
-import FormContainer from '@/components/FormContainer'
 import Input from '@/components/Input'
 import Label from '@/components/Label'
 import LogoContainer from '@/components/LogoContainer'
@@ -20,7 +19,8 @@ import {
   Container,
   SignInForm,
   ConfirmButton,
-  ForgotPasswordContainer
+  ForgotPasswordContainer,
+  FormContainer
 } from './styles'
 
 interface SignInFormData {

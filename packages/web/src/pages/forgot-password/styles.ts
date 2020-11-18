@@ -25,6 +25,19 @@ export const BackButton = styled.a`
   align-items: center;
 `
 
+export const FormContainer = styled.aside`
+  position: relative;
+  height: 100%;
+  background: #fff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 30%;
+  min-width: 520px;
+`
+
 export const ForgotPasswordForm = styled(Form)`
   display: flex;
   flex-direction: column;
