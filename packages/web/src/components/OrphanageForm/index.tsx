@@ -33,6 +33,7 @@ const MarkerWithNoSSR = dynamic(() => import('../Marker'), {
 interface FormProps {
   formRef: React.RefObject<FormHandles>
   onSubmit(data: OrphanageFormData): void
+  orphanage?: Orphanage
 }
 
 interface OrphanageFormData {
@@ -47,7 +48,12 @@ interface OrphanageFormData {
   image: File[]
 }
 
-const OrphanageForm: React.FC<FormProps> = ({ formRef, children, ...rest }) => {
+const OrphanageForm: React.FC<FormProps> = ({
+  formRef,
+  children,
+  orphanage,
+  ...rest
+}) => {
   const [openOnWeekends, setOpenOnWeekends] = useState(true)
   const [position, setPosition] = useState<LatLngExpression>([
     -23.0794493,
@@ -66,11 +72,16 @@ const OrphanageForm: React.FC<FormProps> = ({ formRef, children, ...rest }) => {
 
   const validateUniquenessOfName = useCallback(async () => {
     const formData = formRef.current.getData()
+
     const schema = Yup.object().shape({
       name: Yup.string().test(
         'checkDuplOrphanage',
         'Nome já cadastrado. Digite outro nome.',
         async value => {
+          if (value === orphanage.name) {
+            return true
+          }
+
           try {
             await api.get(`/orphanages/valid?name=${value}`)
             return true
@@ -103,7 +114,9 @@ const OrphanageForm: React.FC<FormProps> = ({ formRef, children, ...rest }) => {
           <Label>Localização</Label>
           <MapWrapper>
             <MapWithNoSSR
-              center={position}
+              center={
+                orphanage ? [orphanage.latitude, orphanage.longitude] : position
+              }
               zoom={15}
               style={{
                 width: '100%',
@@ -117,7 +130,11 @@ const OrphanageForm: React.FC<FormProps> = ({ formRef, children, ...rest }) => {
             >
               <MarkerWithNoSSR
                 interactive={false}
-                position={position}
+                position={
+                  orphanage
+                    ? [orphanage.latitude, orphanage.longitude]
+                    : position
+                }
               ></MarkerWithNoSSR>
             </MapWithNoSSR>
             <MapLegend>Clique no mapa para adicionar a localização</MapLegend>
@@ -196,7 +213,6 @@ const OrphanageForm: React.FC<FormProps> = ({ formRef, children, ...rest }) => {
           </ButtonSelect>
         </InputBlock>
       </FormGroup>
-
       {children}
     </Container>
   )
