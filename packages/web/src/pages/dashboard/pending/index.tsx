@@ -48,7 +48,7 @@ const Pending: NextPage<{ orphanages: Orphanage[] }> = ({ orphanages }) => {
           ) : (
             orphanages.map(orphanage => (
               <OrphanageCard data={orphanage} key={orphanage.id}>
-                <Link href={`/orphanages/${orphanage.slug}/edit`}>
+                <Link href={`/orphanages/${orphanage.slug}/approval`}>
                   <Button>
                     <FiArrowRight size={24} color="#15C3D6"></FiArrowRight>
                   </Button>
