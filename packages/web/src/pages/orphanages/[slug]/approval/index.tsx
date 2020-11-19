@@ -9,30 +9,26 @@ import Cookies from 'js-cookie'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import Router, { useRouter } from 'next/router'
+import { FiCheck, FiXCircle } from 'react-icons/fi'
 
-import { Container, SubmitButton } from './styles'
+import { Container, Actions, ConfirmButton, RejectButton } from './styles'
 
-interface OrphanageFormData {
-  name: string
-  about: string
-  latitude: number
-  longitude: number
-  instructions: string
-  whatsapp: string
-  opening_hours: string
-  open_on_weekends: boolean
-  image: File[]
-}
-
-const EditOrphanage: NextPage<{ orphanage: Orphanage }> = ({ orphanage }) => {
+const ApproveOrphanage: NextPage<{ orphanage: Orphanage }> = ({
+  orphanage
+}) => {
   const { addToast } = useToast()
   const router = useRouter()
   const formRef = useRef<FormHandles>(null)
 
-  const handleSubmit = useCallback(async (data: OrphanageFormData) => {
-    console.log(data)
+  const handleConfirm = useCallback(async () => {
+    const formData = formRef.current.getData()
+
     try {
-      await api.put(`/orphanages/${orphanage.slug}`, data)
+      await api.put(`/orphanages/${orphanage.slug}`, {
+        ...formData,
+        images: [],
+        approved: true
+      })
       addToast({
         title: 'Orfanato aprovado',
         type: 'info'
@@ -43,6 +39,23 @@ const EditOrphanage: NextPage<{ orphanage: Orphanage }> = ({ orphanage }) => {
         title: 'Ocorreu um erro',
         type: 'error',
         description: 'Falha ao aprovar orfanato.'
+      })
+    }
+  }, [])
+
+  const handleReject = useCallback(async () => {
+    try {
+      await api.put(`/orphanages/${orphanage.slug}/reject`)
+      addToast({
+        title: 'Orfanato rejeitado',
+        type: 'info'
+      })
+      router.push('/dashboard')
+    } catch (err) {
+      addToast({
+        title: 'Ocorreu um erro',
+        type: 'error',
+        description: 'Falha ao rejeitar o orfanato.'
       })
     }
   }, [])
@@ -63,18 +76,26 @@ const EditOrphanage: NextPage<{ orphanage: Orphanage }> = ({ orphanage }) => {
         <main>
           <OrphanageForm
             formRef={formRef}
-            onSubmit={handleSubmit}
+            onSubmit={() => {}}
             orphanage={orphanage}
-          >
-            <SubmitButton type="submit">Editar</SubmitButton>
-          </OrphanageForm>
+          ></OrphanageForm>
+          <Actions>
+            <RejectButton onClick={handleReject}>
+              <FiXCircle size={24} color="#fff" />
+              Recusar
+            </RejectButton>
+            <ConfirmButton onClick={handleConfirm}>
+              <FiCheck size={24} color="#fff" />
+              Aceitar
+            </ConfirmButton>
+          </Actions>
         </main>
       </Container>
     </>
   )
 }
 
-EditOrphanage.getInitialProps = async context => {
+ApproveOrphanage.getInitialProps = async context => {
   const { slug } = context.query
 
   const cookie = process.browser
@@ -90,4 +111,4 @@ EditOrphanage.getInitialProps = async context => {
   return { orphanage: response.data }
 }
 
-export default EditOrphanage
+export default ApproveOrphanage
