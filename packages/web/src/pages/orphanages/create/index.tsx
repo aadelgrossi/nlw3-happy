@@ -21,7 +21,9 @@ interface OrphanageFormData {
   whatsapp: string
   opening_hours: string
   open_on_weekends: boolean
-  image: File[]
+  files: {
+    [key: string]: FileList
+  }
 }
 
 const CreateOrphanage: React.FC = () => {
@@ -29,43 +31,57 @@ const CreateOrphanage: React.FC = () => {
   const formRef = useRef<FormHandles>(null)
   const [submitted, setSubmitted] = useState(false)
 
-  const handleSubmit = useCallback(async (data: OrphanageFormData) => {
-    formRef.current?.setErrors({})
+  const handleSubmit = useCallback(
+    async (data: OrphanageFormData) => {
+      formRef.current?.setErrors({})
 
-    const schema = Yup.object().shape({
-      name: Yup.string().required('Campo obrigatório'),
-      about: Yup.string().required('Campo obrigatório'),
-      latitude: Yup.number().required(),
-      longitude: Yup.number().required(),
-      whatsapp: Yup.string()
-        .matches(
-          /\(([0-9]){2}\) ([0-9]){5}-([0-9]){4}/,
-          'Digite um número valido (xx) xxxxx-xxxx'
-        )
-        .required('Campo obrigatório'),
-      instructions: Yup.string().required('Campo obrigatório'),
-      opening_hours: Yup.string().required('Campo obrigatório'),
-      open_on_weekends: Yup.boolean().required()
-    })
-
-    try {
-      await schema.validate(data, { abortEarly: false })
-      await api.post('/orphanages', data)
-      setSubmitted(true)
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err)
-
-        formRef.current?.setErrors(errors)
-      }
-
-      addToast({
-        title: 'Ocorreu um erro',
-        type: 'error',
-        description: 'A validação falhou. Favor revise os dados'
+      const schema = Yup.object().shape({
+        name: Yup.string().required('Campo obrigatório'),
+        about: Yup.string().required('Campo obrigatório'),
+        latitude: Yup.number().required(),
+        longitude: Yup.number().required(),
+        whatsapp: Yup.string()
+          .matches(
+            /\(([0-9]){2}\) ([0-9]){5}-([0-9]){4}/,
+            'Digite um número valido (xx) xxxxx-xxxx'
+          )
+          .required('Campo obrigatório'),
+        instructions: Yup.string().required('Campo obrigatório'),
+        opening_hours: Yup.string().required('Campo obrigatório'),
+        open_on_weekends: Yup.boolean().required()
       })
-    }
-  }, [])
+      try {
+        const formDataWithFiles = new FormData()
+
+        // add all keys but files
+        Object.keys(data).map(key => {
+          if (key !== 'files') {
+            formDataWithFiles.append(key, data[key])
+          }
+        })
+
+        // get file list with workaround and map each file
+        Array.from(data.files['']).map(file => {
+          formDataWithFiles.append('files', file)
+        })
+
+        await schema.validate(data, { abortEarly: false })
+        await api.post('/orphanages', formDataWithFiles)
+        setSubmitted(true)
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err)
+          formRef.current?.setErrors(errors)
+        }
+        addToast({
+          title: 'Ocorreu um erro',
+          type: 'error',
+          description: 'A validação falhou. Favor revise os dados'
+        })
+      }
+    },
+    [addToast]
+  )
 
   return (
     <>

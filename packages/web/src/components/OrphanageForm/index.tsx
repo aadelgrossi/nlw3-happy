@@ -46,7 +46,9 @@ interface OrphanageFormData {
   whatsapp: string
   opening_hours: string
   open_on_weekends: boolean
-  image: File[]
+  files: {
+    [key: string]: FileList
+  }
 }
 
 const OrphanageForm: React.FC<FormProps> = ({
@@ -70,7 +72,7 @@ const OrphanageForm: React.FC<FormProps> = ({
         setPosition([coords.latitude, coords.longitude])
       })
     }
-  }, [])
+  }, [orphanage])
 
   const handleMapClick = useCallback((event: LeafletMouseEvent) => {
     setPosition(event.latlng)
@@ -168,12 +170,12 @@ const OrphanageForm: React.FC<FormProps> = ({
 
           <ImagesContainer>
             <MultipleFileInput
-              name="images[]"
-              id="images[]"
+              name="files[]"
+              id="files[]"
               images={orphanage?.images.map(image => image.url)}
             ></MultipleFileInput>
 
-            <NewImage htmlFor="images[]">
+            <NewImage htmlFor="files[]">
               <FiPlus size={24} color="#15b6d6" />
             </NewImage>
           </ImagesContainer>

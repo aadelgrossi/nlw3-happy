@@ -21,6 +21,6 @@ orphanageRouter.get('/valid', OrphanagesController.valid)
 orphanageRouter.get('/:slug', OrphanagesController.show)
 orphanageRouter.put('/:slug', ensureAuthenticated, OrphanagesController.update)
 orphanageRouter.delete('/:id', OrphanagesController.delete)
-orphanageRouter.post('/', upload.array('images'), OrphanagesController.create)
+orphanageRouter.post('/', upload.array('files'), OrphanagesController.create)
 
 export default orphanageRouter
