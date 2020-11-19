@@ -13,18 +13,6 @@ import { FiCheck, FiXCircle } from 'react-icons/fi'
 
 import { Container, Actions, ConfirmButton, RejectButton } from './styles'
 
-interface OrphanageFormData {
-  name: string
-  about: string
-  latitude: number
-  longitude: number
-  instructions: string
-  whatsapp: string
-  opening_hours: string
-  open_on_weekends: boolean
-  images: File[]
-}
-
 const EditOrphanage: NextPage<{ orphanage: Orphanage }> = ({ orphanage }) => {
   const { addToast } = useToast()
   const router = useRouter()
@@ -54,13 +42,8 @@ const EditOrphanage: NextPage<{ orphanage: Orphanage }> = ({ orphanage }) => {
   }, [])
 
   const handleReject = useCallback(async () => {
-    const formData = formRef.current.getData() as OrphanageFormData
-
     try {
-      await api.put(`/orphanages/${orphanage.slug}`, {
-        ...formData,
-        approved: false
-      })
+      await api.put(`/orphanages/${orphanage.slug}/reject`)
       addToast({
         title: 'Orfanato rejeitado',
         type: 'info'

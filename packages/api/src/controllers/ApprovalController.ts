@@ -14,5 +14,18 @@ export default {
     })
 
     return response.json(orphanagesView.renderMany(orphanages))
+  },
+
+  async reject(request: Request, response: Response): Promise<Response> {
+    const { slug } = request.params
+    const orphanagesRepository = getRepository(Orphanage)
+
+    const orphanage = await orphanagesRepository.findOne({ where: { slug } })
+
+    orphanage.approved = false
+
+    await orphanagesRepository.save(orphanage)
+
+    return response.sendStatus(200)
   }
 }

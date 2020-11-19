@@ -10,6 +10,11 @@ const orphanageRouter = Router()
 const upload = multer(uploadConfig.multer)
 
 orphanageRouter.get('/pending', ensureAuthenticated, ApprovalController.pending)
+orphanageRouter.put(
+  '/:slug/reject',
+  ensureAuthenticated,
+  ApprovalController.reject
+)
 
 orphanageRouter.get('/', OrphanagesController.index)
 orphanageRouter.get('/valid', OrphanagesController.valid)
