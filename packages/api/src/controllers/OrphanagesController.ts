@@ -77,7 +77,7 @@ export default {
       about,
       instructions,
       opening_hours,
-      open_on_weekends: !!open_on_weekends,
+      open_on_weekends: open_on_weekends === 'true',
       whatsapp: sanitizedWhatsapp,
       images
     }
@@ -154,9 +154,9 @@ export default {
       longitude,
       instructions,
       opening_hours,
-      open_on_weekends: !!open_on_weekends,
+      open_on_weekends: open_on_weekends === 'true',
       whatsapp: sanitizedWhatsapp || orphanage.whatsapp,
-      approved
+      approved: approved || orphanage.approved
     }
 
     const schema = Yup.object().shape({
