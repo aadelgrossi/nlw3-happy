@@ -2,20 +2,78 @@ import React, { useCallback, useEffect, useRef } from 'react'
 
 import OrphanageForm from '@/components/OrphanageForm'
 import Sidebar from '@/components/Sidebar'
+import { useToast } from '@/hooks/toast'
 import api from '@/services/api'
 import { FormHandles } from '@unform/core'
 import Cookies from 'js-cookie'
 import { NextPage } from 'next'
 import Head from 'next/head'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 import { FiCheck, FiXCircle } from 'react-icons/fi'
 
 import { Container, Actions, ConfirmButton, RejectButton } from './styles'
 
+interface OrphanageFormData {
+  name: string
+  about: string
+  latitude: number
+  longitude: number
+  instructions: string
+  whatsapp: string
+  opening_hours: string
+  open_on_weekends: boolean
+  images: File[]
+}
+
 const EditOrphanage: NextPage<{ orphanage: Orphanage }> = ({ orphanage }) => {
+  const { addToast } = useToast()
+  const router = useRouter()
   const formRef = useRef<FormHandles>(null)
 
-  const handleSubmit = useCallback(() => {}, [])
+  const handleConfirm = useCallback(async () => {
+    const formData = formRef.current.getData()
+
+    try {
+      await api.put(`/orphanages/${orphanage.slug}`, {
+        ...formData,
+        images: [],
+        approved: true
+      })
+      addToast({
+        title: 'Orfanato aprovado',
+        type: 'info'
+      })
+      router.push('/dashboard')
+    } catch (err) {
+      addToast({
+        title: 'Ocorreu um erro',
+        type: 'error',
+        description: 'Falha ao aprovar orfanato.'
+      })
+    }
+  }, [])
+
+  const handleReject = useCallback(async () => {
+    const formData = formRef.current.getData() as OrphanageFormData
+
+    try {
+      await api.put(`/orphanages/${orphanage.slug}`, {
+        ...formData,
+        approved: false
+      })
+      addToast({
+        title: 'Orfanato rejeitado',
+        type: 'info'
+      })
+      router.push('/dashboard')
+    } catch (err) {
+      addToast({
+        title: 'Ocorreu um erro',
+        type: 'error',
+        description: 'Falha ao rejeitar o orfanato.'
+      })
+    }
+  }, [])
 
   useEffect(() => {
     formRef.current?.setData(orphanage)
@@ -33,15 +91,15 @@ const EditOrphanage: NextPage<{ orphanage: Orphanage }> = ({ orphanage }) => {
         <main>
           <OrphanageForm
             formRef={formRef}
-            onSubmit={handleSubmit}
+            onSubmit={() => {}}
             orphanage={orphanage}
           ></OrphanageForm>
           <Actions>
-            <RejectButton>
+            <RejectButton onClick={handleReject}>
               <FiXCircle size={24} color="#fff" />
               Recusar
             </RejectButton>
-            <ConfirmButton>
+            <ConfirmButton onClick={handleConfirm}>
               <FiCheck size={24} color="#fff" />
               Aceitar
             </ConfirmButton>
