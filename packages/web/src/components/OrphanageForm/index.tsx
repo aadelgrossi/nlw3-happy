@@ -55,20 +55,27 @@ const OrphanageForm: React.FC<FormProps> = ({
   orphanage,
   ...rest
 }) => {
-  const [openOnWeekends, setOpenOnWeekends] = useState(true)
-  const [position, setPosition] = useState<LatLngExpression>([
-    -23.0794493,
-    -52.4684549
-  ])
+  const [openOnWeekends, setOpenOnWeekends] = useState(() =>
+    orphanage ? orphanage.open_on_weekends : true
+  )
+  const [position, setPosition] = useState<LatLngExpression>(() =>
+    orphanage
+      ? [orphanage.latitude, orphanage.longitude]
+      : [-23.0794493, -52.4684549]
+  )
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(({ coords }) => {
-      setPosition([coords.latitude, coords.longitude])
-    })
+    if (!orphanage) {
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        setPosition([coords.latitude, coords.longitude])
+      })
+    }
   }, [])
 
   const handleMapClick = useCallback((event: LeafletMouseEvent) => {
     setPosition(event.latlng)
+    formRef.current.setFieldValue('latitude', event.latlng.lat)
+    formRef.current.setFieldValue('longitude', event.latlng.lng)
   }, [])
 
   const validateUniquenessOfName = useCallback(async () => {
@@ -115,9 +122,7 @@ const OrphanageForm: React.FC<FormProps> = ({
           <Label>Localização</Label>
           <MapWrapper>
             <MapWithNoSSR
-              center={
-                orphanage ? [orphanage.latitude, orphanage.longitude] : position
-              }
+              center={position}
               zoom={15}
               style={{
                 width: '100%',
@@ -131,11 +136,7 @@ const OrphanageForm: React.FC<FormProps> = ({
             >
               <MarkerWithNoSSR
                 interactive={false}
-                position={
-                  orphanage
-                    ? [orphanage.latitude, orphanage.longitude]
-                    : position
-                }
+                position={position}
               ></MarkerWithNoSSR>
             </MapWithNoSSR>
             <MapLegend>Clique no mapa para adicionar a localização</MapLegend>
