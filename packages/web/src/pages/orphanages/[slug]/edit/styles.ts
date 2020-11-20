@@ -8,7 +8,7 @@ export const Container = styled.div`
   }
 `
 
-export const ConfirmButton = styled.button`
+export const SubmitButton = styled.button`
   margin-top: 64px;
 
   width: 100%;

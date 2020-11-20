@@ -77,7 +77,7 @@ export default {
       about,
       instructions,
       opening_hours,
-      open_on_weekends,
+      open_on_weekends: open_on_weekends === 'true',
       whatsapp: sanitizedWhatsapp,
       images
     }
@@ -110,10 +110,11 @@ export default {
   },
 
   async update(request: Request, response: Response): Promise<Response> {
-    const { id } = request.params
+    const { slug } = request.params
     const orphanagesRepository = getRepository(Orphanage)
 
-    const orphanage = await orphanagesRepository.findOne(id, {
+    const orphanage = await orphanagesRepository.findOne({
+      where: { slug },
       relations: ['images']
     })
 
@@ -124,13 +125,19 @@ export default {
     const {
       name,
       about,
+      latitude,
+      longitude,
       instructions,
       opening_hours,
       open_on_weekends,
-      whatsapp
+      whatsapp,
+      approved
     } = request.body
 
+    const sanitizedWhatsapp = whatsapp.replace(/[^\w]/gi, '')
+
     if (name !== orphanage.name) {
+      console.log(name, orphanage.name, 'changing name')
       const nameIsTaken = await orphanagesRepository.findOne({
         where: { name }
       })
@@ -141,24 +148,27 @@ export default {
     }
 
     const newOrphanageData = {
-      name: name || orphanage.name,
-      about: about || orphanage.about,
-      instructions: instructions || orphanage.instructions,
-      opening_hours: opening_hours || orphanage.opening_hours,
-      open_on_weekends:
-        open_on_weekends === undefined
-          ? orphanage.open_on_weekends
-          : open_on_weekends,
-      whatsapp: whatsapp || orphanage.whatsapp
+      name,
+      about,
+      latitude,
+      longitude,
+      instructions,
+      opening_hours,
+      open_on_weekends: open_on_weekends === 'true',
+      whatsapp: sanitizedWhatsapp || orphanage.whatsapp,
+      approved: approved || orphanage.approved
     }
 
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       about: Yup.string().required().max(300),
+      latitude: Yup.number().required(),
+      longitude: Yup.number().required(),
       instructions: Yup.string().required(),
       opening_hours: Yup.string().required(),
       open_on_weekends: Yup.boolean().required(),
-      whatsapp: Yup.string().min(10).max(11).required()
+      whatsapp: Yup.string().min(10).max(11).required(),
+      approved: Yup.boolean().required()
     })
 
     await schema.validate(newOrphanageData, {

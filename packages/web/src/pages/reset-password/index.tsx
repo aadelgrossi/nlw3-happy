@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
-import FormContainer from '@/components/FormContainer'
 import Label from '@/components/Label'
 import LogoContainer from '@/components/LogoContainer'
 import PasswordInput from '@/components/PasswordInput'
@@ -18,18 +17,15 @@ import {
   BackButton,
   ResetPasswordForm,
   InputField,
-  ConfirmButton
+  ConfirmButton,
+  FormContainer
 } from './styles'
-
-interface ResetPasswordProps {
-  token: string | string[]
-}
 
 interface ResetPasswordFormData {
   password: string
 }
 
-const ResetPassword: NextPage<ResetPasswordProps> = ({ token }) => {
+const ResetPassword: NextPage<{ token: string | string[] }> = ({ token }) => {
   const [isFormValid, setIsFormValid] = useState(false)
   const { addToast } = useToast()
   const { back, push } = useRouter()

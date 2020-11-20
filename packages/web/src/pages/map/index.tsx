@@ -18,19 +18,9 @@ const MarkerWithNoSSR = dynamic(() => import('../../components/Marker'), {
   ssr: false
 })
 
-interface Orphanage {
-  id: string
-  latitude: number
-  longitude: number
-  slug: string
-  name: string
-}
-
-interface OrphanageMapProps {
-  orphanages: Orphanage[]
-}
-
-const OrphanageMap: NextPage<OrphanageMapProps> = ({ orphanages }) => {
+const OrphanageMap: NextPage<{ orphanages: Orphanage[] }> = ({
+  orphanages
+}) => {
   const [location, setLocation] = useState<LatLngExpression>([
     -23.0878701,
     -52.4666419

@@ -56,25 +56,29 @@ const ShowOrphanage: React.FC<OrphanageProps> = ({ orphanage }) => {
 
       <main>
         <OrphanageDetails>
-          <img
-            src={orphanage.images[activeImageIndex].url}
-            alt={orphanage.name}
-          />
+          {orphanage.images && (
+            <>
+              <img
+                src={orphanage.images[activeImageIndex].url}
+                alt={orphanage.name}
+              />
 
-          <Images>
-            {orphanage.images.map((image, index) => (
-              <button
-                key={image.id}
-                className={activeImageIndex === index ? 'active' : ''}
-                type="button"
-                onClick={() => {
-                  setActiveImageIndex(index)
-                }}
-              >
-                <img src={image.url} alt={orphanage.name} />
-              </button>
-            ))}
-          </Images>
+              <Images>
+                {orphanage.images.map((image, index) => (
+                  <button
+                    key={image.id}
+                    className={activeImageIndex === index ? 'active' : ''}
+                    type="button"
+                    onClick={() => {
+                      setActiveImageIndex(index)
+                    }}
+                  >
+                    <img src={image.url} alt={orphanage.name} />
+                  </button>
+                ))}
+              </Images>
+            </>
+          )}
 
           <OrphanageContent>
             <h1>{orphanage.name}</h1>

@@ -20,7 +20,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const MaskedInput: React.FC<InputProps> = ({ name, children, ...rest }) => {
   const inputRef = useRef(null)
   const [isFocused, setIsFocused] = useState(false)
-  const { fieldName, defaultValue, registerField, error } = useField(name)
+  const { fieldName, registerField, error } = useField(name)
 
   useEffect(() => {
     registerField({
@@ -44,7 +44,6 @@ const MaskedInput: React.FC<InputProps> = ({ name, children, ...rest }) => {
         <ReactInputMask
           ref={inputRef}
           mask="(99) 99999-9999"
-          defaultValue={defaultValue}
           onBlur={handleInputBlur}
           onFocus={handleInputFocus}
           {...rest}

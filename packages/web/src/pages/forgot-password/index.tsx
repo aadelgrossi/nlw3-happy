@@ -1,6 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react'
 
-import FormContainer from '@/components/FormContainer'
 import Input from '@/components/Input'
 import Label from '@/components/Label'
 import LogoContainer from '@/components/LogoContainer'
@@ -16,7 +15,8 @@ import {
   Container,
   BackButton,
   ForgotPasswordForm,
-  ConfirmButton
+  ConfirmButton,
+  FormContainer
 } from './styles'
 
 interface ForgotPasswordFormData {
