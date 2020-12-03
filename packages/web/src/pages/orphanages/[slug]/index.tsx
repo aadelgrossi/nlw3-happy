@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import Sidebar from '@/components/Sidebar'
 import api from '@/services/api'
@@ -7,14 +7,15 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { FaWhatsapp } from 'react-icons/fa'
 import { FiClock, FiInfo } from 'react-icons/fi'
+import { Carousel } from 'react-responsive-carousel'
 
 import {
   Container,
   OrphanageDetails,
   OrphanageContent,
-  Images,
   MapContainer,
-  OpenDetails
+  OpenDetails,
+  SliderIndicator
 } from './styles'
 
 interface Orphanage {
@@ -45,8 +46,6 @@ const MarkerWithNoSSR = dynamic(() => import('../../../components/Marker'), {
 })
 
 const ShowOrphanage: React.FC<OrphanageProps> = ({ orphanage }) => {
-  const [activeImageIndex, setActiveImageIndex] = useState(0)
-
   return (
     <Container>
       <Head>
@@ -57,27 +56,18 @@ const ShowOrphanage: React.FC<OrphanageProps> = ({ orphanage }) => {
       <main>
         <OrphanageDetails>
           {orphanage.images && (
-            <>
-              <img
-                src={orphanage.images[activeImageIndex].url}
-                alt={orphanage.name}
-              />
-
-              <Images>
-                {orphanage.images.map((image, index) => (
-                  <button
-                    key={image.id}
-                    className={activeImageIndex === index ? 'active' : ''}
-                    type="button"
-                    onClick={() => {
-                      setActiveImageIndex(index)
-                    }}
-                  >
-                    <img src={image.url} alt={orphanage.name} />
-                  </button>
-                ))}
-              </Images>
-            </>
+            <Carousel
+              showStatus={false}
+              renderIndicator={(onClickHandler, isSelected) => (
+                <SliderIndicator isSelected={isSelected} />
+              )}
+            >
+              {orphanage.images.map(image => (
+                <div key={image.id}>
+                  <img src={image.url} alt={orphanage.name} />
+                </div>
+              ))}
+            </Carousel>
           )}
 
           <OrphanageContent>
