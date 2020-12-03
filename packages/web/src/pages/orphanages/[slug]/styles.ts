@@ -23,34 +23,29 @@ export const OrphanageDetails = styled.div`
     height: 300px;
     object-fit: cover;
   }
-`
 
-export const Images = styled.div`
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  column-gap: 16px;
+  .carousel .control-dots {
+    background-color: rgba(0, 0, 0, 0.5);
+    width: fit-content;
+    left: 45%;
+    align-items: center;
+    display: flex;
+    padding: 0px 6px;
+    justify-content: center;
+    height: 20px;
+    border-radius: 10px;
+  }
 
-  margin: 16px 40px 0;
-
-  button {
-    border: 0;
-    height: 88px;
-    background: none;
+  .carousel .thumb {
+    padding: 0;
+    border-radius: 8px;
+    border: 1px solid #d3e2e5;
+    opacity: 0.5;
     cursor: pointer;
-    border-radius: 20px;
-    overflow: hidden;
-    outline: none;
 
-    opacity: 0.6;
-
-    &.active {
+    &.selected {
       opacity: 1;
-    }
-
-    img {
-      width: 100%;
-      height: 88px;
-      object-fit: cover;
+      border: 1px solid #8fa7b2;
     }
   }
 `
@@ -170,4 +165,13 @@ export const OpenDetails = styled.div`
     border: 1px solid #ffbcd4;
     color: #ff6690;
   }
+`
+
+export const SliderIndicator = styled.li<{ isSelected: boolean }>`
+  background: ${props => (props.isSelected ? '#ffd152' : '#fff')};
+  width: ${props => (props.isSelected ? 16 : 6)}px;
+  height: 4px;
+  border-radius: ${props => (props.isSelected ? 30 : 40)}%;
+  display: inline-block;
+  margin: 0 6px;
 `
