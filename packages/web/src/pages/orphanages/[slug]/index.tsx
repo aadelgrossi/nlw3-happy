@@ -5,6 +5,7 @@ import api from '@/services/api'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
+import Link from 'next/link'
 import { FaWhatsapp } from 'react-icons/fa'
 import { FiClock, FiInfo } from 'react-icons/fi'
 import { Carousel } from 'react-responsive-carousel'
@@ -28,6 +29,7 @@ interface Orphanage {
   instructions: string
   opening_hours: string
   open_on_weekends: boolean
+  whatsapp: string
   images: Array<{
     id: string
     url: string
@@ -129,10 +131,14 @@ const ShowOrphanage: React.FC<OrphanageProps> = ({ orphanage }) => {
               )}
             </OpenDetails>
 
-            <button type="button" className="contact-button">
-              <FaWhatsapp size={20} color="#FFF" />
-              Entrar em contato
-            </button>
+            <Link
+              href={`http://api.whatsapp.com/send/?phone=${orphanage.whatsapp}&text`}
+            >
+              <button type="button" className="contact-button">
+                <FaWhatsapp size={20} color="#FFF" />
+                Entrar em contato
+              </button>
+            </Link>
           </OrphanageContent>
         </OrphanageDetails>
       </main>
@@ -148,8 +154,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = response.data.map((orphanage: Orphanage) => {
     return { params: { slug: orphanage.slug } }
   })
-
-  console.log(paths)
 
   return {
     paths,
