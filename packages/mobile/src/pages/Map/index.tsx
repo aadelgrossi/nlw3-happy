@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
-import { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
-import { Feather } from '@expo/vector-icons'
-import initialRegion from '../../constants/initialRegion'
+import React, { useCallback, useState } from 'react'
 
+import { Feather } from '@expo/vector-icons'
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
+import { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
+
+import initialRegion from '../../constants/initialRegion'
+import mapMarker from '../../images/mapmarker.png'
+import api from '../../services/api'
 import {
   Container,
   Popup,
@@ -13,10 +17,6 @@ import {
   FooterAddButton,
   FooterText
 } from './styles'
-
-import mapMarker from '../../images/mapmarker.png'
-import { useNavigation, useFocusEffect } from '@react-navigation/native'
-import api from '../../services/api'
 
 interface Orphanage {
   id: string
@@ -30,10 +30,14 @@ const Map: React.FC = () => {
   const [orphanages, setOrphanages] = useState<Orphanage[]>([])
 
   useFocusEffect(() => {
+    fetchOrphanages()
+  })
+
+  const fetchOrphanages = useCallback(() => {
     api.get('/orphanages').then(({ data }) => {
       setOrphanages(data)
     })
-  })
+  }, [])
 
   const handleNavigateToOrphanageDetails = (id: string) => {
     navigation.navigate('OrphanageDetails', { id })
