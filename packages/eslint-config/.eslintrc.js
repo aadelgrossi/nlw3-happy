@@ -28,7 +28,6 @@ module.exports = {
     'prettier/prettier': 'error',
     'space-before-function-paren': 'off',
     'react/prop-types': 'off',
-    'no-unused-vars': 'warn',
     'no-use-before-define': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     'react/display-name': 'off',
@@ -40,6 +39,14 @@ module.exports = {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     'no-useless-constructor': 'off',
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "varsIgnorePattern": "_",
+        "argsIgnorePattern": "_"
+      }
+    ],
     "import/order": [
       "error",
       {
