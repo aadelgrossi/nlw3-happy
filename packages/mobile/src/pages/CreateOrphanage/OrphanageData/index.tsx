@@ -1,16 +1,17 @@
 import React, { useCallback, useState } from 'react'
+
 import { Feather } from '@expo/vector-icons'
-import Toast from 'react-native-simple-toast'
-import { Switch } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/core'
-import { LatLng } from 'react-native-maps'
 import {
   requestCameraRollPermissionsAsync,
   launchImageLibraryAsync,
   MediaTypeOptions
 } from 'expo-image-picker'
-import api from '../../../services/api'
+import { Switch } from 'react-native'
+import { LatLng } from 'react-native-maps'
+import Toast from 'react-native-simple-toast'
 
+import api from '../../../services/api'
 import {
   Container,
   Title,
