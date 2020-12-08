@@ -5,6 +5,7 @@ import api from '@/services/api'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
+import Image from 'next/image'
 import Link from 'next/link'
 import { FaWhatsapp } from 'react-icons/fa'
 import { FiClock, FiInfo } from 'react-icons/fi'
@@ -60,13 +61,21 @@ const ShowOrphanage: React.FC<OrphanageProps> = ({ orphanage }) => {
           {orphanage.images && (
             <Carousel
               showStatus={false}
+              showThumbs={false}
               renderIndicator={(onClickHandler, isSelected) => (
                 <SliderIndicator isSelected={isSelected} />
               )}
             >
               {orphanage.images.map(image => (
                 <div key={image.id}>
-                  <img src={image.url} alt={orphanage.name} />
+                  <Image
+                    src={image.url}
+                    alt={orphanage.name}
+                    layout="intrinsic"
+                    loading="eager"
+                    width={700}
+                    height={400}
+                  />
                 </div>
               ))}
             </Carousel>

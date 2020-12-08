@@ -34,6 +34,7 @@ export const OrphanageDetails = styled.div`
     justify-content: center;
     height: 20px;
     border-radius: 10px;
+    margin-bottom: 20px;
   }
 
   .carousel .thumb {
@@ -47,6 +48,10 @@ export const OrphanageDetails = styled.div`
       opacity: 1;
       border: 1px solid #8fa7b2;
     }
+  }
+
+  .carousel .slide {
+    background-color: transparent;
   }
 `
 
@@ -171,7 +176,7 @@ export const SliderIndicator = styled.li<{ isSelected: boolean }>`
   background: ${props => (props.isSelected ? '#ffd152' : '#fff')};
   width: ${props => (props.isSelected ? 16 : 6)}px;
   height: 4px;
-  border-radius: ${props => (props.isSelected ? 30 : 40)}%;
+  border-radius: 4px;
   display: inline-block;
   margin: 0 6px;
 `
