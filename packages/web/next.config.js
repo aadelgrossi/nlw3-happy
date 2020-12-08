@@ -1,5 +1,5 @@
-const withImages = require('next-images')
-
-module.exports = withImages({
-  esModule: true,
-})
+module.exports = {
+  images: {
+    domains: ['nlw3-happy.s3.amazonaws.com']
+  },
+}
