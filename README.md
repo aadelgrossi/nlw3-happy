@@ -71,10 +71,10 @@ Para rodar o projeto você deve possuir uma instância do Postgres em sua máqui
   ...
 ```
 
-### 4. Rodar as migrations (criar as tabelas no banco)
+### 4. Execute as migrations e popule o banco com dados
 
 ```bash
-yarn db:migrate
+yarn db:migrate && yarn db:seed
 ```
 
 ### 5. Iniciar os servidores

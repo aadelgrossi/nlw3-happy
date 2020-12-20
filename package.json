@@ -21,6 +21,7 @@
     "clean:node-modules": "rimraf node_modules packages/*/node_modules",
     "clean:expo-cache": "rimraf packages/*/.expo",
     "db:migrate": "yarn workspace @nlw3-happy/api typeorm migration:run",
+    "db:seed": "yarn workspace @nlw3-happy/api seed:run",
     "run:api": "yarn workspace @nlw3-happy/api dev:server",
     "run:web": "yarn workspace @nlw3-happy/web dev",
     "run:mobile": "yarn workspace @nlw3-happy/mobile start -c",
