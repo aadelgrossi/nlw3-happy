@@ -132,9 +132,9 @@ const orphanages = [
 ]
 
 const user = {
-  name: 'John Doe',
-  email: 'johndoe@mail.com',
-  password: '123456'
+  name: 'Admin Happy',
+  email: 'admin@happy.com',
+  password: 'happy1234'
 }
 
 export { orphanages, user }
