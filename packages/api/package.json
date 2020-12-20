@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev:server": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules src/server.ts",
-    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
+    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "seed:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed"
   },
   "devDependencies": {
     "@types/cors": "^2.8.8",
@@ -44,6 +45,7 @@
     "slugify": "^1.4.5",
     "tsyringe": "^4.3.0",
     "typeorm": "^0.2.28",
+    "typeorm-seeding": "^1.6.1",
     "uuid": "^8.3.1",
     "yup": "^0.29.3"
   }

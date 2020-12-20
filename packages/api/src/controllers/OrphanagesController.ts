@@ -137,7 +137,6 @@ export default {
     const sanitizedWhatsapp = whatsapp.replace(/[^\w]/gi, '')
 
     if (name !== orphanage.name) {
-      console.log(name, orphanage.name, 'changing name')
       const nameIsTaken = await orphanagesRepository.findOne({
         where: { name }
       })
