@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
+    "target": "ES2017",
     "lib": ["es6"],
     "allowJs": true,
     "outDir": "./dist",
@@ -20,6 +21,6 @@
     }
   },
   "include": [
-    "src/**/*"
+    "./src"
   ]
 }
