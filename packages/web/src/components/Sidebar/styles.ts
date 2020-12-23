@@ -16,81 +16,24 @@ export const Container = styled.aside`
   }
 `
 
-export const Menu = styled.div``
-
-export const Footer = styled.footer`
-  a,
-  button {
-    width: 48px;
-    height: 48px;
-
-    border: 0;
-
-    background: #12afcb;
-    border-radius: 16px;
-
-    cursor: pointer;
-
-    transition: background-color 0.2s;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  a:hover,
-  button:hover {
-    background: #17d6eb;
-  }
-`
-
-interface ButtonProps {
-  hasUnread?: boolean
-}
-
-export const Button = styled.button<ButtonProps>`
+export const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
 
   width: 48px;
   height: 48px;
   border: 0;
-  background: #12afcb;
   border-radius: 16px;
-  cursor: pointer;
   transition: background-color 0.2s;
+  background: #12afcb;
 
-  & + & {
-    margin-top: 24px;
-  }
+  cursor: pointer;
+`
 
-  span {
-    position: absolute;
-    width: 11px;
-    height: 11px;
-    border-radius: 100%;
-    border: 2px solid #12afcb;
-    background-color: #ffd666;
-    top: 10px;
-    right: 10px;
-  }
-
-  span.seen {
-    visibility: hidden;
-  }
-
-  &.active {
-    background: #ffd666;
-
-    svg {
-      stroke: #0089a5;
-    }
-
-    span {
-      border: 2px solid #ffd666;
-      background-color: #0089a5;
-    }
+export const Footer = styled.footer`
+  a:hover,
+  button:hover {
+    background: #17d6eb;
   }
 `
