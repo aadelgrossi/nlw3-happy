@@ -10,5 +10,9 @@ module.exports = {
   seeds: [process.env.TYPEORM_SEEDS],
   cli: {
     migrationsDir: process.env.TYPEORM_MIGRATIONS_DIR
-  }
+  },
+  extra: {
+    ssl: true,
+    rejectUnauthorized: false
+  },
 }
