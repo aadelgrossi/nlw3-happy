@@ -1,3 +1,7 @@
+const sslConfig = process.env.NODE_ENV === 'production'
+  ? { ssl: { rejectUnauthorized: false }}
+  : null
+
 module.exports = {
   name: 'default',
   type: "postgres",
@@ -12,7 +16,5 @@ module.exports = {
   cli: {
     migrationsDir: process.env.TYPEORM_MIGRATIONS_DIR
   },
-  ssl: {
-    rejectUnauthorized: false
-  }
+  ...sslConfig
 }

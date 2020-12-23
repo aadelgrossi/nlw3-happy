@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import 'dotenv/config'
+import 'dotenv-flow/config'
 import path from 'path'
 
 import cookieParser from 'cookie-parser'
