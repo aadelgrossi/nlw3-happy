@@ -1,20 +1,39 @@
-name: Deploy API
+# name: Deploy API
+
+# on:
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       - 'packages/api/**'
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: akhileshns/heroku-deploy@v3.7.8 # This is the action
+#         with:
+#           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+#           heroku_app_name: "nlw3-happy-api" #Must be unique in Heroku
+#           heroku_email: "iamandregrossi@gmail.com"
+#           appdir: "packages/api" # <- This will point to the api folder in your project
+name: Deploy to Heroku (Backend)
 
 on:
   push:
     branches:
-      - main
+      - master
     paths:
-      - 'packages/api/**'
+      - "packages/api/**"
+      - ".github/workflows/api-deploy.yml"
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.7.8 # This is the action
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "nlw3-happy-api" #Must be unique in Heroku
-          heroku_email: "iamandregrossi@gmail.com"
-          appdir: "packages/api" # <- This will point to the api folder in your project
+      - name: Add backend remote origin
+        run: git remote add heroku-backend https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+      - name: Deploy backend to Heroku
+        run: git push heroku-backend `git subtree split --prefix packages/api main`:refs/heads/main --force
