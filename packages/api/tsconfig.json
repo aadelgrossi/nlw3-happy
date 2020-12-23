@@ -1,8 +1,7 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
-    "target": "ES2017",
+    "target": "es5",
     "lib": ["es6"],
     "allowJs": true,
     "outDir": "./dist",
@@ -17,6 +16,7 @@
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
     "baseUrl": "./src",
     "paths": {
       "~/*": ["./*"]
