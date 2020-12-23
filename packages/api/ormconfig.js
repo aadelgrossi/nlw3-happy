@@ -11,5 +11,7 @@ module.exports = {
   cli: {
     migrationsDir: process.env.TYPEORM_MIGRATIONS_DIR
   },
-  ssl: process.NODE_ENV === 'production'
+  extra: {
+    ssl: true
+  }
 }
