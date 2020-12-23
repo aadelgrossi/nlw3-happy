@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from 'express'
 import { verify } from 'jsonwebtoken'
+
 import authConfig from '~/config/auth'
 
 interface TokenPayload {
-  iat: number
-  exp: number
   id: string
 }
 
@@ -29,8 +28,8 @@ const ensureAuthenticated = (
     }
 
     return next()
-  } catch {
-    return response.status(401).json('Token is invalid')
+  } catch (err) {
+    return response.status(401).json(err.message)
   }
 }
 
