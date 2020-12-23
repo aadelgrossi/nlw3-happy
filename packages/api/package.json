@@ -6,9 +6,10 @@
   "scripts": {
     "dev:server": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules src/server.ts --node-env=development",
     "start": "node dist/server.js",
-    "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./src -o ./dist",
+    "build": "rimraf dist && tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./src -o ./dist && npm run copy:templates",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "seed": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed"
+    "seed": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed",
+    "copy:templates": "cpx \"./src/views/templates/*.hbs\" \"./dist/views/templates\" --clean"
   },
   "devDependencies": {
     "@types/cors": "^2.8.8",
@@ -21,6 +22,7 @@
     "@types/supertest": "^2.0.8",
     "@types/uuid": "^8.3.0",
     "@types/yup": "^0.29.8",
+    "cpx": "^1.5.0",
     "jest": "^25.3.0",
     "supertest": "^4.0.2",
     "ts-jest": "^25.3.1",
