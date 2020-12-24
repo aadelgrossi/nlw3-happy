@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 
 import OrphanageCard from '@/components/OrphanageCard'
-import Sidebar from '@/components/Sidebar'
+import AuthenticatedSidebar from '@/components/Sidebar/Authenticated'
 import { useToast } from '@/hooks/toast'
 import api from '@/services/api'
 import Cookies from 'js-cookie'
@@ -71,7 +71,7 @@ const Dashboard: NextPage<{ data: Orphanage[] }> = ({ data }) => {
         </DeleteOrphanageContainer>
       ) : (
         <>
-          <Sidebar />
+          <AuthenticatedSidebar />
           <Contents>
             <Header>
               <h1>Orfanatos cadastrados</h1>
