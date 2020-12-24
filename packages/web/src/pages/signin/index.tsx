@@ -26,24 +26,22 @@ import {
 interface SignInFormData {
   email: string
   password: string
+  remember: boolean
 }
 
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null)
-  const { push } = useRouter()
-  const [keepLoggedIn, setKeepLoggedIn] = useState(false)
+  const [remember, setRemember] = useState(false)
   const [isFormValid, setIsFormValid] = useState(false)
+
+  const { push } = useRouter()
   const { addToast } = useToast()
   const { signIn } = useAuth()
 
   const handleSubmit = useCallback(
     async (data: SignInFormData) => {
       try {
-        await signIn({
-          email: data.email,
-          password: data.password,
-          keep_logged_in: keepLoggedIn
-        })
+        await signIn(data)
 
         addToast({ title: 'Seja-bem-vindo', type: 'success' })
         push('/dashboard')
@@ -55,7 +53,7 @@ const SignIn: React.FC = () => {
         })
       }
     },
-    [keepLoggedIn]
+    [addToast, push, signIn]
   )
 
   const performValidation = useCallback(async () => {
@@ -99,9 +97,9 @@ const SignIn: React.FC = () => {
           <ForgotPasswordContainer>
             <label>
               <Checkbox
-                checked={keepLoggedIn}
-                onChange={() => setKeepLoggedIn(!keepLoggedIn)}
-              ></Checkbox>
+                checked={remember}
+                onChange={() => setRemember(!remember)}
+              />
               Lembrar-me
             </label>
             <Link href="/forgot-password">
