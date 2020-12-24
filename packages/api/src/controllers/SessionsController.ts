@@ -33,6 +33,6 @@ export default {
     response.cookie('auth', token)
 
     const user = userView.render(findUser)
-    return response.json({ user })
+    return response.json({ user, token })
   }
 }
