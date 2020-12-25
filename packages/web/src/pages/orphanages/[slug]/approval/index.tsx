@@ -78,7 +78,7 @@ const ApproveOrphanage: NextPage<{ orphanage: Orphanage }> = ({
             formRef={formRef}
             onSubmit={() => {}}
             orphanage={orphanage}
-          ></OrphanageForm>
+          />
           <Actions>
             <RejectButton onClick={handleReject}>
               <FiXCircle size={24} color="#fff" />
