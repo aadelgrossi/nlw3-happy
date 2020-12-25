@@ -3,6 +3,7 @@ import React, { useCallback, useRef, useState } from 'react'
 import Input from '@/components/Input'
 import Label from '@/components/Label'
 import LogoContainer from '@/components/LogoContainer'
+import SubmitButton from '@/components/SubmitButton'
 import { useToast } from '@/hooks/toast'
 import api from '@/services/api'
 import { FormHandles } from '@unform/core'
@@ -15,7 +16,6 @@ import {
   Container,
   BackButton,
   ForgotPasswordForm,
-  ConfirmButton,
   FormContainer
 } from './styles'
 
@@ -25,28 +25,37 @@ interface ForgotPasswordFormData {
 
 const ForgotPassword: React.FC = () => {
   const [isFormValid, setIsFormValid] = useState(false)
+  const [loading, setLoading] = useState(false)
+
   const { back, push } = useRouter()
   const { addToast } = useToast()
   const formRef = useRef<FormHandles>(null)
 
-  const handleSubmit = useCallback(async (data: ForgotPasswordFormData) => {
-    try {
-      await api.post('/password/forgot', { email: data.email })
-      addToast({
-        title: 'Redenifição de senha requisitada.',
-        description: 'Verifique sua caixa de entrada para redefinir sua senha.',
-        type: 'info'
-      })
-      push('/signin')
-    } catch (err) {
-      addToast({
-        title: 'Erro ao solicitar redefinição',
-        description:
-          'Este parece ser um email não válido em nossa plataforma. Verifique seus dados.',
-        type: 'error'
-      })
-    }
-  }, [])
+  const handleSubmit = useCallback(
+    async (data: ForgotPasswordFormData) => {
+      try {
+        setLoading(true)
+        await api.post('/password/forgot', { email: data.email })
+        addToast({
+          title: 'Redenifição de senha requisitada.',
+          description:
+            'Verifique sua caixa de entrada para redefinir sua senha.',
+          type: 'info'
+        })
+        push('/signin')
+        setLoading(false)
+      } catch (err) {
+        addToast({
+          title: 'Erro ao solicitar redefinição',
+          description:
+            'Este parece ser um email não válido em nossa plataforma. Verifique seus dados.',
+          type: 'error'
+        })
+        setLoading(false)
+      }
+    },
+    [addToast, push]
+  )
 
   const performValidation = useCallback(async () => {
     try {
@@ -84,7 +93,10 @@ const ForgotPassword: React.FC = () => {
 
           <Label>Email</Label>
           <Input name="email" onKeyUp={performValidation}></Input>
-          <ConfirmButton disabled={!isFormValid}>Enviar</ConfirmButton>
+
+          <SubmitButton loading={loading} formValid={isFormValid}>
+            Enviar
+          </SubmitButton>
         </ForgotPasswordForm>
       </FormContainer>
     </Container>
