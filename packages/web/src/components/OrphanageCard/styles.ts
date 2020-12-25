@@ -20,7 +20,6 @@ export const TooltipContainer = styled.div`
   position: relative;
 
   h2 {
-    cursor: pointer;
     width: 310px;
     font-size: 22px;
     margin-right: 24px;

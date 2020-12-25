@@ -1,7 +1,6 @@
 import React from 'react'
 
 import dynamic from 'next/dynamic'
-import Link from 'next/link'
 
 import {
   Container,
@@ -13,7 +12,6 @@ import {
 interface CardProps {
   data: {
     name: string
-    slug: string
     latitude: number
     longitude: number
   }
@@ -54,9 +52,7 @@ const OrphanageCard: React.FC<CardProps> = ({ data, children }) => {
       <OrphanageDetails>
         <TooltipContainer>
           {data.name.length >= 30 && <span>{data.name}</span>}
-          <Link href={`/orphanages/${data.slug}`}>
-            <h2>{data.name}</h2>
-          </Link>
+          <h2>{data.name}</h2>
         </TooltipContainer>
 
         <ButtonGroup>{children}</ButtonGroup>
