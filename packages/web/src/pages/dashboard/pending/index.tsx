@@ -2,7 +2,7 @@ import React from 'react'
 
 import OrphanageCard from '@/components/OrphanageCard'
 import AuthenticatedSidebar from '@/components/Sidebar/Authenticated'
-import api from '@/services/api'
+import fetch from 'isomorphic-unfetch'
 import Cookies from 'js-cookie'
 import { NextPage, NextPageContext } from 'next'
 import Head from 'next/head'
@@ -41,7 +41,7 @@ const Pending: NextPage<{ orphanages: Orphanage[] }> = ({ orphanages }) => {
         <Separator />
 
         <OrphanagesContainer>
-          {!orphanages ? (
+          {!orphanages.length ? (
             <NoOrphanages>
               <SadFace />
               Nenhum no momento
@@ -65,16 +65,28 @@ const Pending: NextPage<{ orphanages: Orphanage[] }> = ({ orphanages }) => {
 Pending.getInitialProps = async (context: NextPageContext) => {
   const authToken = process.browser
     ? Cookies.get('auth')
-    : context.req?.headers.cookie
+    : context.req?.headers.cookie?.replace('auth=', '')
 
   if (!authToken && !context.req) {
     Router.replace('/signin')
   }
 
-  try {
-    const response = await api.get('/orphanages/pending')
+  if (!authToken && context.req) {
+    context.res.writeHead(302, {
+      Location: `${process.env.NEXT_PUBLIC_APP_URL}/signin`
+    })
+    context.res.end()
+  }
 
-    return { orphanages: response.data }
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/orphanages/pending`,
+      { headers: { Authorization: `Bearer ${authToken}` } }
+    )
+
+    const data = await response.json()
+
+    return { orphanages: data }
   } catch (error) {
     if (context.req) {
       context.res.writeHead(302, {

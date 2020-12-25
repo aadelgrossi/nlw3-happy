@@ -103,7 +103,7 @@ const Dashboard: NextPage<{ data: Orphanage[] }> = ({ data }) => {
 Dashboard.getInitialProps = async (context: NextPageContext) => {
   const cookie = process.browser
     ? Cookies.get('auth')
-    : context.req?.headers.cookie
+    : context.req?.headers.cookie?.replace('auth=', '')
 
   if (!cookie && !context.req) {
     Router.replace('/signin')
