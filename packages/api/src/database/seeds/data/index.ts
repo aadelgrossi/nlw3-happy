@@ -9,7 +9,7 @@ const orphanages = [
       'Instrutores e professores de ensino infantil voluntários são sempre bem-vindos.',
     opening_hours: 'Segunda a sexta - 09hs até 15hs',
     open_on_weekends: false,
-    whatsapp: '5544934231431',
+    whatsapp: '44934231431',
     images: [
       {
         path: 'casa_crianca_1.jpg'
@@ -32,7 +32,7 @@ const orphanages = [
       'Atende 120 crianças 06 a 11 anos no horário do contra turno escolar. Oferece 4 refeições diárias, oficina de números, letras, ciências, recreação, artes, leitura, e teatro.',
     opening_hours: 'Segunda a sexta - 07hs até 17hs',
     open_on_weekends: false,
-    whatsapp: '5544932646199',
+    whatsapp: '44932646199',
     images: [
       {
         path: 'nsa_esperanca_1.jpg'
@@ -64,7 +64,7 @@ const orphanages = [
       'Acolher, proteger, educar, capacitar e cuidar de crianças e adolescentes em situação de necessidade ou vulnerabilidade bio-psico-social-espiritual, propiciando condições para que vivam em família e desenvolvam um papel responsável na sociedade.',
     opening_hours: 'Segunda a sábado - 07hs até 18hs',
     open_on_weekends: true,
-    whatsapp: '5544970423847',
+    whatsapp: '44970423847',
     images: [
       {
         path: 'lar_batista_1.jpg'
@@ -90,7 +90,7 @@ const orphanages = [
       'Tem como objetivo principal contribuir para a promoção e proteção dos direitos da criança e do adolescente através de serviços, programas e projetos que proporcionem o desenvolvimento físico, psicológico e social, como complementação das ações da família e sociedade, sem distinção de cor, raça ou credo religioso”.',
     opening_hours: 'Segunda a sexta - 08hs até 17:30hs',
     open_on_weekends: false,
-    whatsapp: '5544930261517',
+    whatsapp: '44930261517',
     images: [
       {
         path: 'isis_bruder_1.jpg'
@@ -113,7 +113,7 @@ const orphanages = [
       'Você pode contribuir com qualquer tipo de suprimentos para crianças de zero a quatro anos, como fraldas, leite NAN ou similar, cestas básicas, roupas e calçados, brinquedos, roupas de cama e banho',
     opening_hours: 'Segunda a sexta - 08hs até 17:30hs',
     open_on_weekends: false,
-    whatsapp: '5541932468944',
+    whatsapp: '41932468944',
     images: [
       {
         path: 'bom_caminho_1.jpg'
