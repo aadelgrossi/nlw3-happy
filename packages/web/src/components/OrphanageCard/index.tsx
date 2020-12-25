@@ -2,7 +2,12 @@ import React from 'react'
 
 import dynamic from 'next/dynamic'
 
-import { Container, OrphanageDetails, ButtonGroup } from './styles'
+import {
+  Container,
+  OrphanageDetails,
+  ButtonGroup,
+  TooltipContainer
+} from './styles'
 
 interface CardProps {
   data: {
@@ -45,7 +50,11 @@ const OrphanageCard: React.FC<CardProps> = ({ data, children }) => {
       </MapWithNoSSR>
 
       <OrphanageDetails>
-        <h2>{data.name}</h2>
+        <TooltipContainer>
+          {data.name.length >= 30 && <span>{data.name}</span>}
+          <h2>{data.name}</h2>
+        </TooltipContainer>
+
         <ButtonGroup>{children}</ButtonGroup>
       </OrphanageDetails>
     </Container>

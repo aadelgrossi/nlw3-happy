@@ -1,7 +1,8 @@
 import React from 'react'
 
 import OrphanageCard from '@/components/OrphanageCard'
-import Sidebar from '@/components/Sidebar'
+import AuthenticatedSidebar from '@/components/Sidebar/Authenticated'
+import api from '@/services/api'
 import Cookies from 'js-cookie'
 import { NextPage, NextPageContext } from 'next'
 import Head from 'next/head'
@@ -26,7 +27,7 @@ const Pending: NextPage<{ orphanages: Orphanage[] }> = ({ orphanages }) => {
       <Head>
         <title>Happy | Orfanatos pendentes</title>
       </Head>
-      <Sidebar />
+      <AuthenticatedSidebar />
 
       <Contents>
         <Header>
@@ -40,7 +41,7 @@ const Pending: NextPage<{ orphanages: Orphanage[] }> = ({ orphanages }) => {
         <Separator />
 
         <OrphanagesContainer>
-          {!orphanages ? (
+          {!orphanages.length ? (
             <NoOrphanages>
               <SadFace />
               Nenhum no momento
@@ -62,32 +63,33 @@ const Pending: NextPage<{ orphanages: Orphanage[] }> = ({ orphanages }) => {
   )
 }
 Pending.getInitialProps = async (context: NextPageContext) => {
-  const cookie = process.browser
+  const authToken = process.browser
     ? Cookies.get('auth')
-    : context.req?.headers.cookie
+    : context.req?.headers.cookie?.replace('auth=', '')
 
-  if (!cookie && !context.req) {
+  if (!authToken && !context.req) {
     Router.replace('/signin')
   }
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/orphanages/pending`,
-    {
-      credentials: 'include',
-      headers: {
-        cookie: cookie
-      }
-    }
-  )
-  const json = await response.json()
-
-  if (response.status === 401 && context.req) {
+  if (!authToken && context.req) {
     context.res.writeHead(302, {
       Location: `${process.env.NEXT_PUBLIC_APP_URL}/signin`
     })
     context.res.end()
   }
-  return { orphanages: json }
+
+  try {
+    const response = await api.get('orphanages/pending')
+    return { orphanages: response.data }
+  } catch (error) {
+    if (context.req) {
+      context.res.writeHead(302, {
+        Location: `${process.env.NEXT_PUBLIC_APP_URL}/signin`
+      })
+      context.res.end()
+    }
+    return { orphanages: [] }
+  }
 }
 
 export default Pending

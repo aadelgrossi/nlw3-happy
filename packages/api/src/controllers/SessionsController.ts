@@ -10,7 +10,7 @@ import userView from '~/views/users_view'
 export default {
   async create(request: Request, response: Response): Promise<Response> {
     const usersRepository = getRepository(User)
-    const { email, password } = request.body
+    const { email, password, remember } = request.body
 
     const findUser = await usersRepository.findOne({ where: { email } })
 
@@ -26,14 +26,13 @@ export default {
 
     const { secret, expiresIn } = authConfig.jwt
 
-    const token = jwt.sign({ id: findUser.id }, secret, { expiresIn })
-
-    response.cookie('auth', token, {
-      // httpOnly: true,
-      // secure: process.env.NODE_ENV !== 'development'
+    const token = jwt.sign({ id: findUser.id }, secret, {
+      expiresIn: Number(remember) ? expiresIn.long : expiresIn.quick
     })
 
+    response.cookie('auth', token)
+
     const user = userView.render(findUser)
-    return response.json({ user })
+    return response.json({ user, token })
   }
 }

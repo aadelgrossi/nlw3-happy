@@ -5,9 +5,9 @@ import { ToastProvider } from './toast'
 
 const AppProvider: React.FC = ({ children }) => {
   return (
-    <AuthProvider>
-      <ToastProvider>{children}</ToastProvider>
-    </AuthProvider>
+    <ToastProvider>
+      <AuthProvider>{children}</AuthProvider>
+    </ToastProvider>
   )
 }
 

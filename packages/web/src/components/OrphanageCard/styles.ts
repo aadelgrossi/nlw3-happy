@@ -6,21 +6,52 @@ export const Container = styled.div`
   height: 309px;
   border-radius: 20px;
   box-shadow: inset 0px 0px 0px 1px #d3e2e5;
-
   margin-left: 32px;
   margin-bottom: 32px;
 `
 
 export const OrphanageDetails = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
   margin: 16px 32px;
+`
+
+export const TooltipContainer = styled.div`
+  position: relative;
 
   h2 {
-    font-size: 24px;
+    width: 310px;
+    font-size: 22px;
+    margin-right: 24px;
     color: #4d6f80;
     font-weight: 700;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &:hover {
+    span {
+      opacity: 1;
+    }
+  }
+
+  span {
+    opacity: 0;
+    position: absolute;
+    z-index: 1000;
+    top: -80px;
+    left: -10px;
+    padding: 18px 26px;
+    background: #f5f8fa;
+    border-radius: 16px;
+    color: #5c8599;
+    transition: 0.2s;
+
+    white-space: nowrap;
+    box-shadow: inset 0px 0px 0px 1px #d3e2e5;
+
+    font-size: 18px;
   }
 `
 

@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 
 import OrphanageCard from '@/components/OrphanageCard'
-import Sidebar from '@/components/Sidebar'
+import AuthenticatedSidebar from '@/components/Sidebar/Authenticated'
 import { useToast } from '@/hooks/toast'
 import api from '@/services/api'
 import Cookies from 'js-cookie'
@@ -71,7 +71,7 @@ const Dashboard: NextPage<{ data: Orphanage[] }> = ({ data }) => {
         </DeleteOrphanageContainer>
       ) : (
         <>
-          <Sidebar />
+          <AuthenticatedSidebar />
           <Contents>
             <Header>
               <h1>Orfanatos cadastrados</h1>
@@ -103,7 +103,7 @@ const Dashboard: NextPage<{ data: Orphanage[] }> = ({ data }) => {
 Dashboard.getInitialProps = async (context: NextPageContext) => {
   const cookie = process.browser
     ? Cookies.get('auth')
-    : context.req?.headers.cookie
+    : context.req?.headers.cookie?.replace('auth=', '')
 
   if (!cookie && !context.req) {
     Router.replace('/signin')

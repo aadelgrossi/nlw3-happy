@@ -21,31 +21,35 @@ interface OrphanageFormData {
   whatsapp: string
   opening_hours: string
   open_on_weekends: boolean
-  image: File[]
+  files: {
+    [key: string]: FileList
+  }
 }
 
 const EditOrphanage: NextPage<{ orphanage: Orphanage }> = ({ orphanage }) => {
   const { addToast } = useToast()
-  const router = useRouter()
+  const { push } = useRouter()
   const formRef = useRef<FormHandles>(null)
 
-  const handleSubmit = useCallback(async (data: OrphanageFormData) => {
-    console.log(data)
-    try {
-      await api.put(`/orphanages/${orphanage.slug}`, data)
-      addToast({
-        title: 'Orfanato aprovado',
-        type: 'info'
-      })
-      router.push('/dashboard')
-    } catch (err) {
-      addToast({
-        title: 'Ocorreu um erro',
-        type: 'error',
-        description: 'Falha ao aprovar orfanato.'
-      })
-    }
-  }, [])
+  const handleSubmit = useCallback(
+    async (data: OrphanageFormData) => {
+      try {
+        await api.put(`/orphanages/${orphanage.slug}`, data)
+        addToast({
+          title: 'Orfanato aprovado',
+          type: 'info'
+        })
+        push('/dashboard')
+      } catch (err) {
+        addToast({
+          title: 'Ocorreu um erro',
+          type: 'error',
+          description: 'Falha ao aprovar orfanato.'
+        })
+      }
+    },
+    [addToast, orphanage.slug, push]
+  )
 
   useEffect(() => {
     formRef.current?.setData(orphanage)
@@ -79,10 +83,17 @@ EditOrphanage.getInitialProps = async context => {
 
   const cookie = process.browser
     ? Cookies.get('auth')
-    : context.req?.headers.cookie
+    : context.req?.headers.cookie?.replace('auth=', '')
 
   if (!cookie && !context.req) {
     Router.replace('/signin')
+  }
+
+  if (!cookie && context.req) {
+    context.res.writeHead(302, {
+      Location: `${process.env.NEXT_PUBLIC_APP_URL}/signin`
+    })
+    context.res.end()
   }
 
   const response = await api.get(`/orphanages/${slug}`)

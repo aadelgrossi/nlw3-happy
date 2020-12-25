@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from 'express'
 import { verify } from 'jsonwebtoken'
+
 import authConfig from '~/config/auth'
 
 interface TokenPayload {
-  iat: number
-  exp: number
   id: string
 }
 
@@ -13,14 +12,16 @@ const ensureAuthenticated = (
   response: Response,
   next: NextFunction
 ): Response | void => {
-  const { cookies } = request
+  const authHeader = request.headers.authorization
 
-  if (!cookies.auth) {
+  if (!authHeader) {
     return response.status(401).json('Authorization is missing')
   }
 
+  const [_, token] = authHeader.split(' ')
+
   try {
-    const decoded = verify(cookies.auth, authConfig.jwt.secret)
+    const decoded = verify(token, authConfig.jwt.secret)
 
     const { id } = decoded as TokenPayload
 
@@ -29,8 +30,8 @@ const ensureAuthenticated = (
     }
 
     return next()
-  } catch {
-    return response.status(401).json('Token is invalid')
+  } catch (err) {
+    return response.status(401).json(err.message)
   }
 }
 

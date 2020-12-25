@@ -11,60 +11,75 @@ import Cookies from 'js-cookie'
 
 interface User {
   id: string
-  name: string
   email: string
 }
 
 interface SignInCredentials {
   email: string
   password: string
-  keep_logged_in: boolean
+  remember: boolean
 }
 
 interface AuthContextData {
-  user: User
   isAuthenticated: boolean
   signIn(credentials: SignInCredentials): Promise<void>
   signOut(): void
 }
 
+interface SignInReponse {
+  user: User
+  token: string
+}
+
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState({} as User)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  const setToken = useCallback((token: string) => {
+    api.defaults.headers.authorization = token
+  }, [])
+
+  const signOut = useCallback(() => {
+    setToken(null)
+    setIsAuthenticated(false)
+    Cookies.remove('auth')
+  }, [setToken])
 
   useEffect(() => {
     async function loadUserFromCookies() {
       const token = Cookies.get('auth')
       if (token) {
-        // const response = await api.get<User>('/users/me')
-        // setUser(response.data)
-        setIsAuthenticated(true)
+        try {
+          setToken(`Bearer ${token}`)
+          await api.get<User>('users/me')
+          setIsAuthenticated(true)
+        } catch (err) {
+          signOut()
+        }
       }
     }
     loadUserFromCookies()
-  }, [])
+  }, [setToken, signOut])
 
-  const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
-    await api.post('/sessions', {
-      email,
-      password
-    })
-  }, [])
+  const signIn = useCallback(
+    async (data: SignInCredentials) => {
+      const response = await api.post<SignInReponse>('/sessions', data)
+      const { token } = response.data
+      Cookies.set('auth', token)
 
-  const signOut = useCallback(() => {
-    Cookies.remove('auth')
-    setIsAuthenticated(false)
-  }, [])
+      setIsAuthenticated(true)
+      setToken(`Bearer ${token}`)
+    },
+    [setToken]
+  )
 
   return (
     <AuthContext.Provider
       value={{
-        user,
+        isAuthenticated,
         signIn,
-        signOut,
-        isAuthenticated
+        signOut
       }}
     >
       {children}
