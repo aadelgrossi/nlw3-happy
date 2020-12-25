@@ -26,7 +26,7 @@ const LowerSection: React.FC = () => {
           <FiPower size={24} color="#FFF" />
         </Button>
       ) : (
-        <Button type="button" onClick={() => router.back}>
+        <Button type="button" onClick={() => router.back()}>
           <FiArrowLeft size={24} color="#FFF" />
         </Button>
       )}
