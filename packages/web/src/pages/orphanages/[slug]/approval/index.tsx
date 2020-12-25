@@ -17,7 +17,7 @@ const ApproveOrphanage: NextPage<{ orphanage: Orphanage }> = ({
   orphanage
 }) => {
   const { addToast } = useToast()
-  const router = useRouter()
+  const { push } = useRouter()
   const formRef = useRef<FormHandles>(null)
 
   const handleConfirm = useCallback(async () => {
@@ -33,7 +33,7 @@ const ApproveOrphanage: NextPage<{ orphanage: Orphanage }> = ({
         title: 'Orfanato aprovado',
         type: 'info'
       })
-      router.push('/dashboard')
+      push('/dashboard')
     } catch (err) {
       addToast({
         title: 'Ocorreu um erro',
@@ -41,7 +41,7 @@ const ApproveOrphanage: NextPage<{ orphanage: Orphanage }> = ({
         description: 'Falha ao aprovar orfanato.'
       })
     }
-  }, [])
+  }, [addToast, orphanage.slug, push])
 
   const handleReject = useCallback(async () => {
     try {
@@ -50,7 +50,7 @@ const ApproveOrphanage: NextPage<{ orphanage: Orphanage }> = ({
         title: 'Orfanato rejeitado',
         type: 'info'
       })
-      router.push('/dashboard')
+      push('/dashboard')
     } catch (err) {
       addToast({
         title: 'Ocorreu um erro',
@@ -58,7 +58,7 @@ const ApproveOrphanage: NextPage<{ orphanage: Orphanage }> = ({
         description: 'Falha ao rejeitar o orfanato.'
       })
     }
-  }, [])
+  }, [addToast, orphanage.slug, push])
 
   useEffect(() => {
     formRef.current?.setData(orphanage)
@@ -67,7 +67,7 @@ const ApproveOrphanage: NextPage<{ orphanage: Orphanage }> = ({
   return (
     <>
       <Head>
-        <title> {orphanage.name} | Editar</title>
+        <title> {orphanage.name} | Aprovar orfanato</title>
       </Head>
 
       <Container>
@@ -98,17 +98,34 @@ const ApproveOrphanage: NextPage<{ orphanage: Orphanage }> = ({
 ApproveOrphanage.getInitialProps = async context => {
   const { slug } = context.query
 
-  const cookie = process.browser
+  const token = process.browser
     ? Cookies.get('auth')
-    : context.req?.headers.cookie
+    : context.req?.headers.cookie?.replace('auth=', '')
 
-  if (!cookie && !context.req) {
+  if (!token && !context.req) {
     Router.replace('/signin')
   }
 
-  const response = await api.get(`/orphanages/${slug}`)
+  if (!token && context.req) {
+    context.res.writeHead(302, {
+      Location: `${process.env.NEXT_PUBLIC_APP_URL}/signin`
+    })
+    context.res.end()
+  }
 
-  return { orphanage: response.data }
+  try {
+    const response = await api.get(`/orphanages/${slug}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    return { orphanage: response.data }
+  } catch (err) {
+    if (context.req) {
+      context.res.writeHead(302, {
+        Location: `${process.env.NEXT_PUBLIC_APP_URL}/signin`
+      })
+      context.res.end()
+    }
+  }
 }
 
 export default ApproveOrphanage

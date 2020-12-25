@@ -34,6 +34,7 @@ const MarkerWithNoSSR = dynamic(() => import('../Marker'), {
 interface FormProps {
   formRef: React.RefObject<FormHandles>
   onSubmit(data: OrphanageFormData): void
+  validate?(): void
   orphanage?: Orphanage
 }
 
@@ -55,6 +56,7 @@ const OrphanageForm: React.FC<FormProps> = ({
   formRef,
   children,
   orphanage,
+  validate = () => {},
   ...rest
 }) => {
   const [openOnWeekends, setOpenOnWeekends] = useState(() =>
@@ -74,11 +76,14 @@ const OrphanageForm: React.FC<FormProps> = ({
     }
   }, [orphanage])
 
-  const handleMapClick = useCallback((event: LeafletMouseEvent) => {
-    setPosition(event.latlng)
-    formRef.current.setFieldValue('latitude', event.latlng.lat)
-    formRef.current.setFieldValue('longitude', event.latlng.lng)
-  }, [])
+  const handleMapClick = useCallback(
+    (event: LeafletMouseEvent) => {
+      setPosition(event.latlng)
+      formRef.current.setFieldValue('latitude', event.latlng.lat)
+      formRef.current.setFieldValue('longitude', event.latlng.lng)
+    },
+    [formRef]
+  )
 
   const validateUniquenessOfName = useCallback(async () => {
     const formData = formRef.current.getData()
@@ -88,7 +93,7 @@ const OrphanageForm: React.FC<FormProps> = ({
         'checkDuplOrphanage',
         'Nome já cadastrado. Digite outro nome.',
         async value => {
-          if (value === orphanage.name) {
+          if (value === orphanage?.name) {
             return true
           }
 
@@ -113,7 +118,12 @@ const OrphanageForm: React.FC<FormProps> = ({
         formRef.current?.setErrors(errors)
       }
     }
-  }, [])
+  }, [formRef, orphanage?.name])
+
+  const handleNameValidations = useCallback(async () => {
+    validate()
+    validateUniquenessOfName()
+  }, [validate, validateUniquenessOfName])
 
   return (
     <Container ref={formRef} {...rest}>
@@ -136,10 +146,7 @@ const OrphanageForm: React.FC<FormProps> = ({
               }}
               onclick={handleMapClick}
             >
-              <MarkerWithNoSSR
-                interactive={false}
-                position={position}
-              ></MarkerWithNoSSR>
+              <MarkerWithNoSSR interactive={false} position={position} />
             </MapWithNoSSR>
             <MapLegend>Clique no mapa para adicionar a localização</MapLegend>
           </MapWrapper>
@@ -150,19 +157,19 @@ const OrphanageForm: React.FC<FormProps> = ({
 
         <InputBlock>
           <Label>Nome</Label>
-          <Input name="name" onKeyUp={validateUniquenessOfName} />
+          <Input name="name" onKeyUp={handleNameValidations} />
         </InputBlock>
 
         <InputBlock>
           <Label>
             Sobre <span>Máximo de 300 caracteres</span>
           </Label>
-          <TextArea name="about" />
+          <TextArea name="about" onKeyUp={validate} />
         </InputBlock>
 
         <InputBlock>
           <Label> Whatsapp</Label>
-          <MaskedInput name="whatsapp" />
+          <MaskedInput name="whatsapp" onKeyUp={validate} />
         </InputBlock>
 
         <InputBlock>
@@ -173,7 +180,7 @@ const OrphanageForm: React.FC<FormProps> = ({
               name="files[]"
               id="files[]"
               images={orphanage?.images.map(image => image.url)}
-            ></MultipleFileInput>
+            />
 
             <NewImage htmlFor="files[]">
               <FiPlus size={24} color="#15b6d6" />
@@ -187,12 +194,12 @@ const OrphanageForm: React.FC<FormProps> = ({
 
         <InputBlock>
           <Label>Instruções para visita</Label>
-          <TextArea name="instructions" />
+          <TextArea name="instructions" onKeyUp={validate} />
         </InputBlock>
 
         <InputBlock>
           <Label>Horários</Label>
-          <Input name="opening_hours" />
+          <Input name="opening_hours" onKeyUp={validate} />
         </InputBlock>
 
         <InputBlock>

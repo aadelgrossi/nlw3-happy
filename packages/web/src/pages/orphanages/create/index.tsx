@@ -3,6 +3,7 @@ import React, { useCallback, useRef, useState } from 'react'
 import CreateOrphanageSuccessPrompt from '@/components/CreateOrphanageSucessPrompt'
 import OrphanageForm from '@/components/OrphanageForm'
 import Sidebar from '@/components/Sidebar'
+import SubmitButton from '@/components/SubmitButton'
 import { useToast } from '@/hooks/toast'
 import api from '@/services/api'
 import getValidationErrors from '@/utils/getValidationErrors'
@@ -10,7 +11,7 @@ import { FormHandles } from '@unform/core'
 import Head from 'next/head'
 import * as Yup from 'yup'
 
-import { Container, ConfirmButton } from './styles'
+import { Container } from './styles'
 
 interface OrphanageFormData {
   name: string
@@ -30,16 +31,18 @@ const CreateOrphanage: React.FC = () => {
   const { addToast } = useToast()
   const formRef = useRef<FormHandles>(null)
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [isFormValid, setIsFormValid] = useState(false)
 
-  const handleSubmit = useCallback(
-    async (data: OrphanageFormData) => {
+  const performValidation = useCallback(async () => {
+    try {
+      setIsFormValid(true)
       formRef.current?.setErrors({})
+      const data = formRef.current.getData()
 
       const schema = Yup.object().shape({
         name: Yup.string().required('Campo obrigatório'),
         about: Yup.string().required('Campo obrigatório'),
-        latitude: Yup.number().required(),
-        longitude: Yup.number().required(),
         whatsapp: Yup.string()
           .matches(
             /\(([0-9]){2}\) ([0-9]){5}-([0-9]){4}/,
@@ -47,9 +50,18 @@ const CreateOrphanage: React.FC = () => {
           )
           .required('Campo obrigatório'),
         instructions: Yup.string().required('Campo obrigatório'),
-        opening_hours: Yup.string().required('Campo obrigatório'),
-        open_on_weekends: Yup.boolean().required()
+        opening_hours: Yup.string().required('Campo obrigatório')
       })
+
+      await schema.validate(data, { abortEarly: false })
+    } catch (err) {
+      setIsFormValid(false)
+    }
+  }, [])
+
+  const handleSubmit = useCallback(
+    async (data: OrphanageFormData) => {
+      setLoading(true)
       try {
         const formDataWithFiles = new FormData()
 
@@ -65,8 +77,8 @@ const CreateOrphanage: React.FC = () => {
           formDataWithFiles.append('files', file)
         })
 
-        await schema.validate(data, { abortEarly: false })
         await api.post('/orphanages', formDataWithFiles)
+        setLoading(false)
         setSubmitted(true)
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -78,6 +90,7 @@ const CreateOrphanage: React.FC = () => {
           type: 'error',
           description: 'A validação falhou. Favor revise os dados'
         })
+        setLoading(false)
       }
     },
     [addToast]
@@ -96,8 +109,18 @@ const CreateOrphanage: React.FC = () => {
           <Sidebar />
 
           <main>
-            <OrphanageForm formRef={formRef} onSubmit={handleSubmit}>
-              <ConfirmButton type="submit">Confirmar</ConfirmButton>
+            <OrphanageForm
+              formRef={formRef}
+              validate={performValidation}
+              onSubmit={handleSubmit}
+            >
+              <SubmitButton
+                formValid={isFormValid}
+                loading={loading}
+                type="submit"
+              >
+                Confirmar
+              </SubmitButton>
             </OrphanageForm>
           </main>
         </Container>
