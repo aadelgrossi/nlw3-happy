@@ -9,7 +9,7 @@ import ensureAuthenticated from '~/middlewares/ensureAuthenticated'
 const orphanageRouter = Router()
 const upload = multer(uploadConfig.multer)
 
-orphanageRouter.get('/pending', ensureAuthenticated, ApprovalController.pending)
+orphanageRouter.get('/pending', ApprovalController.pending)
 orphanageRouter.put(
   '/:slug/reject',
   ensureAuthenticated,
