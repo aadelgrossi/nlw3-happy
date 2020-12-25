@@ -17,7 +17,6 @@ import './providers'
 const app = express()
 app.use(
   cors({
-    credentials: true,
     origin: [process.env.WEB_URL, process.env.MOBILE_URL]
   })
 )

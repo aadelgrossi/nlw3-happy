@@ -18,7 +18,7 @@ const ensureAuthenticated = (
     return response.status(401).json('Authorization is missing')
   }
 
-  const [, token] = authHeader.split(' ')
+  const [_, token] = authHeader.split(' ')
 
   try {
     const decoded = verify(token, authConfig.jwt.secret)
