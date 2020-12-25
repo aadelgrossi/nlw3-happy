@@ -1,12 +1,19 @@
 import React from 'react'
 
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 
-import { Container, OrphanageDetails, ButtonGroup } from './styles'
+import {
+  Container,
+  OrphanageDetails,
+  ButtonGroup,
+  TooltipContainer
+} from './styles'
 
 interface CardProps {
   data: {
     name: string
+    slug: string
     latitude: number
     longitude: number
   }
@@ -45,7 +52,13 @@ const OrphanageCard: React.FC<CardProps> = ({ data, children }) => {
       </MapWithNoSSR>
 
       <OrphanageDetails>
-        <h2>{data.name}</h2>
+        <TooltipContainer>
+          {data.name.length >= 30 && <span>{data.name}</span>}
+          <Link href={`/orphanages/${data.slug}`}>
+            <h2>{data.name}</h2>
+          </Link>
+        </TooltipContainer>
+
         <ButtonGroup>{children}</ButtonGroup>
       </OrphanageDetails>
     </Container>
