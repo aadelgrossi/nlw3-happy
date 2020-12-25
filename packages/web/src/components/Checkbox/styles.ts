@@ -10,6 +10,7 @@ export const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
   padding: 0;
   position: absolute;
   white-space: nowrap;
+  visibility: hidden;
   width: 1px;
 `
 

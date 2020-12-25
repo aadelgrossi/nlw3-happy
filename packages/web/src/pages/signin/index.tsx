@@ -97,13 +97,14 @@ const SignIn: React.FC = () => {
           <ForgotPasswordContainer>
             <label>
               <Checkbox
+                name="remember"
                 checked={remember}
                 onChange={() => setRemember(!remember)}
               />
               Lembrar-me
             </label>
             <Link href="/forgot-password">
-              <a> Esqueci minha senha</a>
+              <a style={{ color: 'inherit' }}> Esqueci minha senha</a>
             </Link>
           </ForgotPasswordContainer>
           <ConfirmButton disabled={!isFormValid}>Entrar</ConfirmButton>
