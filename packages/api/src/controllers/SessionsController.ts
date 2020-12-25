@@ -27,7 +27,7 @@ export default {
     const { secret, expiresIn } = authConfig.jwt
 
     const token = jwt.sign({ id: findUser.id }, secret, {
-      expiresIn: remember ? expiresIn.long : expiresIn.quick
+      expiresIn: Number(remember) ? expiresIn.long : expiresIn.quick
     })
 
     response.cookie('auth', token)
