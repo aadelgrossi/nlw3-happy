@@ -5,6 +5,7 @@ import Input from '@/components/Input'
 import Label from '@/components/Label'
 import LogoContainer from '@/components/LogoContainer'
 import PasswordInput from '@/components/PasswordInput'
+import SubmitButton from '@/components/SubmitButton'
 import { useAuth } from '@/hooks/auth'
 import { useToast } from '@/hooks/toast'
 import { FormHandles } from '@unform/core'
@@ -18,7 +19,6 @@ import {
   BackButton,
   Container,
   SignInForm,
-  ConfirmButton,
   ForgotPasswordContainer,
   FormContainer
 } from './styles'
@@ -33,6 +33,7 @@ const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null)
   const [remember, setRemember] = useState(false)
   const [isFormValid, setIsFormValid] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const { push } = useRouter()
   const { addToast } = useToast()
@@ -41,16 +42,18 @@ const SignIn: React.FC = () => {
   const handleSubmit = useCallback(
     async (data: SignInFormData) => {
       try {
+        setLoading(true)
         await signIn(data)
-
         addToast({ title: 'Seja-bem-vindo', type: 'success' })
         push('/dashboard')
+        setLoading(false)
       } catch (err) {
         addToast({
           title: 'Ocorreu um erro',
           type: 'error',
           description: 'Dados incorretos. Verifique seu email ou senha.'
         })
+        setLoading(false)
       }
     },
     [addToast, push, signIn]
@@ -107,7 +110,9 @@ const SignIn: React.FC = () => {
               <a style={{ color: 'inherit' }}> Esqueci minha senha</a>
             </Link>
           </ForgotPasswordContainer>
-          <ConfirmButton disabled={!isFormValid}>Entrar</ConfirmButton>
+          <SubmitButton loading={loading} formValid={isFormValid}>
+            Entrar
+          </SubmitButton>
         </SignInForm>
       </FormContainer>
     </Container>
