@@ -36,41 +36,43 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const { push } = useRouter()
+
+  const setToken = useCallback((token: string) => {
+    api.defaults.headers.authorization = token
+  }, [])
 
   useEffect(() => {
     async function loadUserFromCookies() {
       const token = Cookies.get('auth')
       if (token) {
         try {
-          await api.get<User>('/users/me')
+          setToken(`Bearer ${token}`)
+          await api.get<User>('users/me')
           setIsAuthenticated(true)
-          setToken(token)
         } catch (err) {
-          api.defaults.headers.authorization = null
           signOut()
-          push('/signin')
         }
       }
     }
     loadUserFromCookies()
   }, [])
 
-  const signIn = useCallback(async (data: SignInCredentials) => {
-    const response = await api.post<SignInReponse>('/sessions', data)
-    const { token } = response.data
+  const signIn = useCallback(
+    async (data: SignInCredentials) => {
+      const response = await api.post<SignInReponse>('/sessions', data)
+      const { token } = response.data
+      Cookies.set('auth', token)
 
-    setIsAuthenticated(true)
-    setToken(token)
-  }, [])
+      setIsAuthenticated(true)
+      setToken(`Bearer ${token}`)
+    },
+    [setToken]
+  )
 
   const signOut = useCallback(() => {
-    Cookies.remove('auth')
+    setToken(null)
     setIsAuthenticated(false)
-  }, [])
-
-  const setToken = useCallback((token: string) => {
-    api.defaults.headers.authorization = `Bearer ${token}`
+    Cookies.remove('auth')
   }, [])
 
   return (
