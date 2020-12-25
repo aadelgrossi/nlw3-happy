@@ -1,5 +1,5 @@
 import { Form } from '@unform/web'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 export const Container = styled.div`
   height: 100vh;
@@ -63,49 +63,5 @@ export const ResetPasswordForm = styled(Form)`
 export const InputField = styled.div`
   & + & {
     margin-top: 20px;
-  }
-`
-
-interface ConfirmButtonProps {
-  disabled: boolean
-}
-
-export const ConfirmButton = styled.button<ConfirmButtonProps>`
-  width: 100%;
-  height: 64px;
-  border: 0;
-  cursor: pointer;
-  background: #37c77f;
-  border-radius: 20px;
-  color: #ffffff;
-  margin-top: 64px;
-  font-weight: 800;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &.disabled {
-    cursor: not-allowed;
-    pointer-events: none;
-    opacity: 0.5;
-  }
-
-  ${props =>
-    props.disabled &&
-    css`
-      cursor: not-allowed;
-      pointer-events: none;
-      opacity: 0.5;
-    `}
-
-  transition: background-color, opacity 0.2s;
-
-  svg {
-    margin-right: 16px;
-  }
-
-  &:hover {
-    background: #36cf82;
   }
 `

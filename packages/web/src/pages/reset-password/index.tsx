@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Label from '@/components/Label'
 import LogoContainer from '@/components/LogoContainer'
 import PasswordInput from '@/components/PasswordInput'
+import SubmitButton from '@/components/SubmitButton'
 import { useToast } from '@/hooks/toast'
 import api from '@/services/api'
 import { FormHandles } from '@unform/core'
@@ -17,7 +18,6 @@ import {
   BackButton,
   ResetPasswordForm,
   InputField,
-  ConfirmButton,
   FormContainer
 } from './styles'
 
@@ -25,8 +25,13 @@ interface ResetPasswordFormData {
   password: string
 }
 
-const ResetPassword: NextPage<{ token: string | string[] }> = ({ token }) => {
+interface ResetPasswordProps {
+  token: string | string[]
+}
+
+const ResetPassword: NextPage<ResetPasswordProps> = ({ token }) => {
   const [isFormValid, setIsFormValid] = useState(false)
+  const [loading, setLoading] = useState(false)
   const { addToast } = useToast()
   const { back, push } = useRouter()
   const formRef = useRef<FormHandles>(null)
@@ -44,30 +49,36 @@ const ResetPassword: NextPage<{ token: string | string[] }> = ({ token }) => {
       }
     }
     redirectIfMissingOrInvalidToken()
-  }, [])
+  }, [addToast, push, token])
 
-  const handleSubmit = useCallback(async (data: ResetPasswordFormData) => {
-    try {
-      await api.post(`/password/reset`, {
-        password: data.password,
-        token
-      })
+  const handleSubmit = useCallback(
+    async (data: ResetPasswordFormData) => {
+      try {
+        setLoading(true)
+        await api.post(`/password/reset`, {
+          password: data.password,
+          token
+        })
 
-      push('/signin')
-      addToast({
-        title: 'Senha resetada com sucesso',
-        description: 'Realize o login.',
-        type: 'success'
-      })
-    } catch (err) {
-      addToast({
-        title: 'Ops, ocorreu um erro!',
-        description: 'Não foi possível realizar a troca de senha.',
-        type: 'error'
-      })
-      formRef.current?.reset()
-    }
-  }, [])
+        push('/signin')
+        addToast({
+          title: 'Senha resetada com sucesso',
+          description: 'Realize o login.',
+          type: 'success'
+        })
+        setLoading(false)
+      } catch (err) {
+        addToast({
+          title: 'Ops, ocorreu um erro!',
+          description: 'Não foi possível realizar a troca de senha.',
+          type: 'error'
+        })
+        setLoading(false)
+        formRef.current?.reset()
+      }
+    },
+    [addToast, push, token]
+  )
 
   const performValidation = useCallback(async () => {
     try {
@@ -121,7 +132,9 @@ const ResetPassword: NextPage<{ token: string | string[] }> = ({ token }) => {
             ></PasswordInput>
           </InputField>
 
-          <ConfirmButton disabled={!isFormValid}>Enviar</ConfirmButton>
+          <SubmitButton loading={loading} formValid={isFormValid}>
+            Enviar
+          </SubmitButton>
         </ResetPasswordForm>
       </FormContainer>
     </Container>
