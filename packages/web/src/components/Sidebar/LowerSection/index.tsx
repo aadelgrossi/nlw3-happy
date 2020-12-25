@@ -17,7 +17,7 @@ const LowerSection: React.FC = () => {
     signOut()
     addToast({ title: 'Sessão encerrada', type: 'info' })
     router.push('/signin')
-  }, [])
+  }, [addToast, router, signOut])
 
   return (
     <Container>

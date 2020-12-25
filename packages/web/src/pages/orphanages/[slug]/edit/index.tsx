@@ -28,25 +28,28 @@ interface OrphanageFormData {
 
 const EditOrphanage: NextPage<{ orphanage: Orphanage }> = ({ orphanage }) => {
   const { addToast } = useToast()
-  const router = useRouter()
+  const { push } = useRouter()
   const formRef = useRef<FormHandles>(null)
 
-  const handleSubmit = useCallback(async (data: OrphanageFormData) => {
-    try {
-      await api.put(`/orphanages/${orphanage.slug}`, data)
-      addToast({
-        title: 'Orfanato aprovado',
-        type: 'info'
-      })
-      router.push('/dashboard')
-    } catch (err) {
-      addToast({
-        title: 'Ocorreu um erro',
-        type: 'error',
-        description: 'Falha ao aprovar orfanato.'
-      })
-    }
-  }, [])
+  const handleSubmit = useCallback(
+    async (data: OrphanageFormData) => {
+      try {
+        await api.put(`/orphanages/${orphanage.slug}`, data)
+        addToast({
+          title: 'Orfanato aprovado',
+          type: 'info'
+        })
+        push('/dashboard')
+      } catch (err) {
+        addToast({
+          title: 'Ocorreu um erro',
+          type: 'error',
+          description: 'Falha ao aprovar orfanato.'
+        })
+      }
+    },
+    [addToast, orphanage.slug, push]
+  )
 
   useEffect(() => {
     formRef.current?.setData(orphanage)

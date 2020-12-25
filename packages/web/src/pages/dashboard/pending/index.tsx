@@ -2,7 +2,7 @@ import React from 'react'
 
 import OrphanageCard from '@/components/OrphanageCard'
 import AuthenticatedSidebar from '@/components/Sidebar/Authenticated'
-import fetch from 'isomorphic-unfetch'
+import api from '@/services/api'
 import Cookies from 'js-cookie'
 import { NextPage, NextPageContext } from 'next'
 import Head from 'next/head'
@@ -79,14 +79,8 @@ Pending.getInitialProps = async (context: NextPageContext) => {
   }
 
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/orphanages/pending`,
-      { headers: { Authorization: `Bearer ${authToken}` } }
-    )
-
-    const data = await response.json()
-
-    return { orphanages: data }
+    const response = await api.get('orphanages/pending')
+    return { orphanages: response.data }
   } catch (error) {
     if (context.req) {
       context.res.writeHead(302, {

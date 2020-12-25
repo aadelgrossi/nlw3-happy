@@ -8,7 +8,6 @@ import React, {
 
 import api from '@/services/api'
 import Cookies from 'js-cookie'
-import { useRouter } from 'next/router'
 
 interface User {
   id: string
@@ -41,6 +40,12 @@ export const AuthProvider: React.FC = ({ children }) => {
     api.defaults.headers.authorization = token
   }, [])
 
+  const signOut = useCallback(() => {
+    setToken(null)
+    setIsAuthenticated(false)
+    Cookies.remove('auth')
+  }, [setToken])
+
   useEffect(() => {
     async function loadUserFromCookies() {
       const token = Cookies.get('auth')
@@ -55,7 +60,7 @@ export const AuthProvider: React.FC = ({ children }) => {
       }
     }
     loadUserFromCookies()
-  }, [])
+  }, [setToken, signOut])
 
   const signIn = useCallback(
     async (data: SignInCredentials) => {
@@ -68,12 +73,6 @@ export const AuthProvider: React.FC = ({ children }) => {
     },
     [setToken]
   )
-
-  const signOut = useCallback(() => {
-    setToken(null)
-    setIsAuthenticated(false)
-    Cookies.remove('auth')
-  }, [])
 
   return (
     <AuthContext.Provider
