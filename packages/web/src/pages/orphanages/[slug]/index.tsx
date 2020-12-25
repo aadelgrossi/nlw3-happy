@@ -141,7 +141,7 @@ const ShowOrphanage: React.FC<OrphanageProps> = ({ orphanage }) => {
             </OpenDetails>
 
             <Link
-              href={`http://api.whatsapp.com/send/?phone=${orphanage.whatsapp}&text`}
+              href={`http://api.whatsapp.com/send/?phone=+55${orphanage.whatsapp}&text`}
             >
               <button type="button" className="contact-button">
                 <FaWhatsapp size={20} color="#FFF" />
