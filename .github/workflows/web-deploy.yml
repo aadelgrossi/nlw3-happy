@@ -18,8 +18,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-args: '--prod'
-          working-directory: packages/web
       - name: "Install dependencies"
-        run: "npm install"
+        run: "yarn workspace @nlw3-happy/web install"
       - name: "Build"
-        run: "npm build"
+        run: "yarn workspace @nlw3-happy/web build"
