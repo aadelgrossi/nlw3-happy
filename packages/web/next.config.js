@@ -2,4 +2,5 @@ module.exports = {
   images: {
     domains: ['nlw3-happy.s3.amazonaws.com']
   },
+  pageExtensions: ['tsx'],
 }
