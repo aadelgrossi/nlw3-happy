@@ -25,12 +25,29 @@ export default {
 
     const orphanagesRepository = getRepository(Orphanage)
 
-    const orphanages = await orphanagesRepository.findOneOrFail({
+    const orphanage = await orphanagesRepository.findOne({
+      where: { slug, approved: true },
+      relations: ['images']
+    })
+
+    if (!orphanage) {
+      return response.json({})
+    }
+
+    return response.json(orphanageView.render(orphanage))
+  },
+
+  async edit(request: Request, response: Response): Promise<Response> {
+    const { slug } = request.params
+
+    const orphanagesRepository = getRepository(Orphanage)
+
+    const orphanage = await orphanagesRepository.findOne({
       where: { slug },
       relations: ['images']
     })
 
-    return response.json(orphanageView.render(orphanages))
+    return response.json(orphanageView.render(orphanage))
   },
 
   async delete(request: Request, response: Response): Promise<Response> {

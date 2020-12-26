@@ -19,6 +19,11 @@ orphanageRouter.put(
 orphanageRouter.get('/', OrphanagesController.index)
 orphanageRouter.get('/valid', OrphanagesController.valid)
 orphanageRouter.get('/:slug', OrphanagesController.show)
+orphanageRouter.get(
+  '/edit/:slug',
+  ensureAuthenticated,
+  OrphanagesController.edit
+)
 orphanageRouter.put('/:slug', ensureAuthenticated, OrphanagesController.update)
 orphanageRouter.delete('/:id', OrphanagesController.delete)
 orphanageRouter.post('/', upload.array('files'), OrphanagesController.create)

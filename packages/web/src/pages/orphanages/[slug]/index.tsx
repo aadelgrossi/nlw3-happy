@@ -177,8 +177,8 @@ export const getStaticProps: GetStaticProps = async context => {
 
   return {
     props: {
-      orphanage: response.data
-    },
-    revalidate: 60
+      orphanage: response.data,
+      revalidate: 60
+    }
   }
 }
