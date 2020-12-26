@@ -17,8 +17,9 @@ const Custom404: NextPage = () => {
   return (
     <ErrorPageContainer>
       <ErrorPageContent>
-        <h1>Ops ocorreu um erro!</h1>
-        <p>Esta página não foi encontrada. Confira se a URL está correta.</p>
+        <h1>Ops, ocorreu um erro!</h1>
+        <p>Página não encontrada.</p>
+        <p>Verifique se a URL está correta.</p>
         <BackButton onClick={() => replace('/map')}>
           <FiArrowLeft size={20} color="#fff"></FiArrowLeft>
           Voltar ao mapa

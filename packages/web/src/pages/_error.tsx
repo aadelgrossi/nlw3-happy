@@ -21,8 +21,9 @@ const Error: NextPage<ErrorProps> = ({ statusCode }) => {
   return (
     <ErrorPageContainer>
       <ErrorPageContent>
-        <h1>Ops ocorreu um erro!</h1>
-        <p>Alguma coisa deu errado no servidor. Código do erro: {statusCode}</p>
+        <h1>Ops, ocorreu um erro!</h1>
+        <p>Alguma coisa deu errado no servidor.</p>
+        <p>Código: {statusCode}</p>
         <BackButton onClick={() => replace('/map')}>
           <FiArrowLeft size={20} color="#fff"></FiArrowLeft>
           Voltar ao mapa

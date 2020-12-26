@@ -15,22 +15,23 @@ export const ErrorPageContainer = styled.div`
 `
 
 export const ErrorPageContent = styled.div`
-  width: 40%;
+  width: max(350px, 50%);
   display: flex;
   margin-right: 80px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
 
   h1 {
-    font-size: 80px;
+    font-size: 70px;
+    line-height: 0.9;
     font-weight: 800;
+    margin-bottom: 20px;
   }
 
   p {
-    text-align: center;
-    font-size: 24px;
-    margin: 20px 0;
+    font-size: 20px;
   }
 `
 
@@ -40,12 +41,13 @@ export const BackButton = styled.a`
   padding: 20px 40px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   background-color: #d31f1f;
   border-radius: 20px;
   transition: background-color 0.2s ease-in;
   color: #fff;
   font-size: 18px;
+  margin-top: 20px;
 
   svg {
     margin-right: 20px;
