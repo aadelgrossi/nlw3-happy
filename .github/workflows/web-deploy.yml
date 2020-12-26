@@ -19,3 +19,7 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-args: '--prod'
           working-directory: packages/web
+      - name: "Install dependencies"
+        run: "npm install"
+      - name: "Build"
+      - run: "npm build"
