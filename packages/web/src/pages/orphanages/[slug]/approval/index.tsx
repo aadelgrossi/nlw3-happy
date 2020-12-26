@@ -114,7 +114,7 @@ ApproveOrphanage.getInitialProps = async context => {
   }
 
   try {
-    const response = await api.get(`/orphanages/${slug}`, {
+    const response = await api.get(`/orphanages/edit/${slug}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
     return { orphanage: response.data }
@@ -126,6 +126,8 @@ ApproveOrphanage.getInitialProps = async context => {
       context.res.end()
     }
   }
+
+  return { orphanage: {} }
 }
 
 export default ApproveOrphanage

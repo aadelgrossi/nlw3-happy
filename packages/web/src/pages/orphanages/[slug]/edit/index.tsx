@@ -148,6 +148,8 @@ EditOrphanage.getInitialProps = async context => {
       context.res.end()
     }
   }
+
+  return { orphanage: {} }
 }
 
 export default EditOrphanage
