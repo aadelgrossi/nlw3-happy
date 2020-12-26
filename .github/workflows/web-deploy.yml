@@ -23,3 +23,4 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-args: '--prod'
+          working-directory: './packages/web'
