@@ -13,26 +13,26 @@ jobs:
     defaults:
       run:
         working-directory: ./packages/web
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
-        # Setup node
-        - name: Perform checks and build
-          uses: actions/setup-node@v1
-          with:
-            version: '12.x'
-        # Install deps
-        - name: Install deps
-          run: npm ci
-        # Build
-        - name: Build
-          run: npm run build
-        # Deploy to vercel
-        - name: Deploy to Vercel
-          uses: amondnet/vercel-action@v20
-          with:
-            vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-            vercel-token: ${{ secrets.VERCEL_TOKEN }}
-            vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-            vercel-args: '--prod'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      # Setup node
+      - name: Perform checks and build
+        uses: actions/setup-node@v1
+        with:
+          version: '12.x'
+      # Install deps
+      - name: Install deps
+        run: npm ci
+      # Build
+      - name: Build
+        run: npm run build
+      # Deploy to vercel
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-args: '--prod'
         
