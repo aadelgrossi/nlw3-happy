@@ -74,6 +74,8 @@ export const PageMap = styled.div`
       a {
         width: 48px;
         height: 48px;
+        flex-shrink: 0;
+
         background: #15c3d6;
         box-shadow: 17.28px 27.65px 41.48px rgba(23, 142, 166, 0.16);
         border-radius: 12px;
