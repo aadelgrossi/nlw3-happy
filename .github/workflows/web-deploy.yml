@@ -20,7 +20,7 @@ jobs:
       - name: Perform checks and build
         uses: actions/setup-node@v1
         with:
-          version: '12.x'
+          node-version: '12.x'
       # - name: Cache dependencies
       #   uses: actions/cache@v2
       #   with:
