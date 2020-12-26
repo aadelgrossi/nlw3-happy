@@ -5,6 +5,7 @@ import Sidebar from '@/components/Sidebar'
 import { useToast } from '@/hooks/toast'
 import api from '@/services/api'
 import { FormHandles } from '@unform/core'
+import fetch from 'isomorphic-unfetch'
 import Cookies from 'js-cookie'
 import { NextPage } from 'next'
 import Head from 'next/head'
@@ -114,10 +115,14 @@ ApproveOrphanage.getInitialProps = async context => {
   }
 
   try {
-    const response = await api.get(`/orphanages/edit/${slug}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    return { orphanage: response.data }
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/orphanages/edit/${slug}`,
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    )
+    const orphanage = await response.json()
+    return { orphanage }
   } catch (err) {
     if (context.req) {
       context.res.writeHead(302, {
