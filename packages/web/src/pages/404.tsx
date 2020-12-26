@@ -4,7 +4,7 @@ import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { FiArrowLeft } from 'react-icons/fi'
 
-import Illustration from '../../assets/delete-marker.svg'
+import Illustration from '../assets/delete-marker.svg'
 import {
   ErrorPageContainer,
   ErrorPageContent,
