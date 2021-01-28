@@ -11,12 +11,12 @@ import { useField } from '@unform/core'
 import { Wrapper } from '../Input/styles'
 import { InputContainer } from './styles'
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends InputHTMLAttributes<HTMLTextAreaElement> {
   name: string
   containerStyle?: Record<string, unknown>
 }
 
-const TextArea: React.FC<InputProps> = ({ name, children }) => {
+const TextArea: React.FC<InputProps> = ({ name, children, ...rest }) => {
   const inputRef = useRef(null)
   const [isFocused, setIsFocused] = useState(false)
   const { fieldName, defaultValue, registerField, error } = useField(name)
@@ -46,6 +46,7 @@ const TextArea: React.FC<InputProps> = ({ name, children }) => {
           defaultValue={defaultValue}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
+          {...rest}
         />
         {children}
       </InputContainer>

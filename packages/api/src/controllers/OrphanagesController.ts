@@ -2,10 +2,13 @@ import { Request, Response } from 'express'
 import slugify from 'slugify'
 import { container } from 'tsyringe'
 import { getRepository } from 'typeorm'
-import * as Yup from 'yup'
 
 import Orphanage from '~/models/Orphanage'
 import FileUploadService from '~/services/FileUploadService'
+import {
+  validateCreateOrphanage,
+  validateUpdateOrphanage
+} from '~/validators/orphanage'
 import orphanageView from '~/views/orphanages_views'
 
 export default {
@@ -67,11 +70,9 @@ export default {
       about,
       instructions,
       opening_hours,
-      open_on_weekends,
-      whatsapp
+      whatsapp,
+      open_on_weekends
     } = request.body
-
-    const sanitizedWhatsapp = whatsapp.replace(/[^\w]/gi, '')
 
     const orphanagesRepository = getRepository(Orphanage)
     const requestImages = request.files as Express.Multer.File[]
@@ -95,29 +96,11 @@ export default {
       instructions,
       opening_hours,
       open_on_weekends: open_on_weekends === 'true',
-      whatsapp: sanitizedWhatsapp,
+      whatsapp,
       images
     }
 
-    const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      latitude: Yup.number().required(),
-      longitude: Yup.number().required(),
-      about: Yup.string().required().max(300),
-      instructions: Yup.string().required(),
-      opening_hours: Yup.string().required(),
-      open_on_weekends: Yup.boolean().required(),
-      whatsapp: Yup.string().min(10).max(11).required(),
-      images: Yup.array(
-        Yup.object().shape({
-          path: Yup.string().required()
-        })
-      )
-    })
-
-    await schema.validate(data, {
-      abortEarly: false
-    })
+    await validateCreateOrphanage(data)
 
     const orphanage = orphanagesRepository.create(data)
 
@@ -175,21 +158,7 @@ export default {
       approved: approved || orphanage.approved
     }
 
-    const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      about: Yup.string().required().max(300),
-      latitude: Yup.number().required(),
-      longitude: Yup.number().required(),
-      instructions: Yup.string().required(),
-      opening_hours: Yup.string().required(),
-      open_on_weekends: Yup.boolean().required(),
-      whatsapp: Yup.string().min(10).max(11).required(),
-      approved: Yup.boolean().required()
-    })
-
-    await schema.validate(newOrphanageData, {
-      abortEarly: false
-    })
+    await validateUpdateOrphanage(newOrphanageData)
 
     Object.assign(orphanage, newOrphanageData)
 

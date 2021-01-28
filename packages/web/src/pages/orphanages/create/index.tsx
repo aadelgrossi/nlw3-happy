@@ -61,6 +61,8 @@ const CreateOrphanage: React.FC = () => {
 
   const handleSubmit = useCallback(
     async (data: OrphanageFormData) => {
+      data.whatsapp = data.whatsapp.replace(/[^0-9]+/g, '')
+
       setLoading(true)
       try {
         const formDataWithFiles = new FormData()

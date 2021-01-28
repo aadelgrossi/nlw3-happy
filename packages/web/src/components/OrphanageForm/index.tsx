@@ -38,7 +38,7 @@ interface FormProps {
   orphanage?: Orphanage
 }
 
-interface OrphanageFormData {
+export interface OrphanageFormData {
   name: string
   about: string
   latitude: number

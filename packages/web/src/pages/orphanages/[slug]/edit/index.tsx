@@ -39,6 +39,8 @@ const EditOrphanage: NextPage<{ orphanage: Orphanage }> = ({ orphanage }) => {
   const handleSubmit = useCallback(
     async (data: OrphanageFormData) => {
       try {
+        data.whatsapp = data.whatsapp.replace(/[^0-9]+/g, '')
+
         setLoading(true)
         await api.put(`/orphanages/${orphanage.slug}`, data)
         addToast({

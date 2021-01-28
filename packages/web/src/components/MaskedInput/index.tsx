@@ -14,7 +14,6 @@ import { Wrapper, InputContainer } from './styles'
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string
   label?: string
-  mask?: string
 }
 
 const MaskedInput: React.FC<InputProps> = ({ name, children, ...rest }) => {
@@ -47,7 +46,7 @@ const MaskedInput: React.FC<InputProps> = ({ name, children, ...rest }) => {
           onBlur={handleInputBlur}
           onFocus={handleInputFocus}
           {...rest}
-        ></ReactInputMask>
+        />
         {children}
       </InputContainer>
       {error && <span>{error}</span>}
