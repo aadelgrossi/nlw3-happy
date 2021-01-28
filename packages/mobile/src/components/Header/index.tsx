@@ -1,9 +1,16 @@
 import React, { useCallback } from 'react'
-import { Feather } from '@expo/vector-icons'
 
-import { Container, Title, BackButton, DismissButton } from './styles'
 import { useNavigation } from '@react-navigation/native'
-import { View } from 'react-native'
+
+import {
+  Container,
+  Title,
+  BackButton,
+  DismissButton,
+  EmptyButtonSpace,
+  DismissIcon,
+  LeftArrowIcon
+} from './styles'
 
 interface HeaderProps {
   title: string
@@ -20,27 +27,17 @@ const Header: React.FC<HeaderProps> = ({ title, showDismiss = true }) => {
   return (
     <Container>
       <BackButton>
-        <Feather
-          name="arrow-left"
-          size={24}
-          color="#15b6d6"
-          onPress={navigation.goBack}
-        ></Feather>
+        <LeftArrowIcon onPress={navigation.goBack} />
       </BackButton>
 
       <Title>{title}</Title>
 
       {showDismiss ? (
         <DismissButton>
-          <Feather
-            name="x"
-            size={24}
-            color="#ff669d"
-            onPress={handleDismissButton}
-          ></Feather>
+          <DismissIcon onPress={handleDismissButton} />
         </DismissButton>
       ) : (
-        <View style={{ width: 24 }} />
+        <EmptyButtonSpace />
       )}
     </Container>
   )

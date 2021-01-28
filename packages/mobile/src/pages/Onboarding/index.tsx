@@ -3,7 +3,6 @@ import React, { useCallback } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Image, StatusBar } from 'react-native'
 import Onboarding, { Page } from 'react-native-onboarding-swiper'
-import { usePersistStorage } from 'react-native-use-persist-storage'
 
 import Dots from '../../components/Onboarding/Dots'
 import NextButton from '../../components/Onboarding/NextButton'
@@ -13,12 +12,10 @@ import { styles } from './styles'
 
 const OnboardingScreens: React.FC = () => {
   const navigation = useNavigation()
-  const [_, setHasRunBefore] = usePersistStorage('Happy@HasRunBefore', null)
 
   const handleDone = useCallback(async () => {
-    setHasRunBefore(true)
-    navigation.navigate('OrphanagesMap')
-  }, [navigation, setHasRunBefore])
+    navigation.navigate('SelectMapPosition')
+  }, [navigation])
 
   const pages: Page[] = [
     {
@@ -49,7 +46,10 @@ const OnboardingScreens: React.FC = () => {
         DotComponent={Dots}
         controlStatusBar={false}
         bottomBarHighlight={false}
-        bottomBarHeight={140}
+        bottomBarStyles={{
+          paddingHorizontal: 50,
+          marginTop: -120
+        }}
         NextButtonComponent={NextButton}
         DoneButtonComponent={NextButton}
         onDone={handleDone}

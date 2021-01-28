@@ -17,7 +17,7 @@ import OrphanageDetails from './pages/OrphanageDetails'
 const { Navigator, Screen } = createStackNavigator()
 
 const Routes: React.FC = () => {
-  const [hasRunBefore, _, restored] = usePersistStorage<string>(
+  const [hasRunBefore, _, restored] = usePersistStorage<boolean>(
     'Happy@HasRunBefore',
     null
   )
@@ -48,8 +48,7 @@ const Routes: React.FC = () => {
             name="SelectMapPosition"
             component={SelectMapPosition}
             options={{
-              headerShown: true,
-              header: () => <Header title="Selecione no mapa" />
+              headerShown: false
             }}
           />
           <Screen
