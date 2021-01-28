@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 
 import { Feather } from '@expo/vector-icons'
-import { useNavigation, useFocusEffect } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 
 import initialRegion from '../../constants/initialRegion'
@@ -29,15 +29,15 @@ const Map: React.FC = () => {
   const navigation = useNavigation()
   const [orphanages, setOrphanages] = useState<Orphanage[]>([])
 
-  useFocusEffect(() => {
-    fetchOrphanages()
-  })
-
   const fetchOrphanages = useCallback(() => {
     api.get('/orphanages').then(({ data }) => {
       setOrphanages(data)
     })
   }, [])
+
+  useEffect(() => {
+    fetchOrphanages()
+  }, [fetchOrphanages])
 
   const handleNavigateToOrphanageDetails = (id: string) => {
     navigation.navigate('OrphanageDetails', { id })
