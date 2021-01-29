@@ -4,9 +4,10 @@ import path from 'path'
 import aws, { S3 } from 'aws-sdk'
 import mime from 'mime'
 
+import uploadConfig from '~/config/upload'
+
 import IStorageProviderDTO from '../dtos/IStorageProviderDTO'
 import IStorageProvider from '../models/IStorageProvider'
-import uploadConfig from '~/config/upload'
 
 export default class S3StorageProvider implements IStorageProvider {
   private client: S3
