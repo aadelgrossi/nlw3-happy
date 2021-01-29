@@ -1,14 +1,15 @@
 import React, { useCallback, useState } from 'react'
 
-import { useNavigation } from '@react-navigation/core'
+import { StackNavigationProp } from '@react-navigation/stack'
 import { Image } from 'react-native'
 import { MapEvent, Marker } from 'react-native-maps'
 import { usePersistStorage } from 'react-native-use-persist-storage'
 
-import Header from '../../../components/Header'
-import initialRegion from '../../../constants/initialRegion'
-import CursorPointer from '../../../images/cursor.png'
-import mapMarkerImg from '../../../images/mapmarker.png'
+import { Header } from '~/components'
+import initialRegion from '~/constants/initialRegion'
+import { cursor, mapMarker } from '~/images'
+import { CreateOrphanageParamList } from '~/routes/types'
+
 import {
   Container,
   Map,
@@ -19,8 +20,13 @@ import {
   OnboardingWrapper
 } from './styles'
 
-const SelectMapPosition: React.FC = () => {
-  const navigation = useNavigation()
+interface SelectPositionProps {
+  navigation: StackNavigationProp<CreateOrphanageParamList, 'SelectLocation'>
+}
+
+export const SelectMapPosition: React.FC<SelectPositionProps> = ({
+  navigation
+}) => {
   const [position, setPosition] = useState({
     latitude: 0,
     longitude: 0
@@ -32,7 +38,7 @@ const SelectMapPosition: React.FC = () => {
   )
 
   const handleNextStep = () => {
-    navigation.navigate('OrphanageData', { position: position })
+    navigation.navigate('DataSectionOne', { position })
   }
 
   const handleSelectMapPosition = (event: MapEvent) => {
@@ -48,7 +54,7 @@ const SelectMapPosition: React.FC = () => {
       {!hasRunBefore && (
         <OnboardingWrapper onTouchEnd={handleFirstClick}>
           <Image
-            source={CursorPointer}
+            source={cursor}
             style={{
               zIndex: 20,
               marginTop: -100
@@ -64,7 +70,7 @@ const SelectMapPosition: React.FC = () => {
       <Map initialRegion={initialRegion} onPress={handleSelectMapPosition}>
         {position.latitude !== 0 && (
           <Marker
-            icon={mapMarkerImg}
+            icon={mapMarker}
             onDragEnd={handleSelectMapPosition}
             coordinate={{
               latitude: position.latitude,
@@ -82,5 +88,3 @@ const SelectMapPosition: React.FC = () => {
     </Container>
   ) : null
 }
-
-export default SelectMapPosition

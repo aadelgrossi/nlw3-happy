@@ -1,17 +1,16 @@
 import React, { useCallback, useState } from 'react'
 
 import { Feather } from '@expo/vector-icons'
-import { useNavigation, useRoute } from '@react-navigation/core'
-import {
-  requestCameraRollPermissionsAsync,
-  launchImageLibraryAsync,
-  MediaTypeOptions
-} from 'expo-image-picker'
+import { RouteProp } from '@react-navigation/core'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { launchImageLibraryAsync, MediaTypeOptions } from 'expo-image-picker'
+import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types'
 import { Switch } from 'react-native'
-import { LatLng } from 'react-native-maps'
 import Toast from 'react-native-simple-toast'
 
-import api from '../../../services/api'
+import { CreateOrphanageParamList } from '~/routes/types'
+import api from '~/services/api'
+
 import {
   Container,
   Title,
@@ -25,14 +24,15 @@ import {
   SwitchContainer
 } from './styles'
 
-interface OrphanageDataRouteParams {
-  position: LatLng
+interface OrphanageDataProps {
+  navigation: StackNavigationProp<CreateOrphanageParamList, 'DataSectionOne'>
+  route: RouteProp<CreateOrphanageParamList, 'DataSectionOne'>
 }
 
-const OrphanageData: React.FC = () => {
-  const route = useRoute()
-  const navigation = useNavigation()
-
+export const OrphanageData: React.FC<OrphanageDataProps> = ({
+  route,
+  navigation
+}) => {
   const [name, setName] = useState('')
   const [about, setAbout] = useState('')
   const [instructions, setInstructions] = useState('')
@@ -40,16 +40,9 @@ const OrphanageData: React.FC = () => {
   const [openOnWeekends, setOpenOnWeekends] = useState(false)
   const [images, setImages] = useState<string[]>([])
 
-  const { position } = route.params as OrphanageDataRouteParams
+  const { position } = route.params
 
   const handleSelectImages = useCallback(async () => {
-    const { status } = await requestCameraRollPermissionsAsync()
-
-    if (status !== 'granted') {
-      Toast.show('Camera permissions denied.')
-      return
-    }
-
     const result = await launchImageLibraryAsync({
       allowsEditing: true,
       quality: 1,
@@ -57,12 +50,10 @@ const OrphanageData: React.FC = () => {
       mediaTypes: MediaTypeOptions.Images
     })
 
-    if (result.cancelled) {
-      return
+    if (!result.cancelled) {
+      const { uri: image } = result as ImageInfo
+      setImages(prevState => [...prevState, image])
     }
-
-    const { uri: image } = result
-    setImages([...images, image])
   }, [])
 
   const handleCreateOrphanage = async () => {
@@ -89,7 +80,7 @@ const OrphanageData: React.FC = () => {
       .post('/orphanages', data)
       .then(() => {
         Toast.show('Orfanato cadastrado com sucesso.')
-        navigation.navigate('OrphanagesMap')
+        navigation.navigate('DataSectionTwo')
       })
       .catch(err => {
         console.log(err)
@@ -155,5 +146,3 @@ const OrphanageData: React.FC = () => {
     </Container>
   )
 }
-
-export default OrphanageData

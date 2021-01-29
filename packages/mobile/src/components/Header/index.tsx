@@ -17,7 +17,10 @@ interface HeaderProps {
   showDismiss?: boolean
 }
 
-const Header: React.FC<HeaderProps> = ({ title, showDismiss = true }) => {
+export const Header: React.FC<HeaderProps> = ({
+  title,
+  showDismiss = true
+}) => {
   const navigation = useNavigation()
 
   const handleDismissButton = useCallback(() => {
@@ -42,5 +45,3 @@ const Header: React.FC<HeaderProps> = ({ title, showDismiss = true }) => {
     </Container>
   )
 }
-
-export default Header

@@ -46,6 +46,7 @@
     "@types/react-native": "~0.63.2",
     "@types/styled-components": "^5.1.4",
     "babel-plugin-inline-dotenv": "^1.6.0",
+    "babel-plugin-root-import": "^6.5.0",
     "expo-yarn-workspaces": "^1.2.1",
     "typescript-styled-plugin": "^0.15.0"
   },

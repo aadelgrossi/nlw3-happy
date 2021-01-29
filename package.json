@@ -10,7 +10,9 @@
       "**/typeorm",
       "**/typeorm/**",
       "**/typeorm-seeding",
-      "**/typeorm-seeding/**"
+      "**/typeorm-seeding/**",
+      "**/babel-plugin-inline-dotenv",
+      "**/babel-plugin-inline-dotenv/**"
     ]
   },
   "main": "index.js",

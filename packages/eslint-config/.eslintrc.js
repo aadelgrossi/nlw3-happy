@@ -51,12 +51,17 @@ module.exports = {
       "error",
       {
         "groups": ["builtin", "external", "internal"],
-        "pathGroups": [
+        pathGroups: [
           {
-            "pattern": "react",
-            "group": "external",
-            "position": "before"
-          }
+            pattern: "react",
+            group: "external",
+            position: "before",
+          },
+          {
+            pattern: "\~/**",
+            group: "external",
+            position: "after"
+          },
         ],
         "pathGroupsExcludedImportTypes": ["react"],
         "newlines-between": "always",

@@ -1,20 +1,26 @@
 import React, { useCallback } from 'react'
 
-import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
 import { Image, StatusBar } from 'react-native'
 import Onboarding, { Page } from 'react-native-onboarding-swiper'
 
-import Dots from '../../components/Onboarding/Dots'
-import NextButton from '../../components/Onboarding/NextButton'
-import onboardingImage1 from '../../images/onboarding01.png'
-import onboardingImage2 from '../../images/onboarding02.png'
+import { Dots, NextButton } from '~/components/Onboarding'
+import { onboarding01, onboarding02 } from '~/images'
+import { InitialRoutesParamList } from '~/routes/types'
+
 import { styles } from './styles'
 
-const OnboardingScreens: React.FC = () => {
-  const navigation = useNavigation()
+interface OnboardingProps {
+  navigation: StackNavigationProp<InitialRoutesParamList, 'Onboarding'>
+}
 
+export const OnboardingScreens: React.FC<OnboardingProps> = ({
+  navigation
+}) => {
   const handleDone = useCallback(async () => {
-    navigation.navigate('SelectMapPosition')
+    navigation.navigate('CreateOrphanage', {
+      screen: 'SelectLocation'
+    })
   }, [navigation])
 
   const pages: Page[] = [
@@ -24,18 +30,14 @@ const OnboardingScreens: React.FC = () => {
       backgroundColor: '#F2F3F5',
       subtitle: 'Visite orfanatos e mude o dia de muitas crianças',
       subTitleStyles: styles.pageOneSubTitle,
-      image: (
-        <Image source={onboardingImage1} style={styles.pageOneImageStyles} />
-      )
+      image: <Image source={onboarding01} style={styles.pageOneImageStyles} />
     },
     {
       title: 'Escolha um orfanato no mapa e faça uma visita',
       subtitle: '',
       titleStyles: styles.pageTwoTitle,
       backgroundColor: '#F2F3F5',
-      image: (
-        <Image source={onboardingImage2} style={styles.pageTwoImageStyles} />
-      )
+      image: <Image source={onboarding02} style={styles.pageTwoImageStyles} />
     }
   ]
   return (
@@ -58,5 +60,3 @@ const OnboardingScreens: React.FC = () => {
     </>
   )
 }
-
-export default OnboardingScreens

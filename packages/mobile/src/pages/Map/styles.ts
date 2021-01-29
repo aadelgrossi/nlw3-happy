@@ -2,7 +2,9 @@ import { RectButton } from 'react-native-gesture-handler'
 import MapView, { Callout } from 'react-native-maps'
 import styled from 'styled-components/native'
 
-export const Container = styled.View``
+export const Container = styled.View`
+  flex: 1;
+`
 
 export const MapItem = styled(MapView)`
   width: 100%;
