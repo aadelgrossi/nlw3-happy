@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView } from 'react-native-gesture-handler'
-import { Marker } from 'react-native-maps'
-import mapMarkerImg from '../../images/mapmarker.png'
 
 import { Feather, FontAwesome } from '@expo/vector-icons'
+import { RouteProp } from '@react-navigation/core'
+import { Linking } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
+import { Marker } from 'react-native-maps'
+
+import { mapMarker } from '~/images'
+import { InitialRoutesParamList } from '~/routes/types'
+import api from '~/services/api'
 
 import {
   Container,
@@ -27,40 +32,22 @@ import {
   ContactButton,
   ContactButtonText
 } from './styles'
-import { useRoute } from '@react-navigation/core'
-import api from '../../services/api'
-import { Linking } from 'react-native'
 
-interface OrphanageDetailsRouteParams {
-  id: string
+interface OrphanageDetailsProps {
+  route: RouteProp<InitialRoutesParamList, 'OrphanageDetails'>
 }
 
-interface Orphanage {
-  id: string
-  name: string
-  latitude: number
-  longitude: number
-  about: string
-  instructions: string
-  opening_hours: string
-  open_on_weekends: boolean
-  images: Array<{
-    id: string
-    url: string
-  }>
-}
-
-const OrphanageDetails: React.FC = () => {
+export const OrphanageDetails: React.FC<OrphanageDetailsProps> = ({
+  route
+}) => {
   const [orphanage, setOrphanage] = useState<Orphanage>()
-  const route = useRoute()
-
-  const params = route.params as OrphanageDetailsRouteParams
+  const { id } = route.params
 
   useEffect(() => {
-    api.get(`/orphanages/${params.id}`).then(response => {
+    api.get(`/orphanages/${id}`).then(response => {
       setOrphanage(response.data)
     })
-  }, [params.id])
+  }, [id])
 
   if (!orphanage) {
     return (
@@ -109,7 +96,7 @@ const OrphanageDetails: React.FC = () => {
             rotateEnabled={false}
           >
             <Marker
-              icon={mapMarkerImg}
+              icon={mapMarker}
               coordinate={{
                 latitude: Number(orphanage.latitude),
                 longitude: Number(orphanage.longitude)
@@ -153,5 +140,3 @@ const OrphanageDetails: React.FC = () => {
     </Container>
   )
 }
-
-export default OrphanageDetails
