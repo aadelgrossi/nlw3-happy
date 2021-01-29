@@ -3,11 +3,10 @@ import { BorderlessButton } from 'react-native-gesture-handler'
 import styled from 'styled-components/native'
 
 export const Container = styled.View`
-  padding: 24px;
+  padding: 32px 12px 12px;
   background-color: #f9fafc;
-  border-width: 1px;
-  border-color: #dde3f0;
-  padding-top: 56px;
+  border-bottom-width: 1px;
+  border-bottom-color: #dde3f0;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -22,8 +21,12 @@ export const Title = styled.Text`
 export const EmptyButtonSpace = styled.View`
   width: 24px;
 `
-export const BackButton = styled(BorderlessButton)``
-export const DismissButton = styled(BorderlessButton)``
+export const BackButton = styled(BorderlessButton)`
+  padding: 20px;
+`
+export const DismissButton = styled(BorderlessButton)`
+  padding: 20px;
+`
 
 export const LeftArrowIcon = styled(Feather).attrs({
   name: 'arrow-left',
