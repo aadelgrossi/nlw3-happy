@@ -5,6 +5,10 @@
     "jsx": "react-native",
     "lib": ["dom", "esnext"],
     "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"]
+    },
     "plugins": [
       {
         "name": "typescript-styled-plugin",

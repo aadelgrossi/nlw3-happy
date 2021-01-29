@@ -7,14 +7,13 @@ import {
 } from '@react-navigation/stack'
 import { usePersistStorage } from 'react-native-use-persist-storage'
 
-import Header from './components/Header'
-import OrphanageData from './pages/CreateOrphanage/OrphanageData'
-import SelectMapPosition from './pages/CreateOrphanage/SelectMapPosition'
-import Map from './pages/Map'
-import Onboarding from './pages/Onboarding'
-import OrphanageDetails from './pages/OrphanageDetails'
+import { Header } from '~/components'
+import { Map, OnboardingScreens, OrphanageDetails } from '~/pages'
 
-const { Navigator, Screen } = createStackNavigator()
+import { CreateOrphanageNavigator } from './create_orphanage_routes'
+import { InitialRoutesParamList } from './types'
+
+const { Navigator, Screen } = createStackNavigator<InitialRoutesParamList>()
 
 const Routes: React.FC = () => {
   const [hasRunBefore, _, restored] = usePersistStorage<boolean>(
@@ -34,7 +33,9 @@ const Routes: React.FC = () => {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
           }}
         >
-          {!hasRunBefore && <Screen name="Onboarding" component={Onboarding} />}
+          {!hasRunBefore && (
+            <Screen name="Onboarding" component={OnboardingScreens} />
+          )}
           <Screen name="OrphanagesMap" component={Map} />
           <Screen
             name="OrphanageDetails"
@@ -44,21 +45,7 @@ const Routes: React.FC = () => {
               header: () => <Header showDismiss={false} title="Orfanato" />
             }}
           />
-          <Screen
-            name="SelectMapPosition"
-            component={SelectMapPosition}
-            options={{
-              headerShown: false
-            }}
-          />
-          <Screen
-            name="OrphanageData"
-            component={OrphanageData}
-            options={{
-              headerShown: true,
-              header: () => <Header title="Preencha os dados" />
-            }}
-          />
+          <Screen name="CreateOrphanage" component={CreateOrphanageNavigator} />
         </Navigator>
       </NavigationContainer>
     )

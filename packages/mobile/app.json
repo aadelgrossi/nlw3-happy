@@ -23,7 +23,7 @@
       "favicon": "./assets/favicon.png"
     },
     "androidNavigationBar": {
-      "visible": "sticky-immersive"
+      "barStyle": "dark-content"
     },
     "packagerOpts": {
       "config": "metro.config.js"
