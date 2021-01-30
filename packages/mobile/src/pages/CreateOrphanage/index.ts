@@ -1,2 +1,3 @@
-export * from './OrphanageData'
+export * from './DataSectionOne'
+export * from './DataSectionTwo'
 export * from './SelectMapPosition'
