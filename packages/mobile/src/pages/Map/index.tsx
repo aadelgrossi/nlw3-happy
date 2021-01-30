@@ -29,7 +29,7 @@ export const Map: React.FC<MapProps> = ({ navigation }) => {
   const [orphanages, setOrphanages] = useState<Orphanage[]>([])
 
   const fetchOrphanages = useCallback(() => {
-    api.get('/orphanages').then(({ data }) => {
+    api.get<Orphanage[]>('/orphanages').then(({ data }) => {
       setOrphanages(data)
     })
   }, [])
@@ -38,8 +38,8 @@ export const Map: React.FC<MapProps> = ({ navigation }) => {
     fetchOrphanages()
   }, [fetchOrphanages])
 
-  const handleNavigateToOrphanageDetails = (id: string) => {
-    navigation.navigate('OrphanageDetails', { id })
+  const handleNavigateToOrphanageDetails = (slug: string) => {
+    navigation.navigate('OrphanageDetails', { slug })
   }
 
   const handleNavigateToCreateOrphanage = () => {
@@ -52,13 +52,13 @@ export const Map: React.FC<MapProps> = ({ navigation }) => {
     <>
       <Container>
         <MapItem provider={PROVIDER_GOOGLE} initialRegion={initialRegion}>
-          {orphanages.map(orphanage => (
+          {orphanages.map(({ id, latitude, longitude, slug, name }) => (
             <Marker
-              key={orphanage.id}
+              key={id}
               icon={mapMarker}
               coordinate={{
-                latitude: Number(orphanage.latitude),
-                longitude: Number(orphanage.longitude)
+                latitude: Number(latitude),
+                longitude: Number(longitude)
               }}
               calloutAnchor={{
                 x: 2.7,
@@ -68,11 +68,11 @@ export const Map: React.FC<MapProps> = ({ navigation }) => {
               <Popup
                 tooltip
                 onPress={() => {
-                  handleNavigateToOrphanageDetails(orphanage.id)
+                  handleNavigateToOrphanageDetails(slug)
                 }}
               >
                 <PopupView>
-                  <PopupText>{orphanage.name}</PopupText>
+                  <PopupText>{name}</PopupText>
                 </PopupView>
               </Popup>
             </Marker>

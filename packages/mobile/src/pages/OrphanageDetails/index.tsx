@@ -41,13 +41,13 @@ export const OrphanageDetails: React.FC<OrphanageDetailsProps> = ({
   route
 }) => {
   const [orphanage, setOrphanage] = useState<Orphanage>()
-  const { id } = route.params
+  const { slug } = route.params
 
   useEffect(() => {
-    api.get(`/orphanages/${id}`).then(response => {
+    api.get(`/orphanages/${slug}`).then(response => {
       setOrphanage(response.data)
     })
-  }, [id])
+  }, [slug])
 
   if (!orphanage) {
     return (

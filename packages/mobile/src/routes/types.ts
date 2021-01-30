@@ -7,7 +7,7 @@ export type InitialRoutesParamList = {
   Onboarding: undefined
   OrphanagesMap: undefined
   OrphanageDetails: {
-    id: string
+    slug: string
   }
   CreateOrphanage: NavigatorScreenParams<CreateOrphanageParamList>
 }
