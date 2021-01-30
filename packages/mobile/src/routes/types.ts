@@ -1,6 +1,8 @@
 import { NavigatorScreenParams } from '@react-navigation/core'
 import { LatLng } from 'react-native-maps'
 
+import { OrphanageSectionOneFormData } from '~/pages/CreateOrphanage/types'
+
 export type InitialRoutesParamList = {
   Onboarding: undefined
   OrphanagesMap: undefined
@@ -16,6 +18,6 @@ export type CreateOrphanageParamList = {
     position: LatLng
   }
   DataSectionTwo: {
-    orphanage: OrphanagePartialFormData
+    orphanage: OrphanageSectionOneFormData & LatLng
   }
 }

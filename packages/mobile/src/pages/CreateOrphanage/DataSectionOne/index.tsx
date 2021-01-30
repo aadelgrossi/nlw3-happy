@@ -20,6 +20,7 @@ import {
   TitleWrapper,
   LabelWrapper
 } from '../styles'
+import { OrphanageSectionOneFormData } from '../types'
 import validationSchema from './schema'
 import { UploadedImagesContainer, RemoveImage, DismissIcon } from './styles'
 
@@ -37,17 +38,14 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
 
   const [images, setImages] = useState<ImageInfo[]>([])
 
-  const {
-    position: { latitude, longitude }
-  } = route.params
+  const { position } = route.params
 
   const {
     control,
     handleSubmit,
     errors,
-    getValues,
     formState: { isSubmitting }
-  } = useForm<OrphanagePartialFormData>({
+  } = useForm<OrphanageSectionOneFormData>({
     defaultValues: {
       name: '',
       about: '',
@@ -60,7 +58,7 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
   const handleSelectImages = useCallback(async () => {
     const result = await launchImageLibraryAsync({
       allowsEditing: true,
-      quality: 0.5,
+      quality: 0.6,
       aspect: [5, 4],
       base64: true,
       mediaTypes: MediaTypeOptions.Images
@@ -72,12 +70,11 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
     }
   }, [])
 
-  const nextStep = useCallback(() => {
+  const nextStep = useCallback((data: OrphanageSectionOneFormData) => {
     navigation.navigate('DataSectionTwo', {
       orphanage: {
-        ...getValues(),
-        latitude,
-        longitude,
+        ...data,
+        ...position,
         images: images.map(i => i.uri)
       }
     })
@@ -88,10 +85,10 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
   }, [])
 
   useEffect(() => {
-    console.log({ latitude, longitude })
+    console.log({ position })
 
     console.log({ errors })
-  }, [errors, getValues, latitude, longitude, images])
+  }, [errors, position, images])
 
   return (
     <Container contentContainerStyle={{ padding: 24 }}>

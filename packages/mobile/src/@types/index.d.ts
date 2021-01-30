@@ -15,12 +15,3 @@ interface Orphanage {
     url: string
   }>
 }
-
-interface OrphanagePartialFormData {
-  name: string
-  latitude: number
-  longitude: number
-  about: string
-  whatsapp: string
-  images: string[]
-}
