@@ -1,18 +1,14 @@
 import React, { useCallback, useState, useEffect } from 'react'
 
-import { Feather } from '@expo/vector-icons'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { launchImageLibraryAsync, MediaTypeOptions } from 'expo-image-picker'
-import {
-  ImageInfo,
-  ImagePickerMultipleResult
-} from 'expo-image-picker/build/ImagePicker.types'
+import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types'
 import { useForm } from 'react-hook-form'
+import { TextInput } from 'react-native'
 
-import { Input, Button } from '~/components'
-import { ImagePreview } from '~/components/ImagePreview'
+import { Input, Button, ImageInput, ImagePreview } from '~/components'
 import { CreateOrphanageParamList } from '~/routes/types'
 
 import {
@@ -25,12 +21,7 @@ import {
   LabelWrapper
 } from '../styles'
 import validationSchema from './schema'
-import {
-  ImagesInput,
-  UploadedImagesContainer,
-  RemoveImage,
-  DismissIcon
-} from './styles'
+import { UploadedImagesContainer, RemoveImage, DismissIcon } from './styles'
 
 interface OrphanageDataProps {
   navigation: StackNavigationProp<CreateOrphanageParamList, 'DataSectionOne'>
@@ -41,6 +32,9 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
   route,
   navigation
 }) => {
+  const aboutRef = React.useRef<TextInput>(null)
+  const whatsappRef = React.useRef<TextInput>(null)
+
   const [images, setImages] = useState<ImageInfo[]>([])
 
   const {
@@ -51,7 +45,8 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
     control,
     handleSubmit,
     errors,
-    getValues
+    getValues,
+    formState: { isSubmitting }
   } = useForm<OrphanagePartialFormData>({
     defaultValues: {
       name: '',
@@ -109,7 +104,14 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
       </TitleWrapper>
 
       <Label>Nome</Label>
-      <Input control={control} name="name" errors={errors.name} />
+      <Input
+        control={control}
+        name="name"
+        errors={errors.name}
+        blurOnSubmit={false}
+        returnKeyType="next"
+        onSubmitEditing={() => aboutRef.current?.focus()}
+      />
 
       <LabelWrapper>
         <Label>Sobre</Label>
@@ -118,15 +120,20 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
 
       <Input
         control={control}
+        ref={aboutRef}
         name="about"
         errors={errors.about}
         multiline
         style={{ height: 110 }}
+        blurOnSubmit={false}
+        returnKeyType="next"
+        onSubmitEditing={() => whatsappRef.current?.focus()}
       />
 
       <Label>Número de WhatsApp</Label>
       <Input
         control={control}
+        ref={whatsappRef}
         name="whatsapp"
         errors={errors.whatsapp}
         keyboardType="number-pad"
@@ -145,11 +152,11 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
         ))}
       </UploadedImagesContainer>
 
-      <ImagesInput onPress={handleSelectImages}>
-        <Feather name="plus" size={24} color="#15B6D6" />
-      </ImagesInput>
+      <ImageInput onPress={handleSelectImages} />
 
-      <Button onPress={handleSubmit(nextStep)}>Próximo</Button>
+      <Button onPress={handleSubmit(nextStep)} loading={isSubmitting}>
+        Próximo
+      </Button>
     </Container>
   )
 }
