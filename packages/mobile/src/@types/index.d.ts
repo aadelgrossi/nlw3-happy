@@ -6,6 +6,7 @@ interface Orphanage {
   latitude: number
   longitude: number
   about: string
+  whatsapp: string
   instructions: string
   opening_hours: string
   open_on_weekends: boolean
@@ -13,4 +14,13 @@ interface Orphanage {
     id: string
     url: string
   }>
+}
+
+interface OrphanagePartialFormData {
+  name: string
+  latitude: number
+  longitude: number
+  about: string
+  whatsapp: string
+  images: string[]
 }
