@@ -1,25 +1,26 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 
 import { Feather } from '@expo/vector-icons'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { launchImageLibraryAsync, MediaTypeOptions } from 'expo-image-picker'
 import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types'
+import { useForm } from 'react-hook-form'
 
+import { Input, Button } from '~/components'
 import { CreateOrphanageParamList } from '~/routes/types'
 
 import {
   Container,
   Title,
-  Input,
   Label,
-  NextButton,
   CurrentStep,
   StepItemText,
   TitleWrapper,
-  LabelWrapper,
-  ButtonText
+  LabelWrapper
 } from '../styles'
+import validationSchema from './schema'
 import { ImagesInput, UploadedImage, UploadedImagesContainer } from './styles'
 
 interface OrphanageDataProps {
@@ -31,14 +32,25 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
   route,
   navigation
 }) => {
-  const [name, setName] = useState('')
-  const [about, setAbout] = useState('')
-  const [whatsapp, setWhatsapp] = useState('')
   const [images, setImages] = useState<string[]>([])
-
   const {
     position: { latitude, longitude }
   } = route.params
+
+  const {
+    control,
+    handleSubmit,
+    errors,
+    getValues
+  } = useForm<OrphanagePartialFormData>({
+    defaultValues: {
+      name: '',
+      about: '',
+      whatsapp: '',
+      images: []
+    },
+    resolver: yupResolver(validationSchema)
+  })
 
   const handleSelectImages = useCallback(async () => {
     const result = await launchImageLibraryAsync({
@@ -54,11 +66,17 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
     }
   }, [])
 
-  const handleNext = useCallback(() => {
+  const nextStep = useCallback(() => {
     navigation.navigate('DataSectionTwo', {
-      orphanage: { name, about, latitude, longitude, whatsapp, images }
+      orphanage: { ...getValues(), latitude, longitude, images }
     })
   }, [])
+
+  useEffect(() => {
+    console.log({ latitude, longitude })
+
+    console.log({ errors })
+  }, [errors, getValues, latitude, longitude])
 
   return (
     <Container contentContainerStyle={{ padding: 24 }}>
@@ -71,7 +89,7 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
       </TitleWrapper>
 
       <Label>Nome</Label>
-      <Input value={name} onChangeText={setName} />
+      <Input control={control} name="name" errors={errors.name} />
 
       <LabelWrapper>
         <Label>Sobre</Label>
@@ -79,17 +97,23 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
       </LabelWrapper>
 
       <Input
+        control={control}
+        name="about"
+        errors={errors.about}
         multiline
         style={{ height: 110 }}
-        value={about}
-        onChangeText={setAbout}
       />
 
       <Label>Número de WhatsApp</Label>
-      <Input value={whatsapp} onChangeText={setWhatsapp} />
+      <Input
+        control={control}
+        name="whatsapp"
+        errors={errors.whatsapp}
+        keyboardType="number-pad"
+        maxLength={11}
+      />
 
       <Label>Fotos</Label>
-
       <UploadedImagesContainer>
         {images.map(image => (
           <UploadedImage key={image} source={{ uri: image }} />
@@ -100,9 +124,7 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
         <Feather name="plus" size={24} color="#15B6D6" />
       </ImagesInput>
 
-      <NextButton onPress={handleNext}>
-        <ButtonText>Próximo</ButtonText>
-      </NextButton>
+      <Button onPress={handleSubmit(nextStep)}>Próximo</Button>
     </Container>
   )
 }
