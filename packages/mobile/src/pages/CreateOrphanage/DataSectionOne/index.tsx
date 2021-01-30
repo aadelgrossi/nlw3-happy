@@ -13,6 +13,7 @@ import { CreateOrphanageParamList } from '~/routes/types'
 
 import {
   Container,
+  Form,
   Title,
   Label,
   CurrentStep,
@@ -35,9 +36,7 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
 }) => {
   const aboutRef = React.useRef<TextInput>(null)
   const whatsappRef = React.useRef<TextInput>(null)
-
   const [images, setImages] = useState<ImageInfo[]>([])
-
   const { position } = route.params
 
   const {
@@ -70,86 +69,86 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
     }
   }, [])
 
-  const nextStep = useCallback((data: OrphanageSectionOneFormData) => {
-    navigation.navigate('DataSectionTwo', {
-      orphanage: {
+  const nextStep = useCallback(
+    (data: OrphanageSectionOneFormData) => {
+      const orphanage = {
         ...data,
         ...position,
         images: images.map(i => i.uri)
       }
-    })
-  }, [])
+
+      navigation.navigate('DataSectionTwo', {
+        orphanage
+      })
+    },
+    [images, position, navigation]
+  )
 
   const removeImage = useCallback((uri: string) => {
     setImages(prevState => prevState.filter(image => image.uri !== uri))
   }, [])
 
-  useEffect(() => {
-    console.log({ position })
-
-    console.log({ errors })
-  }, [errors, position, images])
-
   return (
-    <Container contentContainerStyle={{ padding: 24 }}>
-      <TitleWrapper>
-        <Title>Dados</Title>
+    <Container>
+      <Form>
+        <TitleWrapper>
+          <Title>Dados</Title>
+          <LabelWrapper>
+            <CurrentStep>01 </CurrentStep>
+            <StepItemText> - 02</StepItemText>
+          </LabelWrapper>
+        </TitleWrapper>
+        <Label>Nome</Label>
+        <Input
+          control={control}
+          name="name"
+          errors={errors.name}
+          blurOnSubmit={false}
+          returnKeyType="next"
+          onSubmitEditing={() => aboutRef.current?.focus()}
+        />
+
         <LabelWrapper>
-          <CurrentStep>01 </CurrentStep>
-          <StepItemText> - 02</StepItemText>
+          <Label>Sobre</Label>
+          <StepItemText>Máximo de 300 caracteres</StepItemText>
         </LabelWrapper>
-      </TitleWrapper>
 
-      <Label>Nome</Label>
-      <Input
-        control={control}
-        name="name"
-        errors={errors.name}
-        blurOnSubmit={false}
-        returnKeyType="next"
-        onSubmitEditing={() => aboutRef.current?.focus()}
-      />
+        <Input
+          control={control}
+          ref={aboutRef}
+          name="about"
+          errors={errors.about}
+          multiline
+          style={{ height: 110 }}
+          blurOnSubmit={false}
+          returnKeyType="next"
+          onSubmitEditing={() => whatsappRef.current?.focus()}
+        />
 
-      <LabelWrapper>
-        <Label>Sobre</Label>
-        <StepItemText>Máximo de 300 caracteres</StepItemText>
-      </LabelWrapper>
+        <Label>Número de WhatsApp</Label>
+        <Input
+          control={control}
+          ref={whatsappRef}
+          name="whatsapp"
+          errors={errors.whatsapp}
+          keyboardType="number-pad"
+          maxLength={11}
+        />
 
-      <Input
-        control={control}
-        ref={aboutRef}
-        name="about"
-        errors={errors.about}
-        multiline
-        style={{ height: 110 }}
-        blurOnSubmit={false}
-        returnKeyType="next"
-        onSubmitEditing={() => whatsappRef.current?.focus()}
-      />
+        <Label>Fotos</Label>
 
-      <Label>Número de WhatsApp</Label>
-      <Input
-        control={control}
-        ref={whatsappRef}
-        name="whatsapp"
-        errors={errors.whatsapp}
-        keyboardType="number-pad"
-        maxLength={11}
-      />
+        <UploadedImagesContainer>
+          {images.map(image => (
+            <ImagePreview key={image.uri} {...image}>
+              <RemoveImage onPress={() => removeImage(image.uri)}>
+                <DismissIcon />
+              </RemoveImage>
+            </ImagePreview>
+          ))}
+        </UploadedImagesContainer>
 
-      <Label>Fotos</Label>
-
-      <UploadedImagesContainer>
-        {images.map(image => (
-          <ImagePreview key={image.uri} {...image}>
-            <RemoveImage onPress={() => removeImage(image.uri)}>
-              <DismissIcon />
-            </RemoveImage>
-          </ImagePreview>
-        ))}
-      </UploadedImagesContainer>
-
-      <ImageInput onPress={handleSelectImages} />
+        <ImageInput onPress={handleSelectImages} />
+      </Form>
 
       <Button onPress={handleSubmit(nextStep)} loading={isSubmitting}>
         Próximo
