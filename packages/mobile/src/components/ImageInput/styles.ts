@@ -16,5 +16,5 @@ export const Container = styled.TouchableOpacity`
 export const PlusIcon = styled(Feather).attrs({
   name: 'plus',
   size: 24,
-  color: '#"#15B6D6"'
+  color: '#15B6D6'
 })``
