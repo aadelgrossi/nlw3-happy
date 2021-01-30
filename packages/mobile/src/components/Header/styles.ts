@@ -19,7 +19,7 @@ export const Title = styled.Text`
 `
 
 export const EmptyButtonSpace = styled.View`
-  width: 24px;
+  padding: 30px;
 `
 export const BackButton = styled(BorderlessButton)`
   padding: 20px;
