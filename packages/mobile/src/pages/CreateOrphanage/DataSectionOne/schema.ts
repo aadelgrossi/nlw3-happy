@@ -9,5 +9,5 @@ export default Yup.object().shape({
     .matches(/^\d+$/, 'Deve ser um número válido')
     .required('Campo obrigatório')
     .min(10, 'Deve conter no mínimo 10 dígitos'),
-  images: Yup.array()
+  images: Yup.array().of(Yup.string())
 })
