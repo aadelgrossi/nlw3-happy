@@ -13,12 +13,12 @@ import {
 } from './styles'
 
 interface HeaderProps {
-  title: string
+  title?: string
   showDismiss?: boolean
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  title,
+  title = 'Adicione um orfanato',
   showDismiss = true
 }) => {
   const navigation = useNavigation()

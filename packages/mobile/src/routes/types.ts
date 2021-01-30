@@ -15,5 +15,7 @@ export type CreateOrphanageParamList = {
   DataSectionOne: {
     position: LatLng
   }
-  DataSectionTwo: undefined
+  DataSectionTwo: {
+    orphanage: OrphanagePartialFormData
+  }
 }
