@@ -10,11 +10,11 @@ import initialRegion from '~/constants/initialRegion'
 import { cursor, mapMarker } from '~/images'
 import { CreateOrphanageParamList } from '~/routes/types'
 
+import { ButtonText } from '../styles'
 import {
-  Container,
   Map,
-  NextButton,
-  NextButtonText,
+  Container,
+  FloatingButton,
   OnboardingOverlay,
   OnboardingText,
   OnboardingWrapper
@@ -81,9 +81,9 @@ export const SelectMapPosition: React.FC<SelectPositionProps> = ({
       </Map>
 
       {position.latitude !== 0 && (
-        <NextButton onPress={handleNextStep}>
-          <NextButtonText>Próximo</NextButtonText>
-        </NextButton>
+        <FloatingButton onPress={handleNextStep}>
+          <ButtonText>Próximo</ButtonText>
+        </FloatingButton>
       )}
     </Container>
   ) : null

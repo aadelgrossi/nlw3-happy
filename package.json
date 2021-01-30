@@ -27,7 +27,10 @@
     "run:api": "yarn workspace @nlw3-happy/api dev:server",
     "run:web": "yarn workspace @nlw3-happy/web dev",
     "run:mobile": "yarn workspace @nlw3-happy/mobile start -c",
-    "postinstall": "cd ./packages/mobile && expo-yarn-workspaces postinstall"
+    "postinstall": "cd ./packages/mobile && expo-yarn-workspaces postinstall",
+    "api": "yarn workspace @nlw3-happy/api",
+    "web": "yarn workspace @nlw3-happy/web",
+    "mobile": "yarn workspace @nlw3-happy/mobile"
   },
   "devDependencies": {
     "@nlw3-happy/eslint-config": "*",

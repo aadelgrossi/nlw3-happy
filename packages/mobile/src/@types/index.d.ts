@@ -6,6 +6,8 @@ interface Orphanage {
   latitude: number
   longitude: number
   about: string
+  slug: string
+  whatsapp: string
   instructions: string
   opening_hours: string
   open_on_weekends: boolean

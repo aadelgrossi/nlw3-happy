@@ -1,22 +1,53 @@
 import { RectButton } from 'react-native-gesture-handler'
 import styled from 'styled-components/native'
 
-export const Container = styled.ScrollView`
+export const Container = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    padding: 24,
+    justifyContent: 'space-between'
+  }
+})`
   flex: 1;
 `
-export const Title = styled.Text`
-  color: #5c8599;
-  font-size: 24px;
-  font-family: 'nunitoBold';
+
+export const Form = styled.View``
+
+export const TitleWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 32px;
   padding-bottom: 24px;
   border-bottom-width: 0.8px;
   border-bottom-color: #d3e2e6;
 `
 
-export const Label = styled.Text`
-  color: #8fa7b3;
+export const Title = styled.Text`
+  color: #5c8599;
+  font-size: 26px;
+  font-family: 'nunitoBold';
+`
+
+export const LabelWrapper = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`
+
+export const StepItemText = styled.Text`
+  font-size: 14px;
   font-family: 'nunitoRegular';
+  color: #8fa7b2;
+`
+
+export const CurrentStep = styled(StepItemText)`
+  font-family: 'nunitoTitle';
+  color: #8fa7b2;
+`
+
+export const Label = styled.Text`
+  color: #8fa7b2;
+  font-family: 'nunitoRegular';
+  font-size: 15px;
   margin-bottom: 8px;
 `
 
@@ -29,30 +60,6 @@ export const Input = styled.TextInput`
   padding: 18px 24px;
   margin-bottom: 16px;
   text-align-vertical: top;
-`
-
-export const ImagesInput = styled.TouchableOpacity`
-  background-color: rgba(255, 255, 255, 0.5);
-  border-style: dashed;
-  border-color: #96d2f0;
-  border-width: 1.4px;
-  border-radius: 20px;
-  height: 56px;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 32px;
-`
-
-export const UploadedImagesContainer = styled.View`
-  flex-direction: row;
-`
-
-export const UploadedImage = styled.Image`
-  width: 64px;
-  height: 64px;
-  border-radius: 20px;
-  margin-bottom: 32px;
-  margin-right: 8px;
 `
 
 export const SwitchContainer = styled.View`
@@ -69,8 +76,13 @@ export const NextButton = styled(RectButton)`
   height: 56px;
   margin-top: 32px;
 `
-export const NextButtonText = styled.Text`
+
+export const ButtonText = styled.Text`
   font-family: 'nunitoTitle';
   font-size: 16px;
   color: #fff;
+`
+
+export const ConfirmButton = styled(RectButton)`
+  background-color: #37c77f;
 `
