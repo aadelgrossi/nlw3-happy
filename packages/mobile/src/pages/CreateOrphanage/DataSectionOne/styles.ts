@@ -1,3 +1,5 @@
+import { Feather } from '@expo/vector-icons'
+import { BorderlessButton } from 'react-native-gesture-handler'
 import styled from 'styled-components/native'
 
 export const ImagesInput = styled.TouchableOpacity`
@@ -9,17 +11,18 @@ export const ImagesInput = styled.TouchableOpacity`
   height: 56px;
   justify-content: center;
   align-items: center;
-  margin-bottom: 32px;
+  margin: 8px 0 32px;
 `
 
-export const UploadedImagesContainer = styled.View`
-  flex-direction: row;
+export const UploadedImagesContainer = styled.View``
+
+export const RemoveImage = styled(BorderlessButton)`
+  padding: 20px;
+  margin-left: auto;
 `
 
-export const UploadedImage = styled.Image`
-  width: 64px;
-  height: 64px;
-  border-radius: 20px;
-  margin-bottom: 32px;
-  margin-right: 8px;
-`
+export const DismissIcon = styled(Feather).attrs({
+  name: 'x',
+  size: 24,
+  color: '#ff669d'
+})``

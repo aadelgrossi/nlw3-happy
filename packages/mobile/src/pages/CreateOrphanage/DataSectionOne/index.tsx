@@ -5,10 +5,14 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { launchImageLibraryAsync, MediaTypeOptions } from 'expo-image-picker'
-import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types'
+import {
+  ImageInfo,
+  ImagePickerMultipleResult
+} from 'expo-image-picker/build/ImagePicker.types'
 import { useForm } from 'react-hook-form'
 
 import { Input, Button } from '~/components'
+import { ImagePreview } from '~/components/ImagePreview'
 import { CreateOrphanageParamList } from '~/routes/types'
 
 import {
@@ -21,7 +25,12 @@ import {
   LabelWrapper
 } from '../styles'
 import validationSchema from './schema'
-import { ImagesInput, UploadedImage, UploadedImagesContainer } from './styles'
+import {
+  ImagesInput,
+  UploadedImagesContainer,
+  RemoveImage,
+  DismissIcon
+} from './styles'
 
 interface OrphanageDataProps {
   navigation: StackNavigationProp<CreateOrphanageParamList, 'DataSectionOne'>
@@ -32,7 +41,8 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
   route,
   navigation
 }) => {
-  const [images, setImages] = useState<string[]>([])
+  const [images, setImages] = useState<ImageInfo[]>([])
+
   const {
     position: { latitude, longitude }
   } = route.params
@@ -55,28 +65,38 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
   const handleSelectImages = useCallback(async () => {
     const result = await launchImageLibraryAsync({
       allowsEditing: true,
-      quality: 1,
+      quality: 0.5,
       aspect: [5, 4],
+      base64: true,
       mediaTypes: MediaTypeOptions.Images
     })
 
     if (!result.cancelled) {
-      const { uri: image } = result as ImageInfo
+      const image = result as ImageInfo
       setImages(prevState => [...prevState, image])
     }
   }, [])
 
   const nextStep = useCallback(() => {
     navigation.navigate('DataSectionTwo', {
-      orphanage: { ...getValues(), latitude, longitude, images }
+      orphanage: {
+        ...getValues(),
+        latitude,
+        longitude,
+        images: images.map(i => i.uri)
+      }
     })
+  }, [])
+
+  const removeImage = useCallback((uri: string) => {
+    setImages(prevState => prevState.filter(image => image.uri !== uri))
   }, [])
 
   useEffect(() => {
     console.log({ latitude, longitude })
 
     console.log({ errors })
-  }, [errors, getValues, latitude, longitude])
+  }, [errors, getValues, latitude, longitude, images])
 
   return (
     <Container contentContainerStyle={{ padding: 24 }}>
@@ -114,9 +134,14 @@ export const DataSectionOne: React.FC<OrphanageDataProps> = ({
       />
 
       <Label>Fotos</Label>
+
       <UploadedImagesContainer>
         {images.map(image => (
-          <UploadedImage key={image} source={{ uri: image }} />
+          <ImagePreview key={image.uri} {...image}>
+            <RemoveImage onPress={() => removeImage(image.uri)}>
+              <DismissIcon />
+            </RemoveImage>
+          </ImagePreview>
         ))}
       </UploadedImagesContainer>
 
