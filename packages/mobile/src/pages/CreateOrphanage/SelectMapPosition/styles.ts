@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native'
 import MapView from 'react-native-maps'
 import styled from 'styled-components/native'
 
-import { NextButton } from '../styles'
+import { Button } from '~/components'
 
 export const Container = styled.View`
   flex: 1;
@@ -15,7 +15,7 @@ export const Map = styled(MapView)`
   height: 100%;
 `
 
-export const FloatingButton = styled(NextButton)`
+export const FloatingButton = styled(Button)`
   position: absolute;
   left: 24px;
   right: 24px;
