@@ -1,6 +1,9 @@
 import React from 'react'
 
-import { createStackNavigator } from '@react-navigation/stack'
+import {
+  CardStyleInterpolators,
+  createStackNavigator
+} from '@react-navigation/stack'
 
 import { Header } from '~/components'
 import { DataSectionOne, DataSectionTwo, SelectMapPosition } from '~/pages'
@@ -11,7 +14,11 @@ const { Navigator, Screen } = createStackNavigator<CreateOrphanageParamList>()
 
 export const CreateOrphanageNavigator: React.FC = () => {
   return (
-    <Navigator>
+    <Navigator
+      screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+      }}
+    >
       <Screen
         name="SelectLocation"
         component={SelectMapPosition}
