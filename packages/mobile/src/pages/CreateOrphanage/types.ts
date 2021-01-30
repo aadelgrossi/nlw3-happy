@@ -5,5 +5,5 @@ export type OrphanageSectionOneFormData = Pick<
 
 export type OrphanageSectionTwoFormData = Pick<
   Orphanage,
-  'instructions' | 'opening_hours' | 'open_on_weekends'
+  'instructions' | 'opening_hours'
 >
