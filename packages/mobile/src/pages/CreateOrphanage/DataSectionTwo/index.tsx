@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 
+import { yupResolver } from '@hookform/resolvers/yup'
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { useForm } from 'react-hook-form'
 import { Switch } from 'react-native'
 
+import { Button, Input } from '~/components'
 import {
   CreateOrphanageParamList,
   InitialRoutesParamList
@@ -14,15 +17,14 @@ import {
   Container,
   Title,
   Label,
-  Input,
   SwitchContainer,
-  ConfirmButton,
-  ButtonText,
   LabelWrapper,
   TitleWrapper,
   StepItemText,
   CurrentStep
 } from '../styles'
+import { OrphanageSectionTwoFormData } from '../types'
+import schema from './schema'
 
 interface DataSectionTwoProps {
   navigation: CompositeNavigationProp<
@@ -33,29 +35,41 @@ interface DataSectionTwoProps {
 }
 
 export const DataSectionTwo: React.FC<DataSectionTwoProps> = ({
-  route,
+  route: {
+    params: { orphanage }
+  },
   navigation
 }) => {
-  const { orphanage: firstStepData } = route.params
-
-  const [instructions, setInstructions] = useState('')
-  const [openingHours, setOpeningHours] = useState('')
   const [openOnWeekends, setOpenOnWeekends] = useState(false)
 
-  const handleCreateOrphanage = async () => {
-    const { latitude, longitude, name, about, images } = firstStepData
-    const data = new FormData()
+  const {
+    control,
+    handleSubmit,
+    errors,
+    formState: { isSubmitting }
+  } = useForm<OrphanageSectionTwoFormData>({
+    defaultValues: {
+      instructions: '',
+      opening_hours: '',
+      open_on_weekends: false
+    },
+    resolver: yupResolver(schema)
+  })
 
-    data.append('name', name)
-    data.append('about', about)
-    data.append('instructions', instructions)
-    data.append('opening_hours', openingHours)
-    data.append('latitude', String(latitude))
-    data.append('longitude', String(longitude))
-    data.append('open_on_weekends', String(openOnWeekends))
+  const createOrphanage = async (data: OrphanageSectionTwoFormData) => {
+    const { latitude, longitude, name, about, images } = orphanage
+    const formData = new FormData()
+
+    formData.append('name', name)
+    formData.append('about', about)
+    formData.append('instructions', data.instructions)
+    formData.append('opening_hours', data.opening_hours)
+    formData.append('latitude', String(latitude))
+    formData.append('longitude', String(longitude))
+    formData.append('open_on_weekends', String(openOnWeekends))
 
     images.forEach((image, index) => {
-      data.append('images', {
+      formData.append('images', {
         name: `image_${index}.jpg`,
         type: 'image/jpeg',
         uri: image
@@ -87,14 +101,19 @@ export const DataSectionTwo: React.FC<DataSectionTwoProps> = ({
 
       <Label>Instruções</Label>
       <Input
+        name="instructions"
+        control={control}
         multiline
         style={{ height: 110 }}
-        value={instructions}
-        onChangeText={setInstructions}
+        errors={errors.instructions}
       />
 
       <Label>Horário de visitas</Label>
-      <Input value={openingHours} onChangeText={setOpeningHours} />
+      <Input
+        name="opening_hours"
+        control={control}
+        errors={errors.opening_hours}
+      />
 
       <SwitchContainer>
         <Label>Abre no final de semana?</Label>
@@ -106,9 +125,13 @@ export const DataSectionTwo: React.FC<DataSectionTwoProps> = ({
         />
       </SwitchContainer>
 
-      <ConfirmButton onPress={handleCreateOrphanage}>
-        <ButtonText>Confirmar</ButtonText>
-      </ConfirmButton>
+      <Button
+        onPress={handleSubmit(createOrphanage)}
+        confirm
+        loading={isSubmitting}
+      >
+        Confirmar
+      </Button>
     </Container>
   )
 }
