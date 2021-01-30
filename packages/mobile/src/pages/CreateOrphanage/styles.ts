@@ -1,9 +1,16 @@
 import { RectButton } from 'react-native-gesture-handler'
 import styled from 'styled-components/native'
 
-export const Container = styled.ScrollView`
+export const Container = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    padding: 24,
+    justifyContent: 'space-between'
+  }
+})`
   flex: 1;
 `
+
+export const Form = styled.View``
 
 export const TitleWrapper = styled.View`
   flex-direction: row;
@@ -40,6 +47,7 @@ export const CurrentStep = styled(StepItemText)`
 export const Label = styled.Text`
   color: #8fa7b2;
   font-family: 'nunitoRegular';
+  font-size: 15px;
   margin-bottom: 8px;
 `
 
