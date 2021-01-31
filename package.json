@@ -20,7 +20,8 @@
   "license": "MIT",
   "scripts": {
     "env": "node setupEnvVars.js",
-    "setup": "yarn install && yarn env && yarn db:migrate && yarn db:seed",
+    "setup": "yarn install && yarn env",
+    "db:setup": "yarn db:migrate && yarn db:seed",
     "api": "yarn workspace @nlw3-happy/api",
     "web": "yarn workspace @nlw3-happy/web",
     "mobile": "yarn workspace @nlw3-happy/mobile",
