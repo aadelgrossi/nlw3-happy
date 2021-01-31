@@ -3,3 +3,8 @@ dist
 
 *.log
 .vercel
+
+.env
+.env.development
+.env.production
+.env.staging
