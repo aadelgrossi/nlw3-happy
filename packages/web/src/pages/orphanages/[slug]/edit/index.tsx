@@ -87,7 +87,7 @@ const EditOrphanage: NextPage<{ orphanage: Orphanage }> = ({ orphanage }) => {
   }, [])
 
   useEffect(() => {
-    formRef.current?.setData(orphanage)
+    formRef.current?.setData(orphanage as any)
   }, [orphanage])
 
   return (
