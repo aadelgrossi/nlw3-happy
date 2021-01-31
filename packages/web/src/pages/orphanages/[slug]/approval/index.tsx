@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 
-import OrphanageForm, { OrphanageFormData } from '@/components/OrphanageForm'
+import OrphanageForm from '@/components/OrphanageForm'
 import Sidebar from '@/components/Sidebar'
 import { useToast } from '@/hooks/toast'
 import api from '@/services/api'
@@ -22,12 +22,13 @@ const ApproveOrphanage: NextPage<{ orphanage: Orphanage }> = ({
   const formRef = useRef<FormHandles>(null)
 
   const handleConfirm = useCallback(async () => {
-    const formData = formRef.current.getData() as OrphanageFormData
-    formData.whatsapp = formData.whatsapp.replace(/[^0-9]+/g, '')
+    const formData = formRef.current.getData()
+    const whatsapp = formRef.current.getFieldValue('whatsapp') as string
 
     try {
       await api.put(`/orphanages/${orphanage.slug}`, {
         ...formData,
+        whatsapp: whatsapp.replace(/[^0-9]+/g, ''),
         images: [],
         approved: true
       })
