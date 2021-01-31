@@ -1,6 +1,7 @@
 import { Dimensions } from 'react-native'
 import { RectButton } from 'react-native-gesture-handler'
 import MapView from 'react-native-maps'
+import { SwiperFlatList } from 'react-native-swiper-flatlist'
 import styled from 'styled-components/native'
 
 export const Container = styled.ScrollView`
@@ -10,6 +11,31 @@ export const Container = styled.ScrollView`
 export const ImagesContainer = styled.View`
   height: 240px;
 `
+
+export const Gallery = styled(SwiperFlatList).attrs({
+  paginationStyle: {
+    borderRadius: 20,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    alignItems: 'center',
+    height: 16,
+    padding: 4
+  },
+  paginationStyleItemActive: {
+    backgroundColor: '#FFD152',
+    width: 16,
+    height: 4,
+    marginHorizontal: 6
+  },
+  paginationStyleItemInactive: {
+    backgroundColor: '#fff',
+    marginHorizontal: 6
+  },
+  paginationStyleItem: {
+    width: 6,
+    height: 4,
+    backgroundColor: '#fff'
+  }
+})``
 
 export const Image = styled.Image`
   width: ${Dimensions.get('window').width}px;
@@ -57,6 +83,7 @@ export const RoutesText = styled.Text`
   font-family: 'nunitoBold';
   color: #0089a5;
 `
+
 export const Separator = styled.View`
   height: 0.8px;
   width: 100%;
@@ -68,48 +95,6 @@ export const ScheduleContainer = styled.View`
   margin-top: 24px;
   flex-direction: row;
   justify-content: space-between;
-`
-
-export const ScheduleItem = styled.View`
-  width: 48%;
-  padding: 20px;
-`
-
-export const BlueItem = styled(ScheduleItem)`
-  background-color: #e6f7fb;
-  border: 1px solid #b3dae2;
-  border-radius: 20px;
-`
-
-export const GreenItem = styled(ScheduleItem)`
-  background-color: #edfff6;
-  border: 1px solid #a1e9c5;
-  border-radius: 20px;
-`
-
-export const RedItem = styled(ScheduleItem)`
-  background-color: #fef9f9;
-  border: 1px solid #ffbcd4;
-  border-radius: 20px;
-`
-
-export const ScheduleText = styled.Text`
-  font-family: 'nunitoBold';
-  font-size: 16px;
-  line-height: 24px;
-  margin-top: 20px;
-`
-
-export const BlueText = styled(ScheduleText)`
-  color: #5c8599;
-`
-
-export const GreenText = styled(ScheduleText)`
-  color: #37c77f;
-`
-
-export const RedText = styled(ScheduleText)`
-  color: #ff669d;
 `
 
 export const ContactButton = styled(RectButton)`

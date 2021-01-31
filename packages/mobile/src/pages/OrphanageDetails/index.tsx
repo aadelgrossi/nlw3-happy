@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
-import { Feather, FontAwesome } from '@expo/vector-icons'
+import { FontAwesome } from '@expo/vector-icons'
 import { RouteProp } from '@react-navigation/core'
 import { Linking } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
 import { Marker } from 'react-native-maps'
 
+import { InstructionsBadge } from '~/components'
 import { mapMarker } from '~/images'
 import { InitialRoutesParamList } from '~/routes/types'
 import api from '~/services/api'
@@ -23,14 +23,9 @@ import {
   RoutesText,
   Separator,
   ScheduleContainer,
-  BlueItem,
-  BlueText,
-  GreenItem,
-  GreenText,
-  RedItem,
-  RedText,
   ContactButton,
-  ContactButtonText
+  ContactButtonText,
+  Gallery
 } from './styles'
 
 interface OrphanageDetailsProps {
@@ -49,33 +44,26 @@ export const OrphanageDetails: React.FC<OrphanageDetailsProps> = ({
     })
   }, [slug])
 
-  if (!orphanage) {
-    return (
-      <Container>
-        <Description>Carregando...</Description>
-      </Container>
-    )
-  }
-
   const handleOpenGoogleMapsRoute = () => {
     Linking.openURL(
       `https://www.google.com/maps/dir/?api=1&destination=${orphanage?.latitude},${orphanage?.longitude}`
     )
   }
 
-  return (
+  return !orphanage ? (
+    <Container>
+      <Description>Carregando...</Description>
+    </Container>
+  ) : (
     <Container>
       <ImagesContainer>
-        <ScrollView horizontal pagingEnabled>
-          {orphanage.images.map(image => (
-            <Image
-              key={image.id}
-              source={{
-                uri: image.url
-              }}
-            />
-          ))}
-        </ScrollView>
+        {orphanage.images && (
+          <Gallery
+            showPagination
+            data={orphanage.images}
+            renderItem={({ item }) => <Image source={{ uri: item.url }} />}
+          />
+        )}
       </ImagesContainer>
 
       <DetailsContainer>
@@ -101,7 +89,7 @@ export const OrphanageDetails: React.FC<OrphanageDetailsProps> = ({
                 latitude: Number(orphanage.latitude),
                 longitude: Number(orphanage.longitude)
               }}
-            ></Marker>
+            />
           </Map>
           <RoutesContainer onPress={handleOpenGoogleMapsRoute}>
             <RoutesText>Ver rotas no Google Maps</RoutesText>
@@ -114,25 +102,29 @@ export const OrphanageDetails: React.FC<OrphanageDetailsProps> = ({
         <Description>{orphanage.instructions}</Description>
 
         <ScheduleContainer>
-          <BlueItem>
-            <Feather name="clock" size={40} color="#2AB5D1" />
-            <BlueText>{orphanage.opening_hours}</BlueText>
-          </BlueItem>
+          <InstructionsBadge
+            type="opening_hours"
+            value={orphanage.opening_hours}
+          />
 
           {orphanage.open_on_weekends ? (
-            <GreenItem>
-              <Feather name="info" size={40} color="#39CC83" />
-              <GreenText>Abrimos fim de semana</GreenText>
-            </GreenItem>
+            <InstructionsBadge
+              type="open_on_weekends"
+              value={`Atendemos \nfim de semana`}
+            />
           ) : (
-            <RedItem>
-              <Feather name="info" size={40} color="#ff669d" />
-              <RedText>Não abrimos fim de semana</RedText>
-            </RedItem>
+            <InstructionsBadge
+              type="closed_on_weekends"
+              value={`Não atendemos \nfim de semana`}
+            />
           )}
         </ScheduleContainer>
 
-        <ContactButton>
+        <ContactButton
+          onPress={() =>
+            Linking.openURL(`whatsapp://send?phone=55${orphanage.whatsapp}`)
+          }
+        >
           <FontAwesome name="whatsapp" size={24} color="#FFF" />
           <ContactButtonText>Entrar em contato</ContactButtonText>
         </ContactButton>
