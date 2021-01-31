@@ -27,69 +27,70 @@
 
 O Happy é uma aplicação que conecta pessoas à casas de acolhimento institucional para fazer o dia de muitas crianças mais feliz. A proposta do projeto foi envisionada e criada pelo time [Rocketseat](https://rocketseat.com.br/); a aplicação teve suas funcionalidades e requisitos iniciais implementados durante o período de uma semana no evento online [Next Level Week](https://nextlevelweek.com/) #3 promovido pela empresa.
 
-## :rocket: Tecnologias
+## :rocket: Stack
 
-Esse projeto foi desenvolvido com as seguintes tecnologias:
+<img alt="NodeJS" src="https://img.shields.io/badge/-nodejs-339933?style=for-the-badge&logo=node.js&logoColor=fff" />
+<img alt="Typescript" src="https://img.shields.io/badge/-Typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=efefef" />
+<img alt="React" src="https://img.shields.io/badge/-react-60D1FA?style=for-the-badge&logo=react&logoColor=333" />
+<img alt="NextJS" src="https://img.shields.io/badge/-nextjs-000?style=for-the-badge&logo=next.js&logoColor=f3f3f3"/>
+<img alt="Expo" src="https://img.shields.io/badge/-expo-000020?style=for-the-badge&logo=expo&logoColor=efefef" />  
 
-- [Node.js](https://nodejs.org/en/)
-- [React](https://reactjs.org)
-- [Next.JS](https://nextjs.org/)
-- [React Native](https://facebook.github.io/react-native/)
-- [Expo](https://expo.io/)
-- [TypeScript](https://www.typescriptlang.org/)
+  
 
-
-## :wrench: Instalação
+## :wrench: Instalação e configuração
 
 O projeto consiste em um monorepo reunindo a API (rotas e banco de dados), cliente web (front-end com React + NextJS) e cliente mobile (React Native usando Expo). Para replicar e rodar o projeto em sua máquina local:
 
-### 1. Clone o repositório 
 
 ```bash
+# Clone o repositório
 git clone https://github.com/aadelgrossi/nlw3-happy.git
+
+# Rode o script de setup para instalar as dependências e renomear os arquivos .env.example
+# Obs.: no Windows, é necessário rodar `yarn` com privilégios de administrador para que o comando *postinstall* complete com sucesso.
+yarn setup
 ```
 
-### 2. Instale as dependências
+### Configure as variáveis de ambiente para cada projeto que deseje rodar localmente:
 
+**./packages/api/.env**  
+
+Popule os dados da sua instância Postgres e um banco de dados vazio (por padrão *nlw3-happy*, caso deseje renomear para outro altere em TYPEORM_DATABASE).
+
+Endereço, porta, login, senha e nome do banco
 ```bash
-yarn
+TYPEORM_HOST=
+TYPEORM_PORT=5432
+TYPEORM_USERNAME=postgres
+TYPEORM_PASSWORD=postgres
+TYPEORM_DATABASE=nlw3-happy
 ```
 
-Obs.: no Windows, é necessário rodar `yarn` com privilégios de administrador para que o comando *postinstall* complete com sucesso.
-
-### 3. Verifique e atualize as configurações do banco de dados em /packages/api/orm.config.json
-
-Para rodar o projeto você deve possuir uma instância do Postgres em sua máquina e um banco de dados criado (por padrão *nlw3-happy*, caso deseje renomear para outro altere na linha database pelo nome escolhido)
-
-```json
-  ...
-  "host": "localhost", // troque pelo IP/endereço da sua instância Postgres
-  "port": 5432, // porta (padrão 5432)
-  "username": "postgres", // login da sua instância Postgres
-  "password": "postgres", // senha da sua instância Postgres
-  "database": "nlw3-happy", // nome do banco de dados
-  ...
-```
-
-### 4. Execute as migrations e popule o banco com dados
-
+**./packages/web/.env**  
+Necessário token para acesso a API do MapBox. Crie uma conta em https://account.mapbox.com/auth/signup/, gere o token de acesso e insira na variável de ambiente. 
 ```bash
-yarn db:migrate && yarn db:seed
+NEXT_PUBLIC_MAP_BOX_TOKEN=
 ```
 
-### 5. Iniciar os servidores
+**./packages/mobile/.env**  
+Não necessita de configuração adicional.
 
-Para executar o servidor da API:
+Rode as migrations e faça o seed inicial do banco com dados (usuário admin e 5 orfanatos)
+```bash
+yarn db:setup
+```
+
+Inicialize o servidor e API:
 ```bash
 yarn run:api
 ```
 
-Para rodar o cliente web:
+Inicialize o cliente web em http://localhost:3000
 ```bash
 yarn run:web
 ```
 
-Para rodar o cliente mobile:
+Inicializa o cliente Expo (rode em emulador Android/iOS ou use o QR Code para rodar em dispositivo físico)
 ```bash
 yarn run:mobile
 ```
