@@ -1,6 +1,6 @@
 {
   "name": "nlw3-happy",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "workspaces": {
     "packages": [
@@ -19,18 +19,20 @@
   "author": "Andre Grossi <iamandregrossi@@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "env": "node setupEnvVars.js",
+    "setup": "yarn install && yarn env && yarn db:migrate && yarn db:seed",
+    "api": "yarn workspace @nlw3-happy/api",
+    "web": "yarn workspace @nlw3-happy/web",
+    "mobile": "yarn workspace @nlw3-happy/mobile",
+    "run:api": "yarn api dev:server",
+    "run:web": "yarn web dev",
+    "run:mobile": "yarn mobile start -c",
     "clean:all": "yarn clean:node-modules && yarn clean:expo-cache",
     "clean:node-modules": "rimraf node_modules packages/*/node_modules",
     "clean:expo-cache": "rimraf packages/*/.expo",
-    "db:migrate": "yarn workspace @nlw3-happy/api typeorm migration:run",
-    "db:seed": "yarn workspace @nlw3-happy/api seed",
-    "run:api": "yarn workspace @nlw3-happy/api dev:server",
-    "run:web": "yarn workspace @nlw3-happy/web dev",
-    "run:mobile": "yarn workspace @nlw3-happy/mobile start -c",
-    "postinstall": "cd ./packages/mobile && expo-yarn-workspaces postinstall",
-    "api": "yarn workspace @nlw3-happy/api",
-    "web": "yarn workspace @nlw3-happy/web",
-    "mobile": "yarn workspace @nlw3-happy/mobile"
+    "db:migrate": "yarn api typeorm migration:run",
+    "db:seed": "yarn api seed",
+    "postinstall": "cd ./packages/mobile && expo-yarn-workspaces postinstall"
   },
   "devDependencies": {
     "@nlw3-happy/eslint-config": "*",
