@@ -41,7 +41,7 @@ O Happy é uma aplicação que conecta pessoas à casas de acolhimento instituci
 
 ## :wrench: Setup
 
-O projeto consiste em um monorepo reunindo a API (rotas e banco de dados), cliente web (front-end com React + NextJS) e cliente mobile (React Native usando Expo). Para replicar e rodar o projeto em sua máquina local:
+O projeto consiste em um monorepo reunindo a [API](/packages/api) (rotas e banco de dados), [cliente web](/packages/web) (front-end com React + NextJS) e [mobile](/packages/mobile) (React Native usando Expo). Para replicar e rodar o projeto em sua máquina local:
 
 
 ```bash
