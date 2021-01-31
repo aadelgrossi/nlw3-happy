@@ -4,8 +4,8 @@
 
 <p align="center">
   <a href="#computer-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#rocket-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#wrench-instalação">Instalação e configuração</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#rocket-stack">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#wrench-setup">Instalação e configuração</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#exclamation-progresso">Progresso (updates & issues)</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#memo-licença">Licença</a>
 </p>
@@ -37,7 +37,7 @@ O Happy é uma aplicação que conecta pessoas à casas de acolhimento instituci
 
   
 
-## :wrench: Instalação e configuração
+## :wrench: Setup
 
 O projeto consiste em um monorepo reunindo a API (rotas e banco de dados), cliente web (front-end com React + NextJS) e cliente mobile (React Native usando Expo). Para replicar e rodar o projeto em sua máquina local:
 
