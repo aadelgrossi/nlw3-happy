@@ -10,6 +10,7 @@ const orphanages = [
     opening_hours: 'Segunda a sexta - 09hs até 15hs',
     open_on_weekends: false,
     whatsapp: '44934231431',
+    approved: true,
     images: [
       {
         path: 'casa_crianca_1.jpg'
@@ -19,6 +20,9 @@ const orphanages = [
       },
       {
         path: 'casa_crianca_3.jpg'
+      },
+      {
+        path: 'casa_crianca_4.jpg'
       }
     ]
   },
@@ -33,6 +37,7 @@ const orphanages = [
     opening_hours: 'Segunda a sexta - 07hs até 17hs',
     open_on_weekends: false,
     whatsapp: '44932646199',
+    approved: true,
     images: [
       {
         path: 'nsa_esperanca_1.jpg'
@@ -65,6 +70,7 @@ const orphanages = [
     opening_hours: 'Segunda a sábado - 07hs até 18hs',
     open_on_weekends: true,
     whatsapp: '44970423847',
+    approved: true,
     images: [
       {
         path: 'lar_batista_1.jpg'
@@ -91,6 +97,7 @@ const orphanages = [
     opening_hours: 'Segunda a sexta - 08hs até 17:30hs',
     open_on_weekends: false,
     whatsapp: '44930261517',
+    approved: true,
     images: [
       {
         path: 'isis_bruder_1.jpg'
@@ -114,6 +121,7 @@ const orphanages = [
     opening_hours: 'Segunda a sexta - 08hs até 17:30hs',
     open_on_weekends: false,
     whatsapp: '41932468944',
+    approved: true,
     images: [
       {
         path: 'bom_caminho_1.jpg'
