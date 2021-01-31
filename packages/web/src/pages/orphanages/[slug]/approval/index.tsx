@@ -64,7 +64,7 @@ const ApproveOrphanage: NextPage<{ orphanage: Orphanage }> = ({
   }, [addToast, orphanage.slug, push])
 
   useEffect(() => {
-    formRef.current?.setData(orphanage)
+    formRef.current?.setData(orphanage as any)
   }, [orphanage])
 
   return (
