@@ -1,8 +1,6 @@
 node_modules
 
-.env.development
-.env.production
-
 dist
 
-/tmp
+tmp/*
+!/tmp/uploads
