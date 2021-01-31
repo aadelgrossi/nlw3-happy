@@ -6,6 +6,7 @@ import {
   Nunito_800ExtraBold
 } from '@expo-google-fonts/nunito'
 import { useFonts } from 'expo-font'
+import { StatusBar } from 'react-native'
 
 import Routes from './src/routes'
 
@@ -20,7 +21,16 @@ const App: React.FC = () => {
     return null
   }
 
-  return <Routes />
+  return (
+    <>
+      <Routes />
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
+    </>
+  )
 }
 
 export default App
