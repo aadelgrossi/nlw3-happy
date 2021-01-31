@@ -1,5 +1,4 @@
 import { Feather } from '@expo/vector-icons'
-import { BorderlessButton } from 'react-native-gesture-handler'
 import styled from 'styled-components/native'
 
 export const Container = styled.View`
@@ -21,10 +20,10 @@ export const Title = styled.Text`
 export const EmptyButtonSpace = styled.View`
   padding: 30px;
 `
-export const BackButton = styled(BorderlessButton)`
+export const BackButton = styled.TouchableOpacity`
   padding: 20px;
 `
-export const DismissButton = styled(BorderlessButton)`
+export const DismissButton = styled.TouchableOpacity`
   padding: 20px;
 `
 

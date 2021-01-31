@@ -24,8 +24,8 @@ export const Header: React.FC<HeaderProps> = ({
   const navigation = useNavigation()
 
   const handleDismissButton = useCallback(() => {
-    navigation.navigate('OrphanagesMap')
-  }, [])
+    navigation.navigate('CancelPrompt')
+  }, [navigation])
 
   return (
     <Container>
