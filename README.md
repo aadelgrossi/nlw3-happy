@@ -29,11 +29,13 @@ O Happy é uma aplicação que conecta pessoas à casas de acolhimento instituci
 
 ## :rocket: Stack
 
-<img alt="NodeJS" src="https://img.shields.io/badge/-nodejs-339933?style=for-the-badge&logo=node.js&logoColor=fff" />
-<img alt="Typescript" src="https://img.shields.io/badge/-Typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=efefef" />
-<img alt="React" src="https://img.shields.io/badge/-react-60D1FA?style=for-the-badge&logo=react&logoColor=333" />
-<img alt="NextJS" src="https://img.shields.io/badge/-nextjs-000?style=for-the-badge&logo=next.js&logoColor=f3f3f3"/>
-<img alt="Expo" src="https://img.shields.io/badge/-expo-000020?style=for-the-badge&logo=expo&logoColor=efefef" />  
+<p align="left">
+    <img alt="NodeJS" src="https://img.shields.io/badge/-nodejs-339933?style=for-the-badge&logo=node.js&logoColor=fff" />
+    <img alt="Typescript" src="https://img.shields.io/badge/-Typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=efefef" />
+    <img alt="React" src="https://img.shields.io/badge/-react-60D1FA?style=for-the-badge&logo=react&logoColor=333" />
+    <img alt="NextJS" src="https://img.shields.io/badge/-nextjs-000?style=for-the-badge&logo=next.js&logoColor=f3f3f3"/>
+    <img alt="Expo" src="https://img.shields.io/badge/-expo-000020?style=for-the-badge&logo=expo&logoColor=efefef" />  
+</p>
 
   
 
