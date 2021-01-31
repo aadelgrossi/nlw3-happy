@@ -6,7 +6,13 @@ import {
 } from '@react-navigation/stack'
 
 import { Header } from '~/components'
-import { DataSectionOne, DataSectionTwo, SelectMapPosition } from '~/pages'
+import {
+  CancelPrompt,
+  DataSectionOne,
+  DataSectionTwo,
+  SelectMapPosition,
+  SuccessPrompt
+} from '~/pages'
 
 import { CreateOrphanageParamList } from './types'
 
@@ -38,6 +44,16 @@ export const CreateOrphanageNavigator: React.FC = () => {
         name="DataSectionTwo"
         component={DataSectionTwo}
         options={{ headerShown: true, header: () => <Header /> }}
+      />
+      <Screen
+        name="CancelPrompt"
+        component={CancelPrompt}
+        options={{ headerShown: false }}
+      />
+      <Screen
+        name="SuccessPrompt"
+        component={SuccessPrompt}
+        options={{ headerShown: false }}
       />
     </Navigator>
   )

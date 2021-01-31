@@ -14,6 +14,8 @@ export type InitialRoutesParamList = {
 
 export type CreateOrphanageParamList = {
   SelectLocation: undefined
+  CancelPrompt: undefined
+  SuccessPrompt: undefined
   DataSectionOne: {
     position: LatLng
   }

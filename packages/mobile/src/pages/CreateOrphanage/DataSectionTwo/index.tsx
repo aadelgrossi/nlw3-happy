@@ -86,8 +86,7 @@ export const DataSectionTwo: React.FC<DataSectionTwoProps> = ({
       api
         .post('/orphanages', data)
         .then(() => {
-          alert('sucesso')
-          navigation.navigate('OrphanagesMap')
+          navigation.navigate('SuccessPrompt')
         })
         .catch(err => {
           console.log(err)
