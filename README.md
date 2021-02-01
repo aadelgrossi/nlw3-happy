@@ -48,7 +48,7 @@ O projeto consiste em um monorepo reunindo a [API](/packages/api) (rotas e banco
 # Clone o repositório
 git clone https://github.com/aadelgrossi/nlw3-happy.git
 
-# Rode o script de setup para instalar as dependências e renomear os arquivos .env.example
+# Rode o script de setup para instalar as dependências e preparar os arquivos .env que mantém as variáveis de ambiente.
 # Obs.: no Windows, é necessário rodar `yarn` com privilégios de administrador para que o comando *postinstall* complete com sucesso.
 yarn setup
 ```
